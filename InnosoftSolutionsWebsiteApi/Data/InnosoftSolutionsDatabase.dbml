@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="innosoftsolutions" Class="InnosoftSolutionsDatabaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DEVELOPER;Initial Catalog=innosoftsolutions;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="innosoftsolutionsConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.MstUser" Member="MstUsers">
+    <Type Name="MstUser">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

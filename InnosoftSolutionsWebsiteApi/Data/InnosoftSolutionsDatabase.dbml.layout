@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="InnosoftSolutionsDatabase">
+  <DataContextMoniker Name="/InnosoftSolutionsDatabaseDataContext" />
+  <nestedChildShapes>
+    <classShape Id="f09ef196-1a64-4b96-b70b-4a7046f1fb83" absoluteBounds="5, 1.125, 2, 1.0016910807291668">
+      <DataClassMoniker Name="/InnosoftSolutionsDatabaseDataContext/MstUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="14606b8f-7021-4ac9-acec-469b663969ff" absoluteBounds="5.015, 1.585, 1.9700000000000002, 0.44169108072916669" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
