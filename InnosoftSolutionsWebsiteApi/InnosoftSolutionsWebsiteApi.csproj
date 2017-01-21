@@ -163,6 +163,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ApiMstArticleController.cs" />
+    <Compile Include="ApiControllers\ApiMstUserController.cs" />
+    <Compile Include="ApiControllers\ApiTrnActivityController.cs" />
+    <Compile Include="ApiControllers\ApiTrnContinuityController.cs" />
+    <Compile Include="ApiControllers\ApiTrnDeliveryController.cs" />
+    <Compile Include="ApiControllers\ApiTrnLeadController.cs" />
+    <Compile Include="ApiControllers\ApiTrnQuotationController.cs" />
+    <Compile Include="ApiControllers\ApiTrnSupportController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -205,6 +213,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InnosoftSolutionsDatabase.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\MstArticle.cs" />
+    <Compile Include="Entities\MstUser.cs" />
+    <Compile Include="Entities\TrnActivity.cs" />
+    <Compile Include="Entities\TrnContinuity.cs" />
+    <Compile Include="Entities\TrnDelivery.cs" />
+    <Compile Include="Entities\TrnLead.cs" />
+    <Compile Include="Entities\TrnQuotation.cs" />
+    <Compile Include="Entities\TrnSupport.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
