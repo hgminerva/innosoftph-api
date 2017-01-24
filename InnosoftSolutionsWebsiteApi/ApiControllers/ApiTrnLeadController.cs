@@ -59,7 +59,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return leads.ToList();
         }
 
-        // get lead by Id
+        // get lead by id
         [HttpGet, Route("get/byId/{id}")]
         public Entities.TrnLead getLeadById(String id)
         {
@@ -125,6 +125,44 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             catch
             {
                 return 0;
+            }
+        }
+
+        // add lead
+        [HttpPut, Route("put/{id}")]
+        public HttpResponseMessage putLead(String id, Entities.TrnLead lead)
+        {
+            try
+            {
+                var leads = from d in db.IS_TrnLeads where d.Id == Convert.ToInt32(id) select d;
+                if (leads.Any())
+                {
+                    var updateLead = leads.FirstOrDefault();
+                    updateLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
+                    updateLead.LeadName = lead.LeadName;
+                    updateLead.Address = lead.Address;
+                    updateLead.ContactPerson = lead.ContactPerson;
+                    updateLead.ContactPosition = lead.ContactPosition;
+                    updateLead.ContactEmail = lead.ContactEmail;
+                    updateLead.ContactPhoneNo = lead.ContactPhoneNo;
+                    updateLead.ReferredBy = lead.ReferredBy;
+                    updateLead.Remarks = lead.Remarks;
+                    updateLead.EncodedByUserId = lead.EncodedByUserId;
+                    updateLead.AssignedToUserId = lead.AssignedToUserId;
+                    updateLead.LeadStatus = lead.LeadStatus;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
