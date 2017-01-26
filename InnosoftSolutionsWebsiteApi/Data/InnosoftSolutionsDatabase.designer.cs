@@ -2377,9 +2377,9 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private int _StaffUserId;
 		
-		private int _CustomerId;
+		private System.Nullable<int> _CustomerId;
 		
-		private int _ProductId;
+		private System.Nullable<int> _ProductId;
 		
 		private string _ParticularCategory;
 		
@@ -2425,9 +2425,9 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnActivityDateChanged();
     partial void OnStaffUserIdChanging(int value);
     partial void OnStaffUserIdChanged();
-    partial void OnCustomerIdChanging(int value);
+    partial void OnCustomerIdChanging(System.Nullable<int> value);
     partial void OnCustomerIdChanged();
-    partial void OnProductIdChanging(int value);
+    partial void OnProductIdChanging(System.Nullable<int> value);
     partial void OnProductIdChanged();
     partial void OnParticularCategoryChanging(string value);
     partial void OnParticularCategoryChanged();
@@ -2545,8 +2545,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerId", DbType="Int NOT NULL")]
-		public int CustomerId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerId", DbType="Int")]
+		public System.Nullable<int> CustomerId
 		{
 			get
 			{
@@ -2569,8 +2569,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductId", DbType="Int NOT NULL")]
-		public int ProductId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductId", DbType="Int")]
+		public System.Nullable<int> ProductId
 		{
 			get
 			{
@@ -2952,7 +2952,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					}
 					else
 					{
-						this._CustomerId = default(int);
+						this._CustomerId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("MstArticle");
 				}
@@ -2986,7 +2986,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					}
 					else
 					{
-						this._ProductId = default(int);
+						this._ProductId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("MstArticle1");
 				}

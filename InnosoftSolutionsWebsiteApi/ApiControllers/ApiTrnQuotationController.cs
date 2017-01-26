@@ -9,5 +9,6 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 {
     public class ApiTrnQuotationController : ApiController
     {
+
     }
 }

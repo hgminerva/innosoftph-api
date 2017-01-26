@@ -8,6 +8,7 @@ using System.Web.Http;
 namespace InnosoftSolutionsWebsiteApi.ApiControllers
 {
     // Router prefix for web api
+    [Authorize]
     [RoutePrefix("api/article")]
     public class ApiMstArticleController : ApiController
     {

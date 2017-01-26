@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 
 namespace InnosoftSolutionsWebsiteApi.ApiControllers
 {
     // Router prefix for web api
+    [Authorize]
     [RoutePrefix("api/lead")]
     public class ApiTrnLeadController : ApiController
     {
@@ -102,7 +104,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     var leadNumber = Convert.ToInt32(lastLeadNumber.FirstOrDefault().LeadNumber) + 0000000001;
                     leadNumberValue = fillLeadingZeroes(leadNumber, 10);
                 }
-
+                var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
                 Data.IS_TrnLead newLead = new Data.IS_TrnLead();
                 newLead.LeadNumber = leadNumberValue;
                 newLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
@@ -114,7 +116,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 newLead.ContactPhoneNo = lead.ContactPhoneNo;
                 newLead.ReferredBy = lead.ReferredBy;
                 newLead.Remarks = lead.Remarks;
-                newLead.EncodedByUserId = lead.EncodedByUserId;
+                newLead.EncodedByUserId = userId;
                 newLead.AssignedToUserId = lead.AssignedToUserId;
                 newLead.LeadStatus = lead.LeadStatus;
                 db.IS_TrnLeads.InsertOnSubmit(newLead);
@@ -128,7 +130,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             }
         }
 
-        // add lead
+        // update lead
         [HttpPut, Route("put/{id}")]
         public HttpResponseMessage putLead(String id, Entities.TrnLead lead)
         {
@@ -147,7 +149,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     updateLead.ContactPhoneNo = lead.ContactPhoneNo;
                     updateLead.ReferredBy = lead.ReferredBy;
                     updateLead.Remarks = lead.Remarks;
-                    updateLead.EncodedByUserId = lead.EncodedByUserId;
+                    //updateLead.EncodedByUserId = lead.EncodedByUserId;
                     updateLead.AssignedToUserId = lead.AssignedToUserId;
                     updateLead.LeadStatus = lead.LeadStatus;
                     db.SubmitChanges();
@@ -159,9 +161,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
             }
-            catch (Exception e)
+            catch
             {
-                Debug.WriteLine(e);
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
