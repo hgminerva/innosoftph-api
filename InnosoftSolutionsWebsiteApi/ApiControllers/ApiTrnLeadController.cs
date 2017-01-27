@@ -61,6 +61,35 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return leads.ToList();
         }
 
+        // list lead
+        [HttpGet, Route("list/byLeadStatus")]
+        public List<Entities.TrnLead> listLeadByLeadStatus()
+        {
+            var leads = from d in db.IS_TrnLeads
+                        where d.LeadStatus == "OPEN"
+                        select new Entities.TrnLead
+                        {
+                            Id = d.Id,
+                            LeadNumber = d.LeadNumber,
+                            LeadDate = d.LeadDate.ToShortDateString(),
+                            LeadName = d.LeadName,
+                            Address = d.Address,
+                            ContactPerson = d.ContactPerson,
+                            ContactPosition = d.ContactPosition,
+                            ContactEmail = d.ContactEmail,
+                            ContactPhoneNo = d.ContactPhoneNo,
+                            ReferredBy = d.ReferredBy,
+                            Remarks = d.Remarks,
+                            EncodedByUserId = d.EncodedByUserId,
+                            EncodedByUser = d.MstUser.FullName,
+                            AssignedToUserId = d.AssignedToUserId,
+                            AssignedToUser = d.MstUser1.FullName,
+                            LeadStatus = d.LeadStatus
+                        };
+
+            return leads.ToList();
+        }
+
         // get lead by id
         [HttpGet, Route("get/byId/{id}")]
         public Entities.TrnLead getLeadById(String id)

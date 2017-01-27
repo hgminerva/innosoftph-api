@@ -31,12 +31,43 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return result;
         }
 
-        // get activity by id
+        // get activity by lead id
         [HttpGet, Route("list/byLeadId/{leadId}")]
         public List<Entities.TrnActivity> listActivityByLeadId(String leadId)
         {
             var activities = from d in db.IS_TrnActivities
                              where d.LeadId == Convert.ToInt32(leadId)
+                             select new Entities.TrnActivity
+                             {
+                                 Id = d.Id,
+                                 ActivityNumber = d.ActivityNumber,
+                                 ActivityDate = d.ActivityDate.ToShortDateString(),
+                                 StaffUserId = d.StaffUserId,
+                                 StaffUser = d.MstUser.FullName,
+                                 CustomerId = d.CustomerId,
+                                 Customer = d.MstArticle.Article,
+                                 ProductId = d.ProductId,
+                                 Product = d.MstArticle1.Article,
+                                 ParticularCategory = d.ParticularCategory,
+                                 Particulars = d.Particulars,
+                                 NumberOfHours = d.NumberOfHours,
+                                 ActivityAmount = d.ActivityAmount,
+                                 ActivityStatus = d.ActivityStatus,
+                                 LeadId = d.LeadId,
+                                 QuotationId = d.QuotationId,
+                                 DeliveryId = d.DeliveryId,
+                                 SupportId = d.SupportId
+                             };
+
+            return activities.ToList();
+        }
+
+        // get activity by quotation id
+        [HttpGet, Route("list/byQuotationId/{quotationId}")]
+        public List<Entities.TrnActivity> listActivityByQuotationId(String quotationId)
+        {
+            var activities = from d in db.IS_TrnActivities
+                             where d.QuotationId == Convert.ToInt32(quotationId)
                              select new Entities.TrnActivity
                              {
                                  Id = d.Id,
