@@ -56,6 +56,32 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return quotations.ToList();
         }
 
+        // list quotation
+        [HttpGet, Route("list/byQuotationStatus")]
+        public List<Entities.TrnQuotation> listLeadByQuotationStatus()
+        {
+            var quotations = from d in db.IS_TrnQuotations
+                             where d.QuotationStatus == "OPEN"
+                             select new Entities.TrnQuotation
+                             {
+                                 Id = d.Id,
+                                 QuotationNumber = d.QuotationNumber,
+                                 QuotationDate = d.QuotationDate.ToShortDateString(),
+                                 LeadId = d.LeadId,
+                                 LeadNumber = d.IS_TrnLead.LeadNumber,
+                                 CustomerId = d.CustomerId,
+                                 Customer = d.MstArticle.Article,
+                                 ProductId = d.ProductId,
+                                 Product = d.MstArticle1.Article,
+                                 Remarks = d.Remarks,
+                                 EncodedByUserId = d.EncodedByUserId,
+                                 EncodedByUser = d.MstUser.FullName,
+                                 QuotationStatus = d.QuotationStatus
+                             };
+
+            return quotations.ToList();
+        }
+
         // get quotation by id
         [HttpGet, Route("get/byId/{id}")]
         public Entities.TrnQuotation getQuotationById(String id)
@@ -140,12 +166,12 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No data found from the server.");
                 }
             }
             catch
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Something's went wrong!");
             }
         }
 
