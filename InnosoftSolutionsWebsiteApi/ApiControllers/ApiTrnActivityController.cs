@@ -93,6 +93,37 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return activities.ToList();
         }
 
+        // get activity by delivery id
+        [HttpGet, Route("list/byDeliveryId/{deliveryId}")]
+        public List<Entities.TrnActivity> listActivityByDeliveryId(String deliveryId)
+        {
+            var activities = from d in db.IS_TrnActivities
+                             where d.DeliveryId == Convert.ToInt32(deliveryId)
+                             select new Entities.TrnActivity
+                             {
+                                 Id = d.Id,
+                                 ActivityNumber = d.ActivityNumber,
+                                 ActivityDate = d.ActivityDate.ToShortDateString(),
+                                 StaffUserId = d.StaffUserId,
+                                 StaffUser = d.MstUser.FullName,
+                                 CustomerId = d.CustomerId,
+                                 Customer = d.MstArticle.Article,
+                                 ProductId = d.ProductId,
+                                 Product = d.MstArticle1.Article,
+                                 ParticularCategory = d.ParticularCategory,
+                                 Particulars = d.Particulars,
+                                 NumberOfHours = d.NumberOfHours,
+                                 ActivityAmount = d.ActivityAmount,
+                                 ActivityStatus = d.ActivityStatus,
+                                 LeadId = d.LeadId,
+                                 QuotationId = d.QuotationId,
+                                 DeliveryId = d.DeliveryId,
+                                 SupportId = d.SupportId
+                             };
+
+            return activities.ToList();
+        }
+
         // add activity
         [HttpPost, Route("post")]
         public HttpResponseMessage postActivity(Entities.TrnActivity activity)
