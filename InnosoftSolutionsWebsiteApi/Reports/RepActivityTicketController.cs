@@ -210,7 +210,7 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                     tableFooter.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 5f, PaddingBottom = 5f });
                     tableFooter.AddCell(new PdfPCell(new Phrase("Prepared by", fontArial10Bold)) { Border = 1, HorizontalAlignment = 1, PaddingBottom = 5f });
                     tableFooter.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingBottom = 5f });
-                    tableFooter.AddCell(new PdfPCell(new Phrase("Signature over printed name:", fontArial10Bold)) { Border = 1, HorizontalAlignment = 1, PaddingBottom = 5f });
+                    tableFooter.AddCell(new PdfPCell(new Phrase("Signature over printed name", fontArial10Bold)) { Border = 1, HorizontalAlignment = 1, PaddingBottom = 5f });
                     PdfPTable tableDevideTableFooter = new PdfPTable(3);
                     float[] tableDevideTableFooterWithCells = new float[] { 50f, 3f, 50f };
                     tableDevideTableFooter.SetWidths(tableDevideTableFooterWithCells);
