@@ -4,10 +4,147 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 
 namespace InnosoftSolutionsWebsiteApi.ApiControllers
 {
+    [Authorize]
+    [RoutePrefix("api/continuity")]
     public class ApiTrnContinuityController : ApiController
     {
+        // database - LinQ to SQL class
+        private Data.InnosoftSolutionsDatabaseDataContext db = new Data.InnosoftSolutionsDatabaseDataContext();
+
+        // fill leading zeroes
+        public String fillLeadingZeroes(Int32 number, Int32 length)
+        {
+            var result = number.ToString();
+            var pad = length - result.Length;
+            while (pad > 0)
+            {
+                result = '0' + result;
+                pad--;
+            }
+
+            return result;
+        }
+
+        // list continuity
+        [HttpGet, Route("list/byContinuityDateRange/{startContinuityDate}/{endContinuityDate}")]
+        public List<Entities.TrnContinuity> listContinuityByContinuityDateRange(String startContinuityDate, String endContinuityDate)
+        {
+            var continuities = from d in db.IS_TrnContinuities
+                               where d.ContinuityDate >= Convert.ToDateTime(startContinuityDate)
+                               && d.ContinuityDate <= Convert.ToDateTime(endContinuityDate)
+                               select new Entities.TrnContinuity
+                               {
+                                   Id = d.Id,
+                                   ContinuityNumber = d.ContinuityNumber,
+                                   ContinuityDate = d.ContinuityDate.ToShortDateString(),
+                                   DeliveryId = d.DeliveryId,
+                                   DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
+                                   CustomerId = d.CustomerId,
+                                   Customer = d.MstArticle.Article,
+                                   ProductId = d.ProductId,
+                                   Product = d.MstArticle1.Article,
+                                   ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                   StaffUserId = d.StaffUserId,
+                                   StaffUser = d.MstUser.FullName,
+                                   ContinuityStatus = d.ContinuityStatus
+                               };
+
+            return continuities.ToList();
+        }
+
+        // add continuity
+        [HttpPost, Route("post")]
+        public HttpResponseMessage postContinuity(Entities.TrnContinuity continuity)
+        {
+            try
+            {
+                // get last continuity number
+                var lastContinuityNumber = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id) select d;
+                var continuityNumberValue = "0000000001";
+                if (lastContinuityNumber.Any())
+                {
+                    var continuityNumber = Convert.ToInt32(lastContinuityNumber.FirstOrDefault().ContinuityNumber) + 0000000001;
+                    continuityNumberValue = fillLeadingZeroes(continuityNumber, 10);
+                }
+                var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
+                Data.IS_TrnContinuity newContinuity = new Data.IS_TrnContinuity();
+                newContinuity.ContinuityNumber = continuityNumberValue;
+                newContinuity.ContinuityDate = Convert.ToDateTime(continuity.ContinuityDate);
+                newContinuity.DeliveryId = continuity.DeliveryId;
+                newContinuity.CustomerId = continuity.CustomerId;
+                newContinuity.ProductId = continuity.ProductId;
+                newContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
+                newContinuity.StaffUserId = userId;
+                newContinuity.ContinuityStatus = continuity.ContinuityStatus;
+                db.IS_TrnContinuities.InsertOnSubmit(newContinuity);
+                db.SubmitChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        // update continuity
+        [HttpPut, Route("put/{id}")]
+        public HttpResponseMessage putContinuity(String id, Entities.TrnContinuity continuity)
+        {
+            try
+            {
+                var continuities = from d in db.IS_TrnContinuities where d.Id == Convert.ToInt32(id) select d;
+                if (continuities.Any())
+                {
+                    var updateContinuity = continuities.FirstOrDefault();
+                    updateContinuity.ContinuityDate = Convert.ToDateTime(continuity.ContinuityDate);
+                    updateContinuity.DeliveryId = continuity.DeliveryId;
+                    updateContinuity.CustomerId = continuity.CustomerId;
+                    updateContinuity.ProductId = continuity.ProductId;
+                    updateContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
+                    updateContinuity.ContinuityStatus = continuity.ContinuityStatus;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        // delete continuity
+        [HttpDelete, Route("delete/{id}")]
+        public HttpResponseMessage deleteContinuity(String id)
+        {
+            try
+            {
+                var continuities = from d in db.IS_TrnContinuities where d.Id == Convert.ToInt32(id) select d;
+                if (continuities.Any())
+                {
+                    db.IS_TrnContinuities.DeleteOnSubmit(continuities.First());
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
     }
 }

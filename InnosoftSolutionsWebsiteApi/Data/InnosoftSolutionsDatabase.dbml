@@ -108,15 +108,17 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ContinuityNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ContinuityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DeliveryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ExpiryDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="StaffUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ContinuityStatus" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="IS_TrnContinuity_IS_TrnSupport" Member="IS_TrnSupports" ThisKey="Id" OtherKey="ContinuityId" Type="IS_TrnSupport" />
       <Association Name="IS_TrnDelivery_IS_TrnContinuity" Member="IS_TrnDelivery" ThisKey="DeliveryId" OtherKey="Id" Type="IS_TrnDelivery" IsForeignKey="true" />
       <Association Name="MstArticle_IS_TrnContinuity" Member="MstArticle" ThisKey="CustomerId" OtherKey="Id" Type="MstArticle" IsForeignKey="true" />
       <Association Name="MstArticle_IS_TrnContinuity1" Member="MstArticle1" ThisKey="ProductId" OtherKey="Id" Type="MstArticle" IsForeignKey="true" />
+      <Association Name="MstUser_IS_TrnContinuity" Member="MstUser" ThisKey="StaffUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.IS_TrnDelivery" Member="IS_TrnDeliveries">
@@ -197,6 +199,7 @@
       <Column Name="Severity" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Caller" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="Remarks" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ScreenShotURL" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="EncodedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AssignedToUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="SupportStatus" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
@@ -681,6 +684,7 @@
       <Column Name="CustomerAdvancesAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="OfficialReceiptName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="MstUser_IS_TrnActivity" Member="IS_TrnActivities" ThisKey="Id" OtherKey="StaffUserId" Type="IS_TrnActivity" />
+      <Association Name="MstUser_IS_TrnContinuity" Member="IS_TrnContinuities" ThisKey="Id" OtherKey="StaffUserId" Type="IS_TrnContinuity" />
       <Association Name="MstUser_IS_TrnDelivery" Member="IS_TrnDeliveries" ThisKey="Id" OtherKey="SalesUserId" Type="IS_TrnDelivery" />
       <Association Name="MstUser_IS_TrnDelivery1" Member="IS_TrnDeliveries1" ThisKey="Id" OtherKey="TechnicalUserId" Type="IS_TrnDelivery" />
       <Association Name="MstUser_IS_TrnDelivery2" Member="IS_TrnDeliveries2" ThisKey="Id" OtherKey="FunctionalUserId" Type="IS_TrnDelivery" />

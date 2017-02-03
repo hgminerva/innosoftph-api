@@ -3060,13 +3060,15 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private System.DateTime _ContinuityDate;
 		
-		private int _DeliveryId;
+		private System.Nullable<int> _DeliveryId;
 		
 		private int _CustomerId;
 		
 		private int _ProductId;
 		
 		private System.DateTime _ExpiryDate;
+		
+		private int _StaffUserId;
 		
 		private string _ContinuityStatus;
 		
@@ -3078,6 +3080,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private EntityRef<MstArticle> _MstArticle1;
 		
+		private EntityRef<MstUser> _MstUser;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3088,7 +3092,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnContinuityNumberChanged();
     partial void OnContinuityDateChanging(System.DateTime value);
     partial void OnContinuityDateChanged();
-    partial void OnDeliveryIdChanging(int value);
+    partial void OnDeliveryIdChanging(System.Nullable<int> value);
     partial void OnDeliveryIdChanged();
     partial void OnCustomerIdChanging(int value);
     partial void OnCustomerIdChanged();
@@ -3096,6 +3100,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnProductIdChanged();
     partial void OnExpiryDateChanging(System.DateTime value);
     partial void OnExpiryDateChanged();
+    partial void OnStaffUserIdChanging(int value);
+    partial void OnStaffUserIdChanged();
     partial void OnContinuityStatusChanging(string value);
     partial void OnContinuityStatusChanged();
     #endregion
@@ -3106,6 +3112,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._IS_TrnDelivery = default(EntityRef<IS_TrnDelivery>);
 			this._MstArticle = default(EntityRef<MstArticle>);
 			this._MstArticle1 = default(EntityRef<MstArticle>);
+			this._MstUser = default(EntityRef<MstUser>);
 			OnCreated();
 		}
 		
@@ -3169,8 +3176,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryId", DbType="Int NOT NULL")]
-		public int DeliveryId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryId", DbType="Int")]
+		public System.Nullable<int> DeliveryId
 		{
 			get
 			{
@@ -3261,6 +3268,30 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StaffUserId", DbType="Int NOT NULL")]
+		public int StaffUserId
+		{
+			get
+			{
+				return this._StaffUserId;
+			}
+			set
+			{
+				if ((this._StaffUserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStaffUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._StaffUserId = value;
+					this.SendPropertyChanged("StaffUserId");
+					this.OnStaffUserIdChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContinuityStatus", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string ContinuityStatus
 		{
@@ -3321,7 +3352,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					}
 					else
 					{
-						this._DeliveryId = default(int);
+						this._DeliveryId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("IS_TrnDelivery");
 				}
@@ -3392,6 +3423,40 @@ namespace InnosoftSolutionsWebsiteApi.Data
 						this._ProductId = default(int);
 					}
 					this.SendPropertyChanged("MstArticle1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnContinuity", Storage="_MstUser", ThisKey="StaffUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.IS_TrnContinuities.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.IS_TrnContinuities.Add(this);
+						this._StaffUserId = value.Id;
+					}
+					else
+					{
+						this._StaffUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
 				}
 			}
 		}
@@ -5071,6 +5136,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private string _Remarks;
 		
+		private string _ScreenShotURL;
+		
 		private int _EncodedByUserId;
 		
 		private System.Nullable<int> _AssignedToUserId;
@@ -5115,6 +5182,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnCallerChanged();
     partial void OnRemarksChanging(string value);
     partial void OnRemarksChanged();
+    partial void OnScreenShotURLChanging(string value);
+    partial void OnScreenShotURLChanged();
     partial void OnEncodedByUserIdChanging(int value);
     partial void OnEncodedByUserIdChanged();
     partial void OnAssignedToUserIdChanging(System.Nullable<int> value);
@@ -5362,6 +5431,26 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._Remarks = value;
 					this.SendPropertyChanged("Remarks");
 					this.OnRemarksChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScreenShotURL", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string ScreenShotURL
+		{
+			get
+			{
+				return this._ScreenShotURL;
+			}
+			set
+			{
+				if ((this._ScreenShotURL != value))
+				{
+					this.OnScreenShotURLChanging(value);
+					this.SendPropertyChanging();
+					this._ScreenShotURL = value;
+					this.SendPropertyChanged("ScreenShotURL");
+					this.OnScreenShotURLChanged();
 				}
 			}
 		}
@@ -17002,6 +17091,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private EntitySet<IS_TrnActivity> _IS_TrnActivities;
 		
+		private EntitySet<IS_TrnContinuity> _IS_TrnContinuities;
+		
 		private EntitySet<IS_TrnDelivery> _IS_TrnDeliveries;
 		
 		private EntitySet<IS_TrnDelivery> _IS_TrnDeliveries1;
@@ -17237,6 +17328,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		public MstUser()
 		{
 			this._IS_TrnActivities = new EntitySet<IS_TrnActivity>(new Action<IS_TrnActivity>(this.attach_IS_TrnActivities), new Action<IS_TrnActivity>(this.detach_IS_TrnActivities));
+			this._IS_TrnContinuities = new EntitySet<IS_TrnContinuity>(new Action<IS_TrnContinuity>(this.attach_IS_TrnContinuities), new Action<IS_TrnContinuity>(this.detach_IS_TrnContinuities));
 			this._IS_TrnDeliveries = new EntitySet<IS_TrnDelivery>(new Action<IS_TrnDelivery>(this.attach_IS_TrnDeliveries), new Action<IS_TrnDelivery>(this.detach_IS_TrnDeliveries));
 			this._IS_TrnDeliveries1 = new EntitySet<IS_TrnDelivery>(new Action<IS_TrnDelivery>(this.attach_IS_TrnDeliveries1), new Action<IS_TrnDelivery>(this.detach_IS_TrnDeliveries1));
 			this._IS_TrnDeliveries2 = new EntitySet<IS_TrnDelivery>(new Action<IS_TrnDelivery>(this.attach_IS_TrnDeliveries2), new Action<IS_TrnDelivery>(this.detach_IS_TrnDeliveries2));
@@ -17691,6 +17783,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			set
 			{
 				this._IS_TrnActivities.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnContinuity", Storage="_IS_TrnContinuities", ThisKey="Id", OtherKey="StaffUserId")]
+		public EntitySet<IS_TrnContinuity> IS_TrnContinuities
+		{
+			get
+			{
+				return this._IS_TrnContinuities;
+			}
+			set
+			{
+				this._IS_TrnContinuities.Assign(value);
 			}
 		}
 		
@@ -19108,6 +19213,18 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		}
 		
 		private void detach_IS_TrnActivities(IS_TrnActivity entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+		
+		private void attach_IS_TrnContinuities(IS_TrnContinuity entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_IS_TrnContinuities(IS_TrnContinuity entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstUser = null;
