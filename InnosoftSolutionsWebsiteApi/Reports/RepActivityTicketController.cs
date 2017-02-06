@@ -97,11 +97,15 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                     var documentReference = "";
                     var documentDate = "";
                     var documentParticulars = "";
+                    var address = "";
+                    var contactNo = "";
                     if (activity.FirstOrDefault().LeadId != null)
                     {
                         documentReference = "LN-" + activity.FirstOrDefault().IS_TrnLead.LeadNumber;
                         documentDate = activity.FirstOrDefault().IS_TrnLead.LeadDate.ToShortDateString();
                         documentParticulars = activity.FirstOrDefault().IS_TrnLead.Remarks;
+                        address = activity.FirstOrDefault().IS_TrnLead.Address;
+                        contactNo = activity.FirstOrDefault().IS_TrnLead.ContactPhoneNo;
                     }
                     else
                     {
@@ -136,6 +140,13 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                     {
                         customer = activity.FirstOrDefault().MstArticle.Article;
                     }
+                    else
+                    {
+                        if (activity.FirstOrDefault().LeadId != null)
+                        {
+                            customer = activity.FirstOrDefault().IS_TrnLead.LeadName;
+                        }
+                    }
 
                     var product = "";
                     if (activity.FirstOrDefault().ProductId != null)
@@ -156,6 +167,10 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                     headerActivityData.AddCell(new PdfPCell(new Phrase(customer, fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
                     headerActivityData.AddCell(new PdfPCell(new Phrase("Product:", fontArial10Bold)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
                     headerActivityData.AddCell(new PdfPCell(new Phrase(product, fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    headerActivityData.AddCell(new PdfPCell(new Phrase("Address:", fontArial10Bold)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    headerActivityData.AddCell(new PdfPCell(new Phrase(address, fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    headerActivityData.AddCell(new PdfPCell(new Phrase("Contact No:", fontArial10Bold)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    headerActivityData.AddCell(new PdfPCell(new Phrase(contactNo, fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
                     PdfPTable tableDevideHeaderActivityData = new PdfPTable(3);
                     float[] tableDevideHeaderActivityDataWithCells = new float[] { 50f, 3f, 50f };
                     tableDevideHeaderActivityData.SetWidths(tableDevideHeaderActivityDataWithCells);
@@ -166,36 +181,52 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                     document.Add(tableDevideHeaderActivityData);
 
                     // remarks
-                    PdfPTable headerActivityRemarksData = new PdfPTable(2);
-                    float[] headerActivityRemarksDataWithCells = new float[] { 25f, 100f };
+                    PdfPTable headerActivityRemarksData = new PdfPTable(1);
+                    float[] headerActivityRemarksDataWithCells = new float[] { 100f };
                     headerActivityRemarksData.SetWidths(headerActivityRemarksDataWithCells);
                     headerActivityRemarksData.WidthPercentage = 100;
-                    headerActivityRemarksData.AddCell(new PdfPCell(new Phrase("Remarks: ", fontArial10Bold)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
                     headerActivityRemarksData.AddCell(new PdfPCell(new Phrase(documentParticulars, fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
                     PdfPTable tableDevideHeaderActivityRemakrsData = new PdfPTable(3);
                     float[] tableDevideHeaderActivityRemakrsDataWithCells = new float[] { 50f, 3f, 50f };
                     tableDevideHeaderActivityRemakrsData.SetWidths(tableDevideHeaderActivityRemakrsDataWithCells);
                     tableDevideHeaderActivityRemakrsData.WidthPercentage = 100;
-                    tableDevideHeaderActivityRemakrsData.AddCell(new PdfPCell(headerActivityRemarksData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 140 });
-                    tableDevideHeaderActivityRemakrsData.AddCell(new PdfPCell() { Border = 0, PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 140 });
-                    tableDevideHeaderActivityRemakrsData.AddCell(new PdfPCell(headerActivityRemarksData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 140 });
+                    tableDevideHeaderActivityRemakrsData.AddCell(new PdfPCell(headerActivityRemarksData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 110 });
+                    tableDevideHeaderActivityRemakrsData.AddCell(new PdfPCell() { Border = 0, PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 110 });
+                    tableDevideHeaderActivityRemakrsData.AddCell(new PdfPCell(headerActivityRemarksData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 110 });
                     document.Add(tableDevideHeaderActivityRemakrsData);
 
                     // particulars
-                    PdfPTable activityParticularsData = new PdfPTable(2);
-                    float[] activityParticularsDataWithCells = new float[] { 25f, 100f };
+                    PdfPTable activityParticularsData = new PdfPTable(1);
+                    float[] activityParticularsDataWithCells = new float[] { 100f };
                     activityParticularsData.SetWidths(activityParticularsDataWithCells);
                     activityParticularsData.WidthPercentage = 100;
-                    activityParticularsData.AddCell(new PdfPCell(new Phrase("Particulars: ", fontArial10Bold)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
                     activityParticularsData.AddCell(new PdfPCell(new Phrase(activity.FirstOrDefault().Particulars, fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
                     PdfPTable tableDevideActivityParticularsData = new PdfPTable(3);
                     float[] tableDevideActivityParticularsDataWithCells = new float[] { 50f, 3f, 50f };
                     tableDevideActivityParticularsData.SetWidths(tableDevideActivityParticularsDataWithCells);
                     tableDevideActivityParticularsData.WidthPercentage = 100;
-                    tableDevideActivityParticularsData.AddCell(new PdfPCell(activityParticularsData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 140 });
-                    tableDevideActivityParticularsData.AddCell(new PdfPCell() { Border = 0, PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 140 });
-                    tableDevideActivityParticularsData.AddCell(new PdfPCell(activityParticularsData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 140 });
+                    tableDevideActivityParticularsData.AddCell(new PdfPCell(activityParticularsData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 110 });
+                    tableDevideActivityParticularsData.AddCell(new PdfPCell() { Border = 0, PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 110 });
+                    tableDevideActivityParticularsData.AddCell(new PdfPCell(activityParticularsData) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f, FixedHeight = 110 });
                     document.Add(tableDevideActivityParticularsData);
+
+                    // punch time
+                    PdfPTable inOutTable = new PdfPTable(4);
+                    float[] inOutTableWithCells = new float[] { 25f, 25f, 25f, 25f };
+                    inOutTable.SetWidths(inOutTableWithCells);
+                    inOutTable.WidthPercentage = 100;
+                    inOutTable.AddCell(new PdfPCell(new Phrase("Time In: ", fontArial10Bold)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    inOutTable.AddCell(new PdfPCell(new Phrase(" ", fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    inOutTable.AddCell(new PdfPCell(new Phrase("Time Out: ", fontArial10Bold)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    inOutTable.AddCell(new PdfPCell(new Phrase(" ", fontArial10)) { Border = 0, PaddingTop = 1f, PaddingBottom = 2f });
+                    PdfPTable tableDevideInOutTableData = new PdfPTable(3);
+                    float[] tableDevideInOutTableDataWithCells = new float[] { 50f, 3f, 50f };
+                    tableDevideInOutTableData.SetWidths(tableDevideInOutTableDataWithCells);
+                    tableDevideInOutTableData.WidthPercentage = 100;
+                    tableDevideInOutTableData.AddCell(new PdfPCell(inOutTable) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f });
+                    tableDevideInOutTableData.AddCell(new PdfPCell() { Border = 0, PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f });
+                    tableDevideInOutTableData.AddCell(new PdfPCell(inOutTable) { PaddingTop = 5f, PaddingBottom = 5f, PaddingLeft = 10f, PaddingRight = 10f });
+                    document.Add(tableDevideInOutTableData);
 
                     // Table for Footer
                     PdfPTable tableFooter = new PdfPTable(3);
