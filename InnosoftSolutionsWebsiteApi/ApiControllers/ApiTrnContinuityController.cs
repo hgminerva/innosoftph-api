@@ -82,6 +82,53 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return continuities.ToList();
         }
 
+        // list continuity
+        [HttpGet, Route("list/byCustomerId/byContinuityStatus/{customerId}")]
+        public List<Entities.TrnContinuity> listContinuityByCustomerIdByContinuityStatus(String customerId)
+        {
+            var continuities = from d in db.IS_TrnContinuities
+                               where d.CustomerId == Convert.ToInt32(customerId)
+                               && d.ContinuityStatus == "OPEN"
+                               select new Entities.TrnContinuity
+                               {
+                                   Id = d.Id,
+                                   ContinuityNumber = d.ContinuityNumber,
+                                   ContinuityDate = d.ContinuityDate.ToShortDateString(),
+                                   DeliveryId = d.DeliveryId,
+                                   DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
+                                   CustomerId = d.CustomerId,
+                                   Customer = d.MstArticle.Article,
+                                   ProductId = d.ProductId,
+                                   Product = d.MstArticle1.Article,
+                                   ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                   StaffUserId = d.StaffUserId,
+                                   StaffUser = d.MstUser.FullName,
+                                   ContinuityStatus = d.ContinuityStatus
+                               };
+
+            return continuities.ToList();
+        }
+
+        // list continuity customers
+        [HttpGet, Route("list/continuity/customers")]
+        public List<Entities.TrnContinuity> listContinuityCustomers()
+        {
+            var continuities = from d in db.IS_TrnContinuities
+                               group d by new
+                               {
+                                   CustomerId = d.CustomerId,
+                                   Customer = d.MstArticle.Article
+                               }
+                                into g
+                                select new Entities.TrnContinuity
+                                {
+                                    CustomerId = g.Key.CustomerId,
+                                    Customer = g.Key.Customer
+                                };
+
+            return continuities.ToList();
+        }
+
         // add continuity
         [HttpPost, Route("post")]
         public HttpResponseMessage postContinuity(Entities.TrnContinuity continuity)
@@ -97,12 +144,13 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     continuityNumberValue = fillLeadingZeroes(continuityNumber, 10);
                 }
                 var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
+                var deliveries = from d in db.IS_TrnDeliveries where d.Id == continuity.DeliveryId select d;
                 Data.IS_TrnContinuity newContinuity = new Data.IS_TrnContinuity();
                 newContinuity.ContinuityNumber = continuityNumberValue;
                 newContinuity.ContinuityDate = Convert.ToDateTime(continuity.ContinuityDate);
                 newContinuity.DeliveryId = continuity.DeliveryId;
-                newContinuity.CustomerId = continuity.CustomerId;
-                newContinuity.ProductId = continuity.ProductId;
+                newContinuity.CustomerId = deliveries.FirstOrDefault().CustomerId;
+                newContinuity.ProductId = deliveries.FirstOrDefault().ProductId;
                 newContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
                 newContinuity.StaffUserId = userId;
                 newContinuity.ContinuityStatus = continuity.ContinuityStatus;

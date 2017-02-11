@@ -139,12 +139,13 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     deliveryNumberValue = fillLeadingZeroes(deliveryNumber, 10);
                 }
                 var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
+                var quotations = from d in db.IS_TrnQuotations where d.Id == delivery.QuotationId select d;
                 Data.IS_TrnDelivery newDelivery = new Data.IS_TrnDelivery();
                 newDelivery.DeliveryNumber = deliveryNumberValue;
                 newDelivery.DeliveryDate = Convert.ToDateTime(delivery.DeliveryDate);
                 newDelivery.QuotationId = delivery.QuotationId;
-                newDelivery.CustomerId = delivery.CustomerId;
-                newDelivery.ProductId = delivery.ProductId;
+                newDelivery.CustomerId = quotations.FirstOrDefault().CustomerId;
+                newDelivery.ProductId = quotations.FirstOrDefault().ProductId;
                 newDelivery.MeetingDate = Convert.ToDateTime(delivery.MeetingDate);
                 newDelivery.Remarks = delivery.Remarks;
                 newDelivery.SalesUserId = userId;

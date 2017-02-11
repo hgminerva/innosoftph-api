@@ -112,14 +112,15 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     supportNumberValue = fillLeadingZeroes(supportNumber, 10);
                 }
                 var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
+                var continuities = from d in db.IS_TrnContinuities where d.Id == support.ContinuityId select d;
                 Data.IS_TrnSupport newSupport = new Data.IS_TrnSupport();
                 newSupport.SupportNumber = supportNumberValue;
                 newSupport.SupportDate = Convert.ToDateTime(support.SupportDate);
                 newSupport.ContinuityId = support.ContinuityId;
                 newSupport.IssueCategory = support.IssueCategory;
                 newSupport.Issue = support.Issue;
-                newSupport.CustomerId = support.CustomerId;
-                newSupport.ProductId = support.ProductId;
+                newSupport.CustomerId = continuities.FirstOrDefault().CustomerId;
+                newSupport.ProductId = continuities.FirstOrDefault().ProductId;
                 newSupport.Severity = support.Severity;
                 newSupport.Caller = support.Caller;
                 newSupport.Remarks = support.Remarks;
