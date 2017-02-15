@@ -10,7 +10,6 @@ using System.Diagnostics;
 namespace InnosoftSolutionsWebsiteApi.ApiControllers
 {
     // Router prefix for web api
-    [Authorize]
     [RoutePrefix("api/activity")]
     public class ApiTrnActivityController : ApiController
     {
@@ -153,6 +152,327 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                              };
 
             return activities.ToList();
+        }
+
+        // get latest activity date
+        public String getActivityDate(String documentName, Int32 documentId)
+        {
+            if (documentName.Equals("Lead"))
+            {
+                var leadActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                   where d.LeadId == Convert.ToInt32(documentId)
+                                   select d;
+
+                if (leadActivity.Any())
+                {
+                    return leadActivity.FirstOrDefault().ActivityDate.ToShortDateString();
+                }
+                else
+                {
+                    return " ";
+                }
+            }
+            else
+            {
+                if (documentName.Equals("Quotation"))
+                {
+                    var quotationActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                            where d.QuotationId == Convert.ToInt32(documentId)
+                                            select d;
+
+                    if (quotationActivity.Any())
+                    {
+                        return quotationActivity.FirstOrDefault().ActivityDate.ToShortDateString();
+                    }
+                    else
+                    {
+                        return " ";
+                    }
+                }
+                else
+                {
+                    if (documentName.Equals("Delivery"))
+                    {
+                        var deliveryActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                               where d.DeliveryId == Convert.ToInt32(documentId)
+                                               select d;
+
+                        if (deliveryActivity.Any())
+                        {
+                            return deliveryActivity.FirstOrDefault().ActivityDate.ToShortDateString();
+                        }
+                        else
+                        {
+                            return " ";
+                        }
+                    }
+                    else
+                    {
+                        if (documentName.Equals("Support"))
+                        {
+                            var supportActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                                  where d.SupportId == Convert.ToInt32(documentId)
+                                                  select d;
+
+                            if (supportActivity.Any())
+                            {
+                                return supportActivity.FirstOrDefault().ActivityDate.ToShortDateString();
+                            }
+                            else
+                            {
+                                return " ";
+                            }
+                        }
+                        else
+                        {
+                            return " ";
+                        }
+                    }
+                }
+            }
+        }
+
+        // get latest activity
+        public String getActivityParticulars(String documentName, Int32 documentId)
+        {
+            if (documentName.Equals("Lead"))
+            {
+                var leadActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                   where d.LeadId == Convert.ToInt32(documentId)
+                                   select d;
+
+                if (leadActivity.Any())
+                {
+                    return leadActivity.FirstOrDefault().Particulars;
+                }
+                else
+                {
+                    return " ";
+                }
+            }
+            else
+            {
+                if (documentName.Equals("Quotation"))
+                {
+                    var quotationActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                            where d.QuotationId == Convert.ToInt32(documentId)
+                                            select d;
+
+                    if (quotationActivity.Any())
+                    {
+                        return quotationActivity.FirstOrDefault().Particulars;
+                    }
+                    else
+                    {
+                        return " ";
+                    }
+                }
+                else
+                {
+                    if (documentName.Equals("Delivery"))
+                    {
+                        var deliveryActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                               where d.DeliveryId == Convert.ToInt32(documentId)
+                                               select d;
+
+                        if (deliveryActivity.Any())
+                        {
+                            return deliveryActivity.FirstOrDefault().Particulars;
+                        }
+                        else
+                        {
+                            return " ";
+                        }
+                    }
+                    else
+                    {
+                        if (documentName.Equals("Support"))
+                        {
+                            var supportActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                                  where d.SupportId == Convert.ToInt32(documentId)
+                                                  select d;
+
+                            if (supportActivity.Any())
+                            {
+                                return supportActivity.FirstOrDefault().Particulars;
+                            }
+                            else
+                            {
+                                return " ";
+                            }
+                        }
+                        else
+                        {
+                            return " ";
+                        }
+                    }
+                }
+            }
+        }
+
+        // get latest activity staff
+        public String getActivityStaffUser(String documentName, Int32 documentId)
+        {
+            if (documentName.Equals("Lead"))
+            {
+                var leadActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                   where d.LeadId == Convert.ToInt32(documentId)
+                                   select d;
+
+                if (leadActivity.Any())
+                {
+                    return leadActivity.FirstOrDefault().MstUser.FullName;
+                }
+                else
+                {
+                    return " ";
+                }
+            }
+            else
+            {
+                if (documentName.Equals("Quotation"))
+                {
+                    var quotationActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                            where d.QuotationId == Convert.ToInt32(documentId)
+                                            select d;
+
+                    if (quotationActivity.Any())
+                    {
+                        return quotationActivity.FirstOrDefault().MstUser.FullName;
+                    }
+                    else
+                    {
+                        return " ";
+                    }
+                }
+                else
+                {
+                    if (documentName.Equals("Delivery"))
+                    {
+                        var deliveryActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                               where d.DeliveryId == Convert.ToInt32(documentId)
+                                               select d;
+
+                        if (deliveryActivity.Any())
+                        {
+                            return deliveryActivity.FirstOrDefault().MstUser.FullName;
+                        }
+                        else
+                        {
+                            return " ";
+                        }
+                    }
+                    else
+                    {
+                        if (documentName.Equals("Support"))
+                        {
+                            var supportActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
+                                                  where d.SupportId == Convert.ToInt32(documentId)
+                                                  select d;
+
+                            if (supportActivity.Any())
+                            {
+                                return supportActivity.FirstOrDefault().MstUser.FullName;
+                            }
+                            else
+                            {
+                                return " ";
+                            }
+                        }
+                        else
+                        {
+                            return " ";
+                        }
+                    }
+                }
+            }
+        }
+
+        // get document with latest activity by document reference and by date ranged
+        [HttpGet, Route("list/byDocument/byDateRanged/{document}/{startDate}/{endDate}")]
+        public List<Entities.TrnActivity> listActivityByDocumentByDateRanged(String document, String startDate, String endDate)
+        {
+            if (document.Equals("Lead"))
+            {
+                var leads = from d in db.IS_TrnLeads
+                            where d.LeadDate >= Convert.ToDateTime(startDate)
+                            && d.LeadDate <= Convert.ToDateTime(endDate)
+                            select new Entities.TrnActivity
+                            {
+                                Id = d.Id,
+                                DocumentNumber = "LN - " + d.LeadNumber,
+                                ActivityDate = getActivityDate("Lead", d.Id),
+                                Particulars = d.LeadName + " - " + d.Remarks,
+                                Activity = getActivityParticulars("Lead", d.Id),
+                                StaffUser = getActivityStaffUser("Lead", d.Id),
+                            };
+
+                return leads.ToList();
+            }
+            else
+            {
+                if (document.Equals("Quotation"))
+                {
+                    var quotations = from d in db.IS_TrnQuotations
+                                     where d.QuotationDate >= Convert.ToDateTime(startDate)
+                                     && d.QuotationDate <= Convert.ToDateTime(endDate)
+                                     select new Entities.TrnActivity
+                                     {
+                                         Id = d.Id,
+                                         DocumentNumber = "QN - " + d.QuotationNumber,
+                                         ActivityDate = getActivityDate("Quotation", d.Id),
+                                         Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                         Activity = getActivityParticulars("Quotation", d.Id),
+                                         StaffUser = getActivityStaffUser("Quotation", d.Id),
+                                     };
+
+                    return quotations.ToList();
+                }
+                else
+                {
+                    if (document.Equals("Delivery"))
+                    {
+                        var deliveries = from d in db.IS_TrnDeliveries
+                                         where d.DeliveryDate >= Convert.ToDateTime(startDate)
+                                         && d.DeliveryDate <= Convert.ToDateTime(endDate)
+                                         select new Entities.TrnActivity
+                                         {
+                                             Id = d.Id,
+                                             DocumentNumber = "DN - " + d.DeliveryNumber,
+                                             ActivityDate = getActivityDate("Delivery", d.Id),
+                                             Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                             Activity = getActivityParticulars("Delivery", d.Id),
+                                             StaffUser = getActivityStaffUser("Delivery", d.Id),
+                                         };
+
+                        return deliveries.ToList();
+                    }
+                    else
+                    {
+                        if (document.Equals("Support"))
+                        {
+                            var supports = from d in db.IS_TrnSupports
+                                           where d.SupportDate >= Convert.ToDateTime(startDate)
+                                           && d.SupportDate <= Convert.ToDateTime(endDate)
+                                           select new Entities.TrnActivity
+                                           {
+                                               Id = d.Id,
+                                               DocumentNumber = "SN - " + d.SupportDate,
+                                               ActivityDate = getActivityDate("Support", d.Id),
+                                               Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                               Activity = getActivityParticulars("Support", d.Id),
+                                               StaffUser = getActivityStaffUser("Support", d.Id),
+                                           };
+
+                            return supports.ToList();
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                }
+            }
         }
 
         // add activity

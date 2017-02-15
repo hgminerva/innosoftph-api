@@ -25,5 +25,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public Int32? QuotationId { get; set; }
         public Int32? DeliveryId { get; set; }
         public Int32? SupportId { get; set; }
+        public String DocumentNumber { get; set; }
+        public String Activity { get; set; }
     }
 }

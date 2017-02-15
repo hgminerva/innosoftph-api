@@ -10,7 +10,7 @@ namespace InnosoftSolutionsWebsiteApi.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Cebu Innosoft Solutions Services Inc. - API";
 
             return View();
         }
