@@ -175,7 +175,17 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                 ActivityDate = activities.ActivityDate == null ? d.LeadDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                 Particulars = d.LeadName + " - " + d.Remarks,
                                 Activity = activities.Particulars == null ? " " : activities.Particulars,
-                                StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
+                                StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                LeadId = d.Id,
+                                QuotationId = null,
+                                DeliveryId = null,
+                                SupportId = null,
+                                CustomerId = null,
+                                ProductId = null,
+                                ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                             };
 
                 return leads.ToList();
@@ -199,7 +209,17 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                          ActivityDate = activities.ActivityDate == null ? d.QuotationDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                          Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
                                          Activity = activities.Particulars == null ? " " : activities.Particulars,
-                                         StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
+                                         StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                         LeadId = null,
+                                         QuotationId = d.Id,
+                                         DeliveryId = null,
+                                         SupportId = null,
+                                         CustomerId = d.CustomerId,
+                                         ProductId = d.ProductId,
+                                         ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                         NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                         ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                         ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                      };
 
                     return quotations.ToList();
@@ -223,7 +243,17 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              ActivityDate = activities.ActivityDate == null ? d.DeliveryDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                              Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
                                              Activity = activities.Particulars == null ? " " : activities.Particulars,
-                                             StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
+                                             StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                             LeadId = null,
+                                             QuotationId = null,
+                                             DeliveryId = d.Id,
+                                             SupportId = null,
+                                             CustomerId = d.CustomerId,
+                                             ProductId = d.ProductId,
+                                             ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                             NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                             ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                             ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                          };
 
                         return deliveries.ToList();
@@ -247,7 +277,17 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
                                                Activity = activities.Particulars == null ? " " : activities.Particulars,
-                                               StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
+                                               StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                               LeadId = null,
+                                               QuotationId = null,
+                                               DeliveryId = null,
+                                               SupportId = d.Id,
+                                               CustomerId = d.CustomerId,
+                                               ProductId = d.ProductId,
+                                               ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                               NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                               ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                               ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                            };
 
                             return supports.ToList();
