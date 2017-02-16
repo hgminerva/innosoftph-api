@@ -154,240 +154,6 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return activities.ToList();
         }
 
-        // get latest activity date
-        public String getActivityDate(String documentName, Int32 documentId)
-        {
-            if (documentName.Equals("Lead"))
-            {
-                var leadActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                   where d.LeadId == Convert.ToInt32(documentId)
-                                   select d;
-
-                if (leadActivity.Any())
-                {
-                    return leadActivity.FirstOrDefault().ActivityDate.ToShortDateString();
-                }
-                else
-                {
-                    return " ";
-                }
-            }
-            else
-            {
-                if (documentName.Equals("Quotation"))
-                {
-                    var quotationActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                            where d.QuotationId == Convert.ToInt32(documentId)
-                                            select d;
-
-                    if (quotationActivity.Any())
-                    {
-                        return quotationActivity.FirstOrDefault().ActivityDate.ToShortDateString();
-                    }
-                    else
-                    {
-                        return " ";
-                    }
-                }
-                else
-                {
-                    if (documentName.Equals("Delivery"))
-                    {
-                        var deliveryActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                               where d.DeliveryId == Convert.ToInt32(documentId)
-                                               select d;
-
-                        if (deliveryActivity.Any())
-                        {
-                            return deliveryActivity.FirstOrDefault().ActivityDate.ToShortDateString();
-                        }
-                        else
-                        {
-                            return " ";
-                        }
-                    }
-                    else
-                    {
-                        if (documentName.Equals("Support"))
-                        {
-                            var supportActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                                  where d.SupportId == Convert.ToInt32(documentId)
-                                                  select d;
-
-                            if (supportActivity.Any())
-                            {
-                                return supportActivity.FirstOrDefault().ActivityDate.ToShortDateString();
-                            }
-                            else
-                            {
-                                return " ";
-                            }
-                        }
-                        else
-                        {
-                            return " ";
-                        }
-                    }
-                }
-            }
-        }
-
-        // get latest activity
-        public String getActivityParticulars(String documentName, Int32 documentId)
-        {
-            if (documentName.Equals("Lead"))
-            {
-                var leadActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                   where d.LeadId == Convert.ToInt32(documentId)
-                                   select d;
-
-                if (leadActivity.Any())
-                {
-                    return leadActivity.FirstOrDefault().Particulars;
-                }
-                else
-                {
-                    return " ";
-                }
-            }
-            else
-            {
-                if (documentName.Equals("Quotation"))
-                {
-                    var quotationActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                            where d.QuotationId == Convert.ToInt32(documentId)
-                                            select d;
-
-                    if (quotationActivity.Any())
-                    {
-                        return quotationActivity.FirstOrDefault().Particulars;
-                    }
-                    else
-                    {
-                        return " ";
-                    }
-                }
-                else
-                {
-                    if (documentName.Equals("Delivery"))
-                    {
-                        var deliveryActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                               where d.DeliveryId == Convert.ToInt32(documentId)
-                                               select d;
-
-                        if (deliveryActivity.Any())
-                        {
-                            return deliveryActivity.FirstOrDefault().Particulars;
-                        }
-                        else
-                        {
-                            return " ";
-                        }
-                    }
-                    else
-                    {
-                        if (documentName.Equals("Support"))
-                        {
-                            var supportActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                                  where d.SupportId == Convert.ToInt32(documentId)
-                                                  select d;
-
-                            if (supportActivity.Any())
-                            {
-                                return supportActivity.FirstOrDefault().Particulars;
-                            }
-                            else
-                            {
-                                return " ";
-                            }
-                        }
-                        else
-                        {
-                            return " ";
-                        }
-                    }
-                }
-            }
-        }
-
-        // get latest activity staff
-        public String getActivityStaffUser(String documentName, Int32 documentId)
-        {
-            if (documentName.Equals("Lead"))
-            {
-                var leadActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                   where d.LeadId == Convert.ToInt32(documentId)
-                                   select d;
-
-                if (leadActivity.Any())
-                {
-                    return leadActivity.FirstOrDefault().MstUser.FullName;
-                }
-                else
-                {
-                    return " ";
-                }
-            }
-            else
-            {
-                if (documentName.Equals("Quotation"))
-                {
-                    var quotationActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                            where d.QuotationId == Convert.ToInt32(documentId)
-                                            select d;
-
-                    if (quotationActivity.Any())
-                    {
-                        return quotationActivity.FirstOrDefault().MstUser.FullName;
-                    }
-                    else
-                    {
-                        return " ";
-                    }
-                }
-                else
-                {
-                    if (documentName.Equals("Delivery"))
-                    {
-                        var deliveryActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                               where d.DeliveryId == Convert.ToInt32(documentId)
-                                               select d;
-
-                        if (deliveryActivity.Any())
-                        {
-                            return deliveryActivity.FirstOrDefault().MstUser.FullName;
-                        }
-                        else
-                        {
-                            return " ";
-                        }
-                    }
-                    else
-                    {
-                        if (documentName.Equals("Support"))
-                        {
-                            var supportActivity = from d in db.IS_TrnActivities.OrderByDescending(d => d.ActivityDate)
-                                                  where d.SupportId == Convert.ToInt32(documentId)
-                                                  select d;
-
-                            if (supportActivity.Any())
-                            {
-                                return supportActivity.FirstOrDefault().MstUser.FullName;
-                            }
-                            else
-                            {
-                                return " ";
-                            }
-                        }
-                        else
-                        {
-                            return " ";
-                        }
-                    }
-                }
-            }
-        }
-
         // get document with latest activity by document reference and by date ranged
         [HttpGet, Route("list/byDocument/byDateRanged/{document}/{startDate}/{endDate}")]
         public List<Entities.TrnActivity> listActivityByDocumentByDateRanged(String document, String startDate, String endDate)
@@ -395,16 +161,21 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             if (document.Equals("Lead"))
             {
                 var leads = from d in db.IS_TrnLeads
+                            join s in db.IS_TrnActivities
+                            on d.Id equals s.LeadId
+                            into joinActivities
+                            from activities in joinActivities.DefaultIfEmpty()
                             where d.LeadDate >= Convert.ToDateTime(startDate)
                             && d.LeadDate <= Convert.ToDateTime(endDate)
+                            && (activities.ActivityDate == null ? d.LeadDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                             select new Entities.TrnActivity
                             {
-                                Id = d.Id,
+                                Id = activities.Id == null ? 0 : activities.Id,
                                 DocumentNumber = "LN - " + d.LeadNumber,
-                                ActivityDate = getActivityDate("Lead", d.Id),
+                                ActivityDate = activities.ActivityDate == null ? d.LeadDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                 Particulars = d.LeadName + " - " + d.Remarks,
-                                Activity = getActivityParticulars("Lead", d.Id),
-                                StaffUser = getActivityStaffUser("Lead", d.Id),
+                                Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
                             };
 
                 return leads.ToList();
@@ -414,16 +185,21 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 if (document.Equals("Quotation"))
                 {
                     var quotations = from d in db.IS_TrnQuotations
+                                     join s in db.IS_TrnActivities
+                                     on d.Id equals s.LeadId
+                                     into joinActivities
+                                     from activities in joinActivities.DefaultIfEmpty()
                                      where d.QuotationDate >= Convert.ToDateTime(startDate)
                                      && d.QuotationDate <= Convert.ToDateTime(endDate)
+                                     && (activities.ActivityDate == null ? d.QuotationDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                      select new Entities.TrnActivity
                                      {
-                                         Id = d.Id,
+                                         Id = activities.Id == null ? 0 : activities.Id,
                                          DocumentNumber = "QN - " + d.QuotationNumber,
-                                         ActivityDate = getActivityDate("Quotation", d.Id),
+                                         ActivityDate = activities.ActivityDate == null ? d.QuotationDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                          Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
-                                         Activity = getActivityParticulars("Quotation", d.Id),
-                                         StaffUser = getActivityStaffUser("Quotation", d.Id),
+                                         Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                         StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
                                      };
 
                     return quotations.ToList();
@@ -433,16 +209,21 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     if (document.Equals("Delivery"))
                     {
                         var deliveries = from d in db.IS_TrnDeliveries
+                                         join s in db.IS_TrnActivities
+                                         on d.Id equals s.LeadId
+                                         into joinActivities
+                                         from activities in joinActivities.DefaultIfEmpty()
                                          where d.DeliveryDate >= Convert.ToDateTime(startDate)
                                          && d.DeliveryDate <= Convert.ToDateTime(endDate)
+                                         && (activities.ActivityDate == null ? d.DeliveryDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                          select new Entities.TrnActivity
                                          {
-                                             Id = d.Id,
+                                             Id = activities.Id == null ? 0 : activities.Id,
                                              DocumentNumber = "DN - " + d.DeliveryNumber,
-                                             ActivityDate = getActivityDate("Delivery", d.Id),
+                                             ActivityDate = activities.ActivityDate == null ? d.DeliveryDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                              Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
-                                             Activity = getActivityParticulars("Delivery", d.Id),
-                                             StaffUser = getActivityStaffUser("Delivery", d.Id),
+                                             Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                             StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
                                          };
 
                         return deliveries.ToList();
@@ -452,16 +233,21 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                         if (document.Equals("Support"))
                         {
                             var supports = from d in db.IS_TrnSupports
+                                           join s in db.IS_TrnActivities
+                                           on d.Id equals s.LeadId
+                                           into joinActivities
+                                           from activities in joinActivities.DefaultIfEmpty()
                                            where d.SupportDate >= Convert.ToDateTime(startDate)
                                            && d.SupportDate <= Convert.ToDateTime(endDate)
+                                           && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                            select new Entities.TrnActivity
                                            {
-                                               Id = d.Id,
-                                               DocumentNumber = "SN - " + d.SupportDate,
-                                               ActivityDate = getActivityDate("Support", d.Id),
+                                               Id = activities.Id == null ? 0 : activities.Id,
+                                               DocumentNumber = "SN - " + d.SupportNumber,
+                                               ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
-                                               Activity = getActivityParticulars("Support", d.Id),
-                                               StaffUser = getActivityStaffUser("Support", d.Id),
+                                               Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                               StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName
                                            };
 
                             return supports.ToList();
