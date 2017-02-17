@@ -27,5 +27,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public Int32? SupportId { get; set; }
         public String DocumentNumber { get; set; }
         public String Activity { get; set; }
+        public String HeaderStatus { get; set; }
+        public String EncodedBy { get; set; }
     }
 }

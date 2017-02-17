@@ -165,9 +165,9 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             on d.Id equals s.LeadId
                             into joinActivities
                             from activities in joinActivities.DefaultIfEmpty()
-                            where d.LeadDate >= Convert.ToDateTime(startDate)
-                            && d.LeadDate <= Convert.ToDateTime(endDate)
-                            && (activities.ActivityDate == null ? d.LeadDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                            where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.LeadDate >= Convert.ToDateTime(startDate))
+                            && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.LeadDate <= Convert.ToDateTime(endDate))
+                            && (activities.ActivityDate == null ? d.LeadDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                             select new Entities.TrnActivity
                             {
                                 Id = activities.Id == null ? 0 : activities.Id,
@@ -186,6 +186,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                 NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
                                 ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                 ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                HeaderStatus = d.LeadStatus,
+                                EncodedBy = d.MstUser.FullName
                             };
 
                 return leads.ToList();
@@ -196,12 +198,12 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 {
                     var quotations = from d in db.IS_TrnQuotations
                                      join s in db.IS_TrnActivities
-                                     on d.Id equals s.LeadId
+                                     on d.Id equals s.QuotationId
                                      into joinActivities
                                      from activities in joinActivities.DefaultIfEmpty()
-                                     where d.QuotationDate >= Convert.ToDateTime(startDate)
-                                     && d.QuotationDate <= Convert.ToDateTime(endDate)
-                                     && (activities.ActivityDate == null ? d.QuotationDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                     where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.QuotationDate >= Convert.ToDateTime(startDate))
+                                     && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.QuotationDate <= Convert.ToDateTime(endDate))
+                                     && (activities.ActivityDate == null ? d.QuotationDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                      select new Entities.TrnActivity
                                      {
                                          Id = activities.Id == null ? 0 : activities.Id,
@@ -220,6 +222,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                          NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
                                          ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                          ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                         HeaderStatus = d.QuotationStatus,
+                                         EncodedBy = d.MstUser.FullName
                                      };
 
                     return quotations.ToList();
@@ -230,12 +234,12 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     {
                         var deliveries = from d in db.IS_TrnDeliveries
                                          join s in db.IS_TrnActivities
-                                         on d.Id equals s.LeadId
+                                         on d.Id equals s.DeliveryId
                                          into joinActivities
                                          from activities in joinActivities.DefaultIfEmpty()
-                                         where d.DeliveryDate >= Convert.ToDateTime(startDate)
-                                         && d.DeliveryDate <= Convert.ToDateTime(endDate)
-                                         && (activities.ActivityDate == null ? d.DeliveryDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                         where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.DeliveryDate >= Convert.ToDateTime(startDate))
+                                         && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.DeliveryDate <= Convert.ToDateTime(endDate))
+                                         && (activities.ActivityDate == null ? d.DeliveryDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                          select new Entities.TrnActivity
                                          {
                                              Id = activities.Id == null ? 0 : activities.Id,
@@ -254,6 +258,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
                                              ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                              ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                             HeaderStatus = d.DeliveryStatus,
+                                             EncodedBy = d.MstUser.FullName
                                          };
 
                         return deliveries.ToList();
@@ -264,12 +270,12 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                         {
                             var supports = from d in db.IS_TrnSupports
                                            join s in db.IS_TrnActivities
-                                           on d.Id equals s.LeadId
+                                           on d.Id equals s.SupportId
                                            into joinActivities
                                            from activities in joinActivities.DefaultIfEmpty()
-                                           where d.SupportDate >= Convert.ToDateTime(startDate)
-                                           && d.SupportDate <= Convert.ToDateTime(endDate)
-                                           && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : joinActivities.OrderByDescending(s => s.ActivityDate).Count() == 1 ? activities.ActivityDate == joinActivities.OrderByDescending(s => s.ActivityDate).FirstOrDefault().ActivityDate : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                           where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                           && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                           && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                            select new Entities.TrnActivity
                                            {
                                                Id = activities.Id == null ? 0 : activities.Id,
@@ -288,6 +294,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
                                                ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                               HeaderStatus = d.SupportStatus,
+                                               EncodedBy = d.MstUser.FullName
                                            };
 
                             return supports.ToList();
