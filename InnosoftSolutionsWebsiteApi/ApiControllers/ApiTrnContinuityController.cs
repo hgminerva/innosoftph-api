@@ -119,12 +119,12 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                    CustomerId = d.CustomerId,
                                    Customer = d.MstArticle.Article
                                }
-                                into g
-                                select new Entities.TrnContinuity
-                                {
-                                    CustomerId = g.Key.CustomerId,
-                                    Customer = g.Key.Customer
-                                };
+                                   into g
+                                   select new Entities.TrnContinuity
+                                   {
+                                       CustomerId = g.Key.CustomerId,
+                                       Customer = g.Key.Customer
+                                   };
 
             return continuities.ToList();
         }
