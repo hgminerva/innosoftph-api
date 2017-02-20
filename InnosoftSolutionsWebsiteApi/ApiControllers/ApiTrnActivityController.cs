@@ -158,6 +158,38 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             return activities.ToList();
         }
 
+        // get activity by software developement id
+        [HttpGet, Route("list/bySoftwareDevelopmentId/{softwareDevelopmentId}")]
+        public List<Entities.TrnActivity> listActivityBySoftwareDevelopmentId(String softwareDevelopmentId)
+        {
+            var activities = from d in db.IS_TrnActivities
+                             where d.SoftwareDevelopmentId == Convert.ToInt32(softwareDevelopmentId)
+                             select new Entities.TrnActivity
+                             {
+                                 Id = d.Id,
+                                 ActivityNumber = d.ActivityNumber,
+                                 ActivityDate = d.ActivityDate.ToShortDateString(),
+                                 StaffUserId = d.StaffUserId,
+                                 StaffUser = d.MstUser.FullName,
+                                 CustomerId = d.CustomerId,
+                                 Customer = d.MstArticle.Article,
+                                 ProductId = d.ProductId,
+                                 Product = d.MstArticle1.Article,
+                                 ParticularCategory = d.ParticularCategory,
+                                 Particulars = d.Particulars,
+                                 NumberOfHours = d.NumberOfHours,
+                                 ActivityAmount = d.ActivityAmount,
+                                 ActivityStatus = d.ActivityStatus,
+                                 LeadId = d.LeadId,
+                                 QuotationId = d.QuotationId,
+                                 DeliveryId = d.DeliveryId,
+                                 SupportId = d.SupportId,
+                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId
+                             };
+
+            return activities.ToList();
+        }
+
         // get document with latest activity by document reference and by date ranged
         [HttpGet, Route("list/byDocument/byDateRanged/{document}/{startDate}/{endDate}")]
         public List<Entities.TrnActivity> listActivityByDocumentByDateRanged(String document, String startDate, String endDate)
@@ -391,9 +423,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
-            catch (Exception e)
+            catch
             {
-                Debug.WriteLine(e);
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
