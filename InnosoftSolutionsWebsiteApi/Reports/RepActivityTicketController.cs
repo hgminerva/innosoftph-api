@@ -131,6 +131,15 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                                     documentDate = activity.FirstOrDefault().IS_TrnSupport.SupportDate.ToShortDateString();
                                     documentParticulars = activity.FirstOrDefault().IS_TrnSupport.Remarks;
                                 }
+                                else
+                                {
+                                    if (activity.FirstOrDefault().SoftwareDevelopmentId != null)
+                                    {
+                                        documentReference = "SD-" + activity.FirstOrDefault().IS_TrnSoftwareDevelopment.SoftDevNumber;
+                                        documentDate = activity.FirstOrDefault().IS_TrnSoftwareDevelopment.SoftDevDate.ToShortDateString();
+                                        documentParticulars = activity.FirstOrDefault().IS_TrnSoftwareDevelopment.Remarks;
+                                    }
+                                }
                             }
                         }
                     }
