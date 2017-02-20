@@ -55,7 +55,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  LeadId = d.LeadId,
                                  QuotationId = d.QuotationId,
                                  DeliveryId = d.DeliveryId,
-                                 SupportId = d.SupportId
+                                 SupportId = d.SupportId,
+                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId
                              };
 
             return activities.ToList();
@@ -86,7 +87,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  LeadId = d.LeadId,
                                  QuotationId = d.QuotationId,
                                  DeliveryId = d.DeliveryId,
-                                 SupportId = d.SupportId
+                                 SupportId = d.SupportId,
+                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId
                              };
 
             return activities.ToList();
@@ -117,7 +119,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  LeadId = d.LeadId,
                                  QuotationId = d.QuotationId,
                                  DeliveryId = d.DeliveryId,
-                                 SupportId = d.SupportId
+                                 SupportId = d.SupportId,
+                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId
                              };
 
             return activities.ToList();
@@ -148,7 +151,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  LeadId = d.LeadId,
                                  QuotationId = d.QuotationId,
                                  DeliveryId = d.DeliveryId,
-                                 SupportId = d.SupportId
+                                 SupportId = d.SupportId,
+                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId
                              };
 
             return activities.ToList();
@@ -180,6 +184,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                 QuotationId = null,
                                 DeliveryId = null,
                                 SupportId = null,
+                                SoftwareDevelopmentId = null,
                                 CustomerId = null,
                                 ProductId = null,
                                 ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
@@ -216,6 +221,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                          QuotationId = d.Id,
                                          DeliveryId = null,
                                          SupportId = null,
+                                         SoftwareDevelopmentId = null,
                                          CustomerId = d.CustomerId,
                                          ProductId = d.ProductId,
                                          ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
@@ -252,6 +258,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              QuotationId = null,
                                              DeliveryId = d.Id,
                                              SupportId = null,
+                                             SoftwareDevelopmentId = null,
                                              CustomerId = d.CustomerId,
                                              ProductId = d.ProductId,
                                              ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
@@ -288,6 +295,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                QuotationId = null,
                                                DeliveryId = null,
                                                SupportId = d.Id,
+                                               SoftwareDevelopmentId = null,
                                                CustomerId = d.CustomerId,
                                                ProductId = d.ProductId,
                                                ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
@@ -302,7 +310,45 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                         }
                         else
                         {
-                            return null;
+                            if (document.Equals("Software Development"))
+                            {
+                                var supports = from d in db.IS_TrnSoftwareDevelopments
+                                               join s in db.IS_TrnActivities
+                                               on d.Id equals s.SoftwareDevelopmentId
+                                               into joinActivities
+                                               from activities in joinActivities.DefaultIfEmpty()
+                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SoftDevDate >= Convert.ToDateTime(startDate))
+                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SoftDevDate <= Convert.ToDateTime(endDate))
+                                               && (activities.ActivityDate == null ? d.SoftDevDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                               select new Entities.TrnActivity
+                                               {
+                                                   Id = activities.Id == null ? 0 : activities.Id,
+                                                   DocumentNumber = "SD - " + d.SoftDevNumber,
+                                                   ActivityDate = activities.ActivityDate == null ? d.SoftDevDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                   Particulars = d.Task + " - " + d.Remarks,
+                                                   Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                   StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                   LeadId = null,
+                                                   QuotationId = null,
+                                                   DeliveryId = null,
+                                                   SupportId = null,
+                                                   SoftwareDevelopmentId = d.Id,
+                                                   CustomerId = null,
+                                                   ProductId = null,
+                                                   ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                   NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                   ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                   ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                   HeaderStatus = d.SoftDevStatus,
+                                                   EncodedBy = d.MstUser.FullName
+                                               };
+
+                                return supports.ToList();
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
                     }
                 }
@@ -339,6 +385,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 newActivity.QuotationId = activity.QuotationId;
                 newActivity.DeliveryId = activity.DeliveryId;
                 newActivity.SupportId = activity.SupportId;
+                newActivity.SoftwareDevelopmentId = activity.SoftwareDevelopmentId;
                 db.IS_TrnActivities.InsertOnSubmit(newActivity);
                 db.SubmitChanges();
 
@@ -374,6 +421,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     updateActivity.QuotationId = activity.QuotationId;
                     updateActivity.DeliveryId = activity.DeliveryId;
                     updateActivity.SupportId = activity.SupportId;
+                    updateActivity.SoftwareDevelopmentId = activity.SoftwareDevelopmentId;
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);

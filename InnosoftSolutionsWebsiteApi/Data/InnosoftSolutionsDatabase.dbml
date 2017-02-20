@@ -94,9 +94,11 @@
       <Column Name="QuotationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DeliveryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="SupportId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoftwareDevelopmentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="IS_TrnDelivery_IS_TrnActivity" Member="IS_TrnDelivery" ThisKey="DeliveryId" OtherKey="Id" Type="IS_TrnDelivery" IsForeignKey="true" />
       <Association Name="IS_TrnLead_IS_TrnActivity" Member="IS_TrnLead" ThisKey="LeadId" OtherKey="Id" Type="IS_TrnLead" IsForeignKey="true" />
       <Association Name="IS_TrnQuotation_IS_TrnActivity" Member="IS_TrnQuotation" ThisKey="QuotationId" OtherKey="Id" Type="IS_TrnQuotation" IsForeignKey="true" />
+      <Association Name="IS_TrnSoftwareDevelopment_IS_TrnActivity" Member="IS_TrnSoftwareDevelopment" ThisKey="SoftwareDevelopmentId" OtherKey="Id" Type="IS_TrnSoftwareDevelopment" IsForeignKey="true" />
       <Association Name="IS_TrnSupport_IS_TrnActivity" Member="IS_TrnSupport" ThisKey="SupportId" OtherKey="Id" Type="IS_TrnSupport" IsForeignKey="true" />
       <Association Name="MstArticle_IS_TrnActivity" Member="MstArticle" ThisKey="CustomerId" OtherKey="Id" Type="MstArticle" IsForeignKey="true" />
       <Association Name="MstArticle_IS_TrnActivity1" Member="MstArticle1" ThisKey="ProductId" OtherKey="Id" Type="MstArticle" IsForeignKey="true" />
@@ -218,6 +220,7 @@
       <Column Name="EncodedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AssignedToUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SoftDevStatus" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="IS_TrnSoftwareDevelopment_IS_TrnActivity" Member="IS_TrnActivities" ThisKey="Id" OtherKey="SoftwareDevelopmentId" Type="IS_TrnActivity" />
       <Association Name="IS_TrnProject_IS_TrnSoftwareDevelopment" Member="IS_TrnProject" ThisKey="ProjectId" OtherKey="Id" Type="IS_TrnProject" IsForeignKey="true" />
       <Association Name="MstUser_IS_TrnSoftwareDevelopment" Member="MstUser" ThisKey="EncodedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_IS_TrnSoftwareDevelopment1" Member="MstUser1" ThisKey="AssignedToUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />

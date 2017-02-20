@@ -2421,11 +2421,15 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private System.Nullable<int> _SupportId;
 		
+		private System.Nullable<int> _SoftwareDevelopmentId;
+		
 		private EntityRef<IS_TrnDelivery> _IS_TrnDelivery;
 		
 		private EntityRef<IS_TrnLead> _IS_TrnLead;
 		
 		private EntityRef<IS_TrnQuotation> _IS_TrnQuotation;
+		
+		private EntityRef<IS_TrnSoftwareDevelopment> _IS_TrnSoftwareDevelopment;
 		
 		private EntityRef<IS_TrnSupport> _IS_TrnSupport;
 		
@@ -2469,6 +2473,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnDeliveryIdChanged();
     partial void OnSupportIdChanging(System.Nullable<int> value);
     partial void OnSupportIdChanged();
+    partial void OnSoftwareDevelopmentIdChanging(System.Nullable<int> value);
+    partial void OnSoftwareDevelopmentIdChanged();
     #endregion
 		
 		public IS_TrnActivity()
@@ -2476,6 +2482,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._IS_TrnDelivery = default(EntityRef<IS_TrnDelivery>);
 			this._IS_TrnLead = default(EntityRef<IS_TrnLead>);
 			this._IS_TrnQuotation = default(EntityRef<IS_TrnQuotation>);
+			this._IS_TrnSoftwareDevelopment = default(EntityRef<IS_TrnSoftwareDevelopment>);
 			this._IS_TrnSupport = default(EntityRef<IS_TrnSupport>);
 			this._MstArticle = default(EntityRef<MstArticle>);
 			this._MstArticle1 = default(EntityRef<MstArticle>);
@@ -2811,6 +2818,30 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoftwareDevelopmentId", DbType="Int")]
+		public System.Nullable<int> SoftwareDevelopmentId
+		{
+			get
+			{
+				return this._SoftwareDevelopmentId;
+			}
+			set
+			{
+				if ((this._SoftwareDevelopmentId != value))
+				{
+					if (this._IS_TrnSoftwareDevelopment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSoftwareDevelopmentIdChanging(value);
+					this.SendPropertyChanging();
+					this._SoftwareDevelopmentId = value;
+					this.SendPropertyChanged("SoftwareDevelopmentId");
+					this.OnSoftwareDevelopmentIdChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="IS_TrnDelivery_IS_TrnActivity", Storage="_IS_TrnDelivery", ThisKey="DeliveryId", OtherKey="Id", IsForeignKey=true)]
 		public IS_TrnDelivery IS_TrnDelivery
 		{
@@ -2909,6 +2940,40 @@ namespace InnosoftSolutionsWebsiteApi.Data
 						this._QuotationId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("IS_TrnQuotation");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="IS_TrnSoftwareDevelopment_IS_TrnActivity", Storage="_IS_TrnSoftwareDevelopment", ThisKey="SoftwareDevelopmentId", OtherKey="Id", IsForeignKey=true)]
+		public IS_TrnSoftwareDevelopment IS_TrnSoftwareDevelopment
+		{
+			get
+			{
+				return this._IS_TrnSoftwareDevelopment.Entity;
+			}
+			set
+			{
+				IS_TrnSoftwareDevelopment previousValue = this._IS_TrnSoftwareDevelopment.Entity;
+				if (((previousValue != value) 
+							|| (this._IS_TrnSoftwareDevelopment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._IS_TrnSoftwareDevelopment.Entity = null;
+						previousValue.IS_TrnActivities.Remove(this);
+					}
+					this._IS_TrnSoftwareDevelopment.Entity = value;
+					if ((value != null))
+					{
+						value.IS_TrnActivities.Add(this);
+						this._SoftwareDevelopmentId = value.Id;
+					}
+					else
+					{
+						this._SoftwareDevelopmentId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("IS_TrnSoftwareDevelopment");
 				}
 			}
 		}
@@ -5633,6 +5698,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private string _SoftDevStatus;
 		
+		private EntitySet<IS_TrnActivity> _IS_TrnActivities;
+		
 		private EntityRef<IS_TrnProject> _IS_TrnProject;
 		
 		private EntityRef<MstUser> _MstUser;
@@ -5667,6 +5734,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		public IS_TrnSoftwareDevelopment()
 		{
+			this._IS_TrnActivities = new EntitySet<IS_TrnActivity>(new Action<IS_TrnActivity>(this.attach_IS_TrnActivities), new Action<IS_TrnActivity>(this.detach_IS_TrnActivities));
 			this._IS_TrnProject = default(EntityRef<IS_TrnProject>);
 			this._MstUser = default(EntityRef<MstUser>);
 			this._MstUser1 = default(EntityRef<MstUser>);
@@ -5885,6 +5953,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="IS_TrnSoftwareDevelopment_IS_TrnActivity", Storage="_IS_TrnActivities", ThisKey="Id", OtherKey="SoftwareDevelopmentId")]
+		public EntitySet<IS_TrnActivity> IS_TrnActivities
+		{
+			get
+			{
+				return this._IS_TrnActivities;
+			}
+			set
+			{
+				this._IS_TrnActivities.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="IS_TrnProject_IS_TrnSoftwareDevelopment", Storage="_IS_TrnProject", ThisKey="ProjectId", OtherKey="Id", IsForeignKey=true)]
 		public IS_TrnProject IS_TrnProject
 		{
@@ -6005,6 +6086,18 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_IS_TrnActivities(IS_TrnActivity entity)
+		{
+			this.SendPropertyChanging();
+			entity.IS_TrnSoftwareDevelopment = this;
+		}
+		
+		private void detach_IS_TrnActivities(IS_TrnActivity entity)
+		{
+			this.SendPropertyChanging();
+			entity.IS_TrnSoftwareDevelopment = null;
 		}
 	}
 	
