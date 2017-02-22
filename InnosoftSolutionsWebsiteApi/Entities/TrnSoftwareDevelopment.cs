@@ -11,6 +11,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String SoftDevNumber { get; set; }
         public String SoftDevDate { get; set; }
         public Int32 ProjectId { get; set; }
+        public String ProjectNumber { get; set; }
         public String ProjectName { get; set; }
         public String Task { get; set; }
         public String Remarks { get; set; }
