@@ -218,7 +218,7 @@
       <Column Name="Remarks" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="NumberOfHours" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="EncodedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="AssignedToUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AssignedToUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="SoftDevStatus" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="IS_TrnSoftwareDevelopment_IS_TrnActivity" Member="IS_TrnActivities" ThisKey="Id" OtherKey="SoftwareDevelopmentId" Type="IS_TrnActivity" />
       <Association Name="IS_TrnProject_IS_TrnSoftwareDevelopment" Member="IS_TrnProject" ThisKey="ProjectId" OtherKey="Id" Type="IS_TrnProject" IsForeignKey="true" />

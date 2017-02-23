@@ -5694,7 +5694,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private int _EncodedByUserId;
 		
-		private int _AssignedToUserId;
+		private System.Nullable<int> _AssignedToUserId;
 		
 		private string _SoftDevStatus;
 		
@@ -5726,7 +5726,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnNumberOfHoursChanged();
     partial void OnEncodedByUserIdChanging(int value);
     partial void OnEncodedByUserIdChanged();
-    partial void OnAssignedToUserIdChanging(int value);
+    partial void OnAssignedToUserIdChanging(System.Nullable<int> value);
     partial void OnAssignedToUserIdChanged();
     partial void OnSoftDevStatusChanging(string value);
     partial void OnSoftDevStatusChanged();
@@ -5909,8 +5909,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AssignedToUserId", DbType="Int NOT NULL")]
-		public int AssignedToUserId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AssignedToUserId", DbType="Int")]
+		public System.Nullable<int> AssignedToUserId
 		{
 			get
 			{
@@ -6061,7 +6061,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					}
 					else
 					{
-						this._AssignedToUserId = default(int);
+						this._AssignedToUserId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("MstUser1");
 				}
