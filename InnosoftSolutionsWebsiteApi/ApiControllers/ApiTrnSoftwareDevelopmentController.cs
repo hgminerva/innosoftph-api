@@ -52,7 +52,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                            EncodedByUser = d.MstUser.FullName,
                                            AssignedToUserId = d.AssignedToUserId,
                                            AssignedToUser = d.MstUser1.FullName,
-                                           SoftDevStatus = d.MstUser.FullName
+                                           SoftDevStatus = d.SoftDevStatus
                                        };
 
             return softwareDevelopments.ToList();
@@ -79,7 +79,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                            EncodedByUser = d.MstUser.FullName,
                                            AssignedToUserId = d.AssignedToUserId,
                                            AssignedToUser = d.MstUser1.FullName,
-                                           SoftDevStatus = d.MstUser.FullName
+                                           SoftDevStatus = d.SoftDevStatus
                                        };
 
             return softwareDevelopments.ToList();
@@ -106,7 +106,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                           EncodedByUser = d.MstUser.FullName,
                                           AssignedToUserId = d.AssignedToUserId,
                                           AssignedToUser = d.MstUser1.FullName,
-                                          SoftDevStatus = d.MstUser.FullName
+                                          SoftDevStatus = d.SoftDevStatus
                                       };
 
             return (Entities.TrnSoftwareDevelopment)softwareDevelopment.FirstOrDefault();
