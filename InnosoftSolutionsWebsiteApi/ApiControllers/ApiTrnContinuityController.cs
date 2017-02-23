@@ -174,11 +174,12 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 var continuities = from d in db.IS_TrnContinuities where d.Id == Convert.ToInt32(id) select d;
                 if (continuities.Any())
                 {
+                    var deliveries = from d in db.IS_TrnDeliveries where d.Id == continuity.DeliveryId select d;
                     var updateContinuity = continuities.FirstOrDefault();
                     updateContinuity.ContinuityDate = Convert.ToDateTime(continuity.ContinuityDate);
                     updateContinuity.DeliveryId = continuity.DeliveryId;
-                    updateContinuity.CustomerId = continuity.CustomerId;
-                    updateContinuity.ProductId = continuity.ProductId;
+                    updateContinuity.CustomerId = deliveries.FirstOrDefault().CustomerId;
+                    updateContinuity.ProductId = deliveries.FirstOrDefault().ProductId;
                     updateContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
                     updateContinuity.ContinuityStatus = continuity.ContinuityStatus;
                     db.SubmitChanges();
