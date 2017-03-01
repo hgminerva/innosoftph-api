@@ -50,6 +50,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                Customer = d.MstArticle.Article,
                                ProductId = d.ProductId,
                                Product = d.MstArticle1.Article,
+                               SupportType = d.SupportType,
                                Severity = d.Severity,
                                Caller = d.Caller,
                                Remarks = d.Remarks,
@@ -83,6 +84,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                               Customer = d.MstArticle.Article,
                               ProductId = d.ProductId,
                               Product = d.MstArticle1.Article,
+                              SupportType = d.SupportType,
                               Severity = d.Severity,
                               Caller = d.Caller,
                               Remarks = d.Remarks,
@@ -121,6 +123,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 newSupport.Issue = support.Issue;
                 newSupport.CustomerId = continuities.FirstOrDefault().CustomerId;
                 newSupport.ProductId = continuities.FirstOrDefault().ProductId;
+                newSupport.SupportType = support.SupportType;
                 newSupport.Severity = support.Severity;
                 newSupport.Caller = support.Caller;
                 newSupport.Remarks = support.Remarks;
@@ -155,6 +158,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     updateSupport.Issue = support.Issue;
                     updateSupport.CustomerId = support.CustomerId;
                     updateSupport.ProductId = support.ProductId;
+                    updateSupport.SupportType = support.SupportType;
                     updateSupport.Severity = support.Severity;
                     updateSupport.Caller = support.Caller;
                     updateSupport.Remarks = support.Remarks;

@@ -6131,6 +6131,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private string _ScreenShotURL;
 		
+		private string _SupportType;
+		
 		private int _EncodedByUserId;
 		
 		private System.Nullable<int> _AssignedToUserId;
@@ -6177,6 +6179,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnRemarksChanged();
     partial void OnScreenShotURLChanging(string value);
     partial void OnScreenShotURLChanged();
+    partial void OnSupportTypeChanging(string value);
+    partial void OnSupportTypeChanged();
     partial void OnEncodedByUserIdChanging(int value);
     partial void OnEncodedByUserIdChanged();
     partial void OnAssignedToUserIdChanging(System.Nullable<int> value);
@@ -6444,6 +6448,26 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._ScreenShotURL = value;
 					this.SendPropertyChanged("ScreenShotURL");
 					this.OnScreenShotURLChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SupportType", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string SupportType
+		{
+			get
+			{
+				return this._SupportType;
+			}
+			set
+			{
+				if ((this._SupportType != value))
+				{
+					this.OnSupportTypeChanging(value);
+					this.SendPropertyChanging();
+					this._SupportType = value;
+					this.SendPropertyChanged("SupportType");
+					this.OnSupportTypeChanged();
 				}
 			}
 		}

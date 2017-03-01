@@ -240,6 +240,7 @@
       <Column Name="Caller" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="Remarks" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="ScreenShotURL" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="SupportType" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="EncodedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AssignedToUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="SupportStatus" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />

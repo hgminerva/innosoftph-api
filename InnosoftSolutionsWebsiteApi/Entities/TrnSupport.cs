@@ -18,6 +18,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String Customer { get; set; }
         public Int32 ProductId { get; set; }
         public String Product { get; set; }
+        public String SupportType { get; set; }
         public String Severity { get; set; }
         public String Caller { get; set; }
         public String Remarks { get; set; }
