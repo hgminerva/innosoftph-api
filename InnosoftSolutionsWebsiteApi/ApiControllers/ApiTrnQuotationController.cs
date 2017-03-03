@@ -30,30 +30,71 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list quotation
-        [HttpGet, Route("list/byQuotationDateRange/{startQuotationDate}/{endQuotationDate}")]
-        public List<Entities.TrnQuotation> listQuotationByLeadDateRange(String startQuotationDate, String endQuotationDate)
+        [HttpGet, Route("list/byQuotationDateRange/{startQuotationDate}/{endQuotationDate}/{status}")]
+        public List<Entities.TrnQuotation> listQuotationByLeadDateRange(String startQuotationDate, String endQuotationDate, String status)
         {
-            var quotations = from d in db.IS_TrnQuotations
-                             where d.QuotationDate >= Convert.ToDateTime(startQuotationDate)
-                             && d.QuotationDate <= Convert.ToDateTime(endQuotationDate)
-                             select new Entities.TrnQuotation
-                             {
-                                 Id = d.Id,
-                                 QuotationNumber = d.QuotationNumber,
-                                 QuotationDate = d.QuotationDate.ToShortDateString(),
-                                 LeadId = d.LeadId,
-                                 LeadNumber = d.IS_TrnLead.LeadNumber,
-                                 CustomerId = d.CustomerId,
-                                 Customer = d.MstArticle.Article,
-                                 ProductId = d.ProductId,
-                                 Product = d.MstArticle1.Article,
-                                 Remarks = d.Remarks,
-                                 EncodedByUserId = d.EncodedByUserId,
-                                 EncodedByUser = d.MstUser.FullName,
-                                 QuotationStatus = d.QuotationStatus
-                             };
+            if (status.Equals("ALL"))
+            {
+                var quotations = from d in db.IS_TrnQuotations.OrderByDescending(d => d.Id)
+                                 where d.QuotationDate >= Convert.ToDateTime(startQuotationDate)
+                                 && d.QuotationDate <= Convert.ToDateTime(endQuotationDate)
+                                 select new Entities.TrnQuotation
+                                 {
+                                     Id = d.Id,
+                                     QuotationNumber = d.QuotationNumber,
+                                     QuotationDate = d.QuotationDate.ToShortDateString(),
+                                     LeadId = d.LeadId,
+                                     LeadNumber = d.IS_TrnLead.LeadNumber,
+                                     CustomerId = d.CustomerId,
+                                     Customer = d.MstArticle.Article,
+                                     ProductId = d.ProductId,
+                                     Product = d.MstArticle1.Article,
+                                     Remarks = d.Remarks,
+                                     EncodedByUserId = d.EncodedByUserId,
+                                     EncodedByUser = d.MstUser.FullName,
+                                     QuotationStatus = d.QuotationStatus
+                                 };
 
-            return quotations.ToList();
+                return quotations.ToList();
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (status.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (status.Equals("CANCELLED"))
+                    {
+                        documentStatus = "CANCELLED";
+                    }
+                }
+
+                var quotations = from d in db.IS_TrnQuotations.OrderByDescending(d => d.Id)
+                                 where d.QuotationDate >= Convert.ToDateTime(startQuotationDate)
+                                 && d.QuotationDate <= Convert.ToDateTime(endQuotationDate)
+                                 && d.QuotationStatus == documentStatus
+                                 select new Entities.TrnQuotation
+                                 {
+                                     Id = d.Id,
+                                     QuotationNumber = d.QuotationNumber,
+                                     QuotationDate = d.QuotationDate.ToShortDateString(),
+                                     LeadId = d.LeadId,
+                                     LeadNumber = d.IS_TrnLead.LeadNumber,
+                                     CustomerId = d.CustomerId,
+                                     Customer = d.MstArticle.Article,
+                                     ProductId = d.ProductId,
+                                     Product = d.MstArticle1.Article,
+                                     Remarks = d.Remarks,
+                                     EncodedByUserId = d.EncodedByUserId,
+                                     EncodedByUser = d.MstUser.FullName,
+                                     QuotationStatus = d.QuotationStatus
+                                 };
+
+                return quotations.ToList();
+            }
         }
 
         // list quotation

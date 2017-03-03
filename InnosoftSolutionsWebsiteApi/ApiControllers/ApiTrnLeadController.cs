@@ -32,33 +32,77 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list lead
-        [HttpGet, Route("list/byLeadDateRange/{startLeadDate}/{endLeadDate}")]
-        public List<Entities.TrnLead> listLeadByLeadDateRange(String startLeadDate, String endLeadDate)
+        [HttpGet, Route("list/byLeadDateRange/{startLeadDate}/{endLeadDate}/{status}")]
+        public List<Entities.TrnLead> listLeadByLeadDateRange(String startLeadDate, String endLeadDate, String status)
         {
-            var leads = from d in db.IS_TrnLeads
-                        where d.LeadDate >= Convert.ToDateTime(startLeadDate)
-                        && d.LeadDate <= Convert.ToDateTime(endLeadDate)
-                        select new Entities.TrnLead
-                        {
-                            Id = d.Id,
-                            LeadNumber = d.LeadNumber,
-                            LeadDate = d.LeadDate.ToShortDateString(),
-                            LeadName = d.LeadName,
-                            Address = d.Address,
-                            ContactPerson = d.ContactPerson,
-                            ContactPosition = d.ContactPosition,
-                            ContactEmail = d.ContactEmail,
-                            ContactPhoneNo = d.ContactPhoneNo,
-                            ReferredBy = d.ReferredBy,
-                            Remarks = d.Remarks,
-                            EncodedByUserId = d.EncodedByUserId,
-                            EncodedByUser = d.MstUser.FullName,
-                            AssignedToUserId = d.AssignedToUserId,
-                            AssignedToUser = d.MstUser1.FullName,
-                            LeadStatus = d.LeadStatus
-                        };
+            if (status.Equals("ALL"))
+            {
+                var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
+                            where d.LeadDate >= Convert.ToDateTime(startLeadDate)
+                            && d.LeadDate <= Convert.ToDateTime(endLeadDate)
+                            select new Entities.TrnLead
+                            {
+                                Id = d.Id,
+                                LeadNumber = d.LeadNumber,
+                                LeadDate = d.LeadDate.ToShortDateString(),
+                                LeadName = d.LeadName,
+                                Address = d.Address,
+                                ContactPerson = d.ContactPerson,
+                                ContactPosition = d.ContactPosition,
+                                ContactEmail = d.ContactEmail,
+                                ContactPhoneNo = d.ContactPhoneNo,
+                                ReferredBy = d.ReferredBy,
+                                Remarks = d.Remarks,
+                                EncodedByUserId = d.EncodedByUserId,
+                                EncodedByUser = d.MstUser.FullName,
+                                AssignedToUserId = d.AssignedToUserId,
+                                AssignedToUser = d.MstUser1.FullName,
+                                LeadStatus = d.LeadStatus
+                            };
 
-            return leads.ToList();
+                return leads.ToList();
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (status.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (status.Equals("CANCELLED"))
+                    {
+                        documentStatus = "CANCELLED";
+                    }
+                }
+
+                var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
+                            where d.LeadDate >= Convert.ToDateTime(startLeadDate)
+                            && d.LeadDate <= Convert.ToDateTime(endLeadDate)
+                            && d.LeadStatus == documentStatus
+                            select new Entities.TrnLead
+                            {
+                                Id = d.Id,
+                                LeadNumber = d.LeadNumber,
+                                LeadDate = d.LeadDate.ToShortDateString(),
+                                LeadName = d.LeadName,
+                                Address = d.Address,
+                                ContactPerson = d.ContactPerson,
+                                ContactPosition = d.ContactPosition,
+                                ContactEmail = d.ContactEmail,
+                                ContactPhoneNo = d.ContactPhoneNo,
+                                ReferredBy = d.ReferredBy,
+                                Remarks = d.Remarks,
+                                EncodedByUserId = d.EncodedByUserId,
+                                EncodedByUser = d.MstUser.FullName,
+                                AssignedToUserId = d.AssignedToUserId,
+                                AssignedToUser = d.MstUser1.FullName,
+                                LeadStatus = d.LeadStatus
+                            };
+
+                return leads.ToList();
+            }
         }
 
         // list lead

@@ -31,31 +31,73 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list softwareDevelopment
-        [HttpGet, Route("list/bySoftwareDevelopmentDateRange/{startSoftwareDevelopmentDate}/{endSoftwareDevelopmentDate}")]
-        public List<Entities.TrnSoftwareDevelopment> listSoftwareDevelopmentBySoftwareDevelopmentDateRange(String startSoftwareDevelopmentDate, String endSoftwareDevelopmentDate)
+        [HttpGet, Route("list/bySoftwareDevelopmentDateRange/{startSoftwareDevelopmentDate}/{endSoftwareDevelopmentDate}/{status}")]
+        public List<Entities.TrnSoftwareDevelopment> listSoftwareDevelopmentBySoftwareDevelopmentDateRange(String startSoftwareDevelopmentDate, String endSoftwareDevelopmentDate, String status)
         {
-            var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments
-                                       where d.SoftDevDate >= Convert.ToDateTime(startSoftwareDevelopmentDate)
-                                       && d.SoftDevDate <= Convert.ToDateTime(endSoftwareDevelopmentDate)
-                                       select new Entities.TrnSoftwareDevelopment
-                                       {
-                                           Id = d.Id,
-                                           SoftDevNumber = d.SoftDevNumber,
-                                           SoftDevDate = d.SoftDevDate.ToShortDateString(),
-                                           ProjectId = d.ProjectId,
-                                           ProjectNumber = d.IS_TrnProject.ProjectNumber,
-                                           ProjectName = d.IS_TrnProject.ProjectName,
-                                           Task = d.Task,
-                                           Remarks = d.Remarks,
-                                           NumberOfHours = d.NumberOfHours,
-                                           EncodedByUserId = d.EncodedByUserId,
-                                           EncodedByUser = d.MstUser.FullName,
-                                           AssignedToUserId = d.AssignedToUserId,
-                                           AssignedToUser = d.MstUser1.FullName,
-                                           SoftDevStatus = d.SoftDevStatus
-                                       };
+            if (status.Equals("ALL"))
+            {
+                var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments.OrderByDescending(d => d.Id)
+                                           where d.SoftDevDate >= Convert.ToDateTime(startSoftwareDevelopmentDate)
+                                           && d.SoftDevDate <= Convert.ToDateTime(endSoftwareDevelopmentDate)
+                                           select new Entities.TrnSoftwareDevelopment
+                                           {
+                                               Id = d.Id,
+                                               SoftDevNumber = d.SoftDevNumber,
+                                               SoftDevDate = d.SoftDevDate.ToShortDateString(),
+                                               ProjectId = d.ProjectId,
+                                               ProjectNumber = d.IS_TrnProject.ProjectNumber,
+                                               ProjectName = d.IS_TrnProject.ProjectName,
+                                               Task = d.Task,
+                                               Remarks = d.Remarks,
+                                               NumberOfHours = d.NumberOfHours,
+                                               EncodedByUserId = d.EncodedByUserId,
+                                               EncodedByUser = d.MstUser.FullName,
+                                               AssignedToUserId = d.AssignedToUserId,
+                                               AssignedToUser = d.MstUser1.FullName,
+                                               SoftDevStatus = d.SoftDevStatus
+                                           };
 
-            return softwareDevelopments.ToList();
+                return softwareDevelopments.ToList();
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (status.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (status.Equals("CANCELLED"))
+                    {
+                        documentStatus = "CANCELLED";
+                    }
+                }
+
+                var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments.OrderByDescending(d => d.Id)
+                                           where d.SoftDevDate >= Convert.ToDateTime(startSoftwareDevelopmentDate)
+                                           && d.SoftDevDate <= Convert.ToDateTime(endSoftwareDevelopmentDate)
+                                           && d.SoftDevStatus == documentStatus
+                                           select new Entities.TrnSoftwareDevelopment
+                                           {
+                                               Id = d.Id,
+                                               SoftDevNumber = d.SoftDevNumber,
+                                               SoftDevDate = d.SoftDevDate.ToShortDateString(),
+                                               ProjectId = d.ProjectId,
+                                               ProjectNumber = d.IS_TrnProject.ProjectNumber,
+                                               ProjectName = d.IS_TrnProject.ProjectName,
+                                               Task = d.Task,
+                                               Remarks = d.Remarks,
+                                               NumberOfHours = d.NumberOfHours,
+                                               EncodedByUserId = d.EncodedByUserId,
+                                               EncodedByUser = d.MstUser.FullName,
+                                               AssignedToUserId = d.AssignedToUserId,
+                                               AssignedToUser = d.MstUser1.FullName,
+                                               SoftDevStatus = d.SoftDevStatus
+                                           };
+
+                return softwareDevelopments.ToList();
+            }
         }
 
         // list softwareDevelopment

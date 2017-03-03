@@ -191,104 +191,71 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // get document with latest activity by document reference and by date ranged
-        [HttpGet, Route("list/byDocument/byDateRanged/{document}/{startDate}/{endDate}")]
-        public List<Entities.TrnActivity> listActivityByDocumentByDateRanged(String document, String startDate, String endDate)
+        [HttpGet, Route("list/byDocument/byDateRanged/{document}/{startDate}/{endDate}/{status}")]
+        public List<Entities.TrnActivity> listActivityByDocumentByDateRanged(String document, String startDate, String endDate, String status)
         {
-            if (document.Equals("Lead"))
+            if (status.Equals("ALL"))
             {
-                var leads = from d in db.IS_TrnLeads
-                            join s in db.IS_TrnActivities
-                            on d.Id equals s.LeadId
-                            into joinActivities
-                            from activities in joinActivities.DefaultIfEmpty()
-                            where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.LeadDate >= Convert.ToDateTime(startDate))
-                            && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.LeadDate <= Convert.ToDateTime(endDate))
-                            && (activities.ActivityDate == null ? d.LeadDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
-                            select new Entities.TrnActivity
-                            {
-                                Id = activities.Id == null ? 0 : activities.Id,
-                                DocumentNumber = "LN - " + d.LeadNumber,
-                                ActivityDate = activities.ActivityDate == null ? d.LeadDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
-                                Particulars = d.LeadName + " - " + d.Remarks,
-                                Activity = activities.Particulars == null ? " " : activities.Particulars,
-                                StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
-                                LeadId = d.Id,
-                                QuotationId = null,
-                                DeliveryId = null,
-                                SupportId = null,
-                                SoftwareDevelopmentId = null,
-                                CustomerId = null,
-                                ProductId = null,
-                                ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
-                                NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
-                                ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
-                                ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
-                                HeaderStatus = d.LeadStatus,
-                                EncodedBy = d.MstUser.FullName
-                            };
-
-                return leads.ToList();
-            }
-            else
-            {
-                if (document.Equals("Quotation"))
+                if (document.Equals("Lead"))
                 {
-                    var quotations = from d in db.IS_TrnQuotations
-                                     join s in db.IS_TrnActivities
-                                     on d.Id equals s.QuotationId
-                                     into joinActivities
-                                     from activities in joinActivities.DefaultIfEmpty()
-                                     where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.QuotationDate >= Convert.ToDateTime(startDate))
-                                     && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.QuotationDate <= Convert.ToDateTime(endDate))
-                                     && (activities.ActivityDate == null ? d.QuotationDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
-                                     select new Entities.TrnActivity
-                                     {
-                                         Id = activities.Id == null ? 0 : activities.Id,
-                                         DocumentNumber = "QN - " + d.QuotationNumber,
-                                         ActivityDate = activities.ActivityDate == null ? d.QuotationDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
-                                         Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
-                                         Activity = activities.Particulars == null ? " " : activities.Particulars,
-                                         StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
-                                         LeadId = null,
-                                         QuotationId = d.Id,
-                                         DeliveryId = null,
-                                         SupportId = null,
-                                         SoftwareDevelopmentId = null,
-                                         CustomerId = d.CustomerId,
-                                         ProductId = d.ProductId,
-                                         ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
-                                         NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
-                                         ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
-                                         ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
-                                         HeaderStatus = d.QuotationStatus,
-                                         EncodedBy = d.MstUser.FullName
-                                     };
+                    var leads = from d in db.IS_TrnLeads
+                                join s in db.IS_TrnActivities
+                                on d.Id equals s.LeadId
+                                into joinActivities
+                                from activities in joinActivities.DefaultIfEmpty()
+                                where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.LeadDate >= Convert.ToDateTime(startDate))
+                                && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.LeadDate <= Convert.ToDateTime(endDate))
+                                && (activities.ActivityDate == null ? d.LeadDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                select new Entities.TrnActivity
+                                {
+                                    Id = activities.Id == null ? 0 : activities.Id,
+                                    DocumentNumber = "LN - " + d.LeadNumber,
+                                    ActivityDate = activities.ActivityDate == null ? d.LeadDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                    Particulars = d.LeadName + " - " + d.Remarks,
+                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                    LeadId = d.Id,
+                                    QuotationId = null,
+                                    DeliveryId = null,
+                                    SupportId = null,
+                                    SoftwareDevelopmentId = null,
+                                    CustomerId = null,
+                                    ProductId = null,
+                                    ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                    NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                    HeaderStatus = d.LeadStatus,
+                                    EncodedBy = d.MstUser.FullName
+                                };
 
-                    return quotations.ToList();
+                    return leads.ToList();
                 }
                 else
                 {
-                    if (document.Equals("Delivery"))
+                    if (document.Equals("Quotation"))
                     {
-                        var deliveries = from d in db.IS_TrnDeliveries
+                        var quotations = from d in db.IS_TrnQuotations
                                          join s in db.IS_TrnActivities
-                                         on d.Id equals s.DeliveryId
+                                         on d.Id equals s.QuotationId
                                          into joinActivities
                                          from activities in joinActivities.DefaultIfEmpty()
-                                         where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.DeliveryDate >= Convert.ToDateTime(startDate))
-                                         && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.DeliveryDate <= Convert.ToDateTime(endDate))
-                                         && (activities.ActivityDate == null ? d.DeliveryDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                         where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.QuotationDate >= Convert.ToDateTime(startDate))
+                                         && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.QuotationDate <= Convert.ToDateTime(endDate))
+                                         && (activities.ActivityDate == null ? d.QuotationDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                          select new Entities.TrnActivity
                                          {
                                              Id = activities.Id == null ? 0 : activities.Id,
-                                             DocumentNumber = "DN - " + d.DeliveryNumber,
-                                             ActivityDate = activities.ActivityDate == null ? d.DeliveryDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                             DocumentNumber = "QN - " + d.QuotationNumber,
+                                             ActivityDate = activities.ActivityDate == null ? d.QuotationDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                              Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
                                              Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                             StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                              StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
                                              LeadId = null,
-                                             QuotationId = null,
-                                             DeliveryId = d.Id,
+                                             QuotationId = d.Id,
+                                             DeliveryId = null,
                                              SupportId = null,
                                              SoftwareDevelopmentId = null,
                                              CustomerId = d.CustomerId,
@@ -297,81 +264,83 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
                                              ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                              ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
-                                             HeaderStatus = d.DeliveryStatus,
+                                             HeaderStatus = d.QuotationStatus,
                                              EncodedBy = d.MstUser.FullName
                                          };
 
-                        return deliveries.ToList();
+                        return quotations.ToList();
                     }
                     else
                     {
-                        if (document.Equals("Support"))
+                        if (document.Equals("Delivery"))
                         {
-                            var supports = from d in db.IS_TrnSupports
-                                           join s in db.IS_TrnActivities
-                                           on d.Id equals s.SupportId
-                                           into joinActivities
-                                           from activities in joinActivities.DefaultIfEmpty()
-                                           where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
-                                           && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
-                                           && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
-                                           select new Entities.TrnActivity
-                                           {
-                                               Id = activities.Id == null ? 0 : activities.Id,
-                                               DocumentNumber = "SN - " + d.SupportNumber,
-                                               ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
-                                               Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
-                                               Activity = activities.Particulars == null ? " " : activities.Particulars,
-                                               StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
-                                               LeadId = null,
-                                               QuotationId = null,
-                                               DeliveryId = null,
-                                               SupportId = d.Id,
-                                               SoftwareDevelopmentId = null,
-                                               CustomerId = d.CustomerId,
-                                               ProductId = d.ProductId,
-                                               ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
-                                               NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
-                                               ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
-                                               ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
-                                               HeaderStatus = d.SupportStatus,
-                                               EncodedBy = d.MstUser.FullName
-                                           };
+                            var deliveries = from d in db.IS_TrnDeliveries
+                                             join s in db.IS_TrnActivities
+                                             on d.Id equals s.DeliveryId
+                                             into joinActivities
+                                             from activities in joinActivities.DefaultIfEmpty()
+                                             where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.DeliveryDate >= Convert.ToDateTime(startDate))
+                                             && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.DeliveryDate <= Convert.ToDateTime(endDate))
+                                             && (activities.ActivityDate == null ? d.DeliveryDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                             select new Entities.TrnActivity
+                                             {
+                                                 Id = activities.Id == null ? 0 : activities.Id,
+                                                 DocumentNumber = "DN - " + d.DeliveryNumber,
+                                                 ActivityDate = activities.ActivityDate == null ? d.DeliveryDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                 Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                 Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                 StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                 StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                 LeadId = null,
+                                                 QuotationId = null,
+                                                 DeliveryId = d.Id,
+                                                 SupportId = null,
+                                                 SoftwareDevelopmentId = null,
+                                                 CustomerId = d.CustomerId,
+                                                 ProductId = d.ProductId,
+                                                 ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                 NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                 ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                 ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                 HeaderStatus = d.DeliveryStatus,
+                                                 EncodedBy = d.MstUser.FullName
+                                             };
 
-                            return supports.ToList();
+                            return deliveries.ToList();
                         }
                         else
                         {
-                            if (document.Equals("Software Development"))
+                            if (document.Equals("Support"))
                             {
-                                var supports = from d in db.IS_TrnSoftwareDevelopments
+                                var supports = from d in db.IS_TrnSupports
                                                join s in db.IS_TrnActivities
-                                               on d.Id equals s.SoftwareDevelopmentId
+                                               on d.Id equals s.SupportId
                                                into joinActivities
                                                from activities in joinActivities.DefaultIfEmpty()
-                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SoftDevDate >= Convert.ToDateTime(startDate))
-                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SoftDevDate <= Convert.ToDateTime(endDate))
-                                               && (activities.ActivityDate == null ? d.SoftDevDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                               && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
                                                select new Entities.TrnActivity
                                                {
                                                    Id = activities.Id == null ? 0 : activities.Id,
-                                                   DocumentNumber = "SD - " + d.SoftDevNumber,
-                                                   ActivityDate = activities.ActivityDate == null ? d.SoftDevDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
-                                                   Particulars = d.Task + " - " + d.Remarks,
+                                                   DocumentNumber = "SN - " + d.SupportNumber,
+                                                   ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                   Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
                                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                   StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
                                                    LeadId = null,
                                                    QuotationId = null,
                                                    DeliveryId = null,
-                                                   SupportId = null,
-                                                   SoftwareDevelopmentId = d.Id,
-                                                   CustomerId = null,
-                                                   ProductId = null,
+                                                   SupportId = d.Id,
+                                                   SoftwareDevelopmentId = null,
+                                                   CustomerId = d.CustomerId,
+                                                   ProductId = d.ProductId,
                                                    ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
                                                    NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
                                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
-                                                   HeaderStatus = d.SoftDevStatus,
+                                                   HeaderStatus = d.SupportStatus,
                                                    EncodedBy = d.MstUser.FullName
                                                };
 
@@ -379,7 +348,439 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             }
                             else
                             {
-                                return null;
+                                if (document.Equals("Software Development"))
+                                {
+                                    var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments
+                                                               join s in db.IS_TrnActivities
+                                                               on d.Id equals s.SoftwareDevelopmentId
+                                                               into joinActivities
+                                                               from activities in joinActivities.DefaultIfEmpty()
+                                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SoftDevDate >= Convert.ToDateTime(startDate))
+                                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SoftDevDate <= Convert.ToDateTime(endDate))
+                                                               && (activities.ActivityDate == null ? d.SoftDevDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                               select new Entities.TrnActivity
+                                                               {
+                                                                   Id = activities.Id == null ? 0 : activities.Id,
+                                                                   DocumentNumber = "SD - " + d.SoftDevNumber,
+                                                                   ActivityDate = activities.ActivityDate == null ? d.SoftDevDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                                   Particulars = d.Task + " - " + d.Remarks,
+                                                                   Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                                   StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                                   StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                                   LeadId = null,
+                                                                   QuotationId = null,
+                                                                   DeliveryId = null,
+                                                                   SupportId = null,
+                                                                   SoftwareDevelopmentId = d.Id,
+                                                                   CustomerId = null,
+                                                                   ProductId = null,
+                                                                   ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                                   NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                                   ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                                   ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                                   HeaderStatus = d.SoftDevStatus,
+                                                                   EncodedBy = d.MstUser.FullName
+                                                               };
+
+                                    return softwareDevelopments.ToList();
+                                }
+                                else
+                                {
+                                    if (document.Equals("Support - Technical"))
+                                    {
+                                        var supports = from d in db.IS_TrnSupports
+                                                       join s in db.IS_TrnActivities
+                                                       on d.Id equals s.SupportId
+                                                       into joinActivities
+                                                       from activities in joinActivities.DefaultIfEmpty()
+                                                       where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                                       && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                                       && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                       && d.SupportType == "Technical"
+                                                       select new Entities.TrnActivity
+                                                       {
+                                                           Id = activities.Id == null ? 0 : activities.Id,
+                                                           DocumentNumber = "SN - " + d.SupportNumber,
+                                                           ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                           Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                           Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                           StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                           StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                           LeadId = null,
+                                                           QuotationId = null,
+                                                           DeliveryId = null,
+                                                           SupportId = d.Id,
+                                                           SoftwareDevelopmentId = null,
+                                                           CustomerId = d.CustomerId,
+                                                           ProductId = d.ProductId,
+                                                           ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                           NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                           ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                           ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                           HeaderStatus = d.SupportStatus,
+                                                           EncodedBy = d.MstUser.FullName
+                                                       };
+
+                                        return supports.ToList();
+                                    }
+                                    else
+                                    {
+                                        if (document.Equals("Support - Functional"))
+                                        {
+                                            var supports = from d in db.IS_TrnSupports
+                                                           join s in db.IS_TrnActivities
+                                                           on d.Id equals s.SupportId
+                                                           into joinActivities
+                                                           from activities in joinActivities.DefaultIfEmpty()
+                                                           where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                                           && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                                           && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                           && d.SupportType == "Functional"
+                                                           select new Entities.TrnActivity
+                                                           {
+                                                               Id = activities.Id == null ? 0 : activities.Id,
+                                                               DocumentNumber = "SN - " + d.SupportNumber,
+                                                               ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                               Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                               Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                               StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                               StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                               LeadId = null,
+                                                               QuotationId = null,
+                                                               DeliveryId = null,
+                                                               SupportId = d.Id,
+                                                               SoftwareDevelopmentId = null,
+                                                               CustomerId = d.CustomerId,
+                                                               ProductId = d.ProductId,
+                                                               ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                               NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                               ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                               ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                               HeaderStatus = d.SupportStatus,
+                                                               EncodedBy = d.MstUser.FullName
+                                                           };
+
+                                            return supports.ToList();
+                                        }
+                                        else
+                                        {
+                                            return null;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (status.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (status.Equals("WAITING FOR CLIENT"))
+                    {
+                        documentStatus = "WAITING FOR CLIENT";
+                    }
+                    else
+                    {
+                        if (status.Equals("CANCELLED"))
+                        {
+                            documentStatus = "CANCELLED";
+                        }
+                        else
+                        {
+                            if (status.Equals("DONE"))
+                            {
+                                documentStatus = "DONE";
+                            }
+                        }
+                    }
+                }
+
+                if (document.Equals("Lead"))
+                {
+                    var leads = from d in db.IS_TrnLeads
+                                join s in db.IS_TrnActivities
+                                on d.Id equals s.LeadId
+                                into joinActivities
+                                from activities in joinActivities.DefaultIfEmpty()
+                                where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.LeadDate >= Convert.ToDateTime(startDate))
+                                && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.LeadDate <= Convert.ToDateTime(endDate))
+                                && (activities.ActivityDate == null ? d.LeadDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                && d.LeadStatus == documentStatus
+                                select new Entities.TrnActivity
+                                {
+                                    Id = activities.Id == null ? 0 : activities.Id,
+                                    DocumentNumber = "LN - " + d.LeadNumber,
+                                    ActivityDate = activities.ActivityDate == null ? d.LeadDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                    Particulars = d.LeadName + " - " + d.Remarks,
+                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                    LeadId = d.Id,
+                                    QuotationId = null,
+                                    DeliveryId = null,
+                                    SupportId = null,
+                                    SoftwareDevelopmentId = null,
+                                    CustomerId = null,
+                                    ProductId = null,
+                                    ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                    NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                    HeaderStatus = d.LeadStatus,
+                                    EncodedBy = d.MstUser.FullName
+                                };
+
+                    return leads.ToList();
+                }
+                else
+                {
+                    if (document.Equals("Quotation"))
+                    {
+                        var quotations = from d in db.IS_TrnQuotations
+                                         join s in db.IS_TrnActivities
+                                         on d.Id equals s.QuotationId
+                                         into joinActivities
+                                         from activities in joinActivities.DefaultIfEmpty()
+                                         where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.QuotationDate >= Convert.ToDateTime(startDate))
+                                         && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.QuotationDate <= Convert.ToDateTime(endDate))
+                                         && (activities.ActivityDate == null ? d.QuotationDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                         && d.QuotationStatus == documentStatus
+                                         select new Entities.TrnActivity
+                                         {
+                                             Id = activities.Id == null ? 0 : activities.Id,
+                                             DocumentNumber = "QN - " + d.QuotationNumber,
+                                             ActivityDate = activities.ActivityDate == null ? d.QuotationDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                             Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                             Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                             StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                             StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                             LeadId = null,
+                                             QuotationId = d.Id,
+                                             DeliveryId = null,
+                                             SupportId = null,
+                                             SoftwareDevelopmentId = null,
+                                             CustomerId = d.CustomerId,
+                                             ProductId = d.ProductId,
+                                             ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                             NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                             ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                             ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                             HeaderStatus = d.QuotationStatus,
+                                             EncodedBy = d.MstUser.FullName
+                                         };
+
+                        return quotations.ToList();
+                    }
+                    else
+                    {
+                        if (document.Equals("Delivery"))
+                        {
+                            var deliveries = from d in db.IS_TrnDeliveries
+                                             join s in db.IS_TrnActivities
+                                             on d.Id equals s.DeliveryId
+                                             into joinActivities
+                                             from activities in joinActivities.DefaultIfEmpty()
+                                             where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.DeliveryDate >= Convert.ToDateTime(startDate))
+                                             && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.DeliveryDate <= Convert.ToDateTime(endDate))
+                                             && (activities.ActivityDate == null ? d.DeliveryDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                             && d.DeliveryStatus == documentStatus
+                                             select new Entities.TrnActivity
+                                             {
+                                                 Id = activities.Id == null ? 0 : activities.Id,
+                                                 DocumentNumber = "DN - " + d.DeliveryNumber,
+                                                 ActivityDate = activities.ActivityDate == null ? d.DeliveryDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                 Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                 Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                 StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                 StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                 LeadId = null,
+                                                 QuotationId = null,
+                                                 DeliveryId = d.Id,
+                                                 SupportId = null,
+                                                 SoftwareDevelopmentId = null,
+                                                 CustomerId = d.CustomerId,
+                                                 ProductId = d.ProductId,
+                                                 ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                 NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                 ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                 ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                 HeaderStatus = d.DeliveryStatus,
+                                                 EncodedBy = d.MstUser.FullName
+                                             };
+
+                            return deliveries.ToList();
+                        }
+                        else
+                        {
+                            if (document.Equals("Support"))
+                            {
+                                var supports = from d in db.IS_TrnSupports
+                                               join s in db.IS_TrnActivities
+                                               on d.Id equals s.SupportId
+                                               into joinActivities
+                                               from activities in joinActivities.DefaultIfEmpty()
+                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                               && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                               && d.SupportStatus == documentStatus
+                                               select new Entities.TrnActivity
+                                               {
+                                                   Id = activities.Id == null ? 0 : activities.Id,
+                                                   DocumentNumber = "SN - " + d.SupportNumber,
+                                                   ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                   Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                   Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                   StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                   StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                   LeadId = null,
+                                                   QuotationId = null,
+                                                   DeliveryId = null,
+                                                   SupportId = d.Id,
+                                                   SoftwareDevelopmentId = null,
+                                                   CustomerId = d.CustomerId,
+                                                   ProductId = d.ProductId,
+                                                   ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                   NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                   ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                   ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                   HeaderStatus = d.SupportStatus,
+                                                   EncodedBy = d.MstUser.FullName
+                                               };
+
+                                return supports.ToList();
+                            }
+                            else
+                            {
+                                if (document.Equals("Software Development"))
+                                {
+                                    var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments
+                                                               join s in db.IS_TrnActivities
+                                                               on d.Id equals s.SoftwareDevelopmentId
+                                                               into joinActivities
+                                                               from activities in joinActivities.DefaultIfEmpty()
+                                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SoftDevDate >= Convert.ToDateTime(startDate))
+                                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SoftDevDate <= Convert.ToDateTime(endDate))
+                                                               && (activities.ActivityDate == null ? d.SoftDevDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                               && d.SoftDevStatus == documentStatus
+                                                               select new Entities.TrnActivity
+                                                               {
+                                                                   Id = activities.Id == null ? 0 : activities.Id,
+                                                                   DocumentNumber = "SD - " + d.SoftDevNumber,
+                                                                   ActivityDate = activities.ActivityDate == null ? d.SoftDevDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                                   Particulars = d.Task + " - " + d.Remarks,
+                                                                   Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                                   StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                                   StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                                   LeadId = null,
+                                                                   QuotationId = null,
+                                                                   DeliveryId = null,
+                                                                   SupportId = null,
+                                                                   SoftwareDevelopmentId = d.Id,
+                                                                   CustomerId = null,
+                                                                   ProductId = null,
+                                                                   ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                                   NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                                   ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                                   ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                                   HeaderStatus = d.SoftDevStatus,
+                                                                   EncodedBy = d.MstUser.FullName
+                                                               };
+
+                                    return softwareDevelopments.ToList();
+                                }
+                                else
+                                {
+                                    if (document.Equals("Support - Technical"))
+                                    {
+                                        var supports = from d in db.IS_TrnSupports
+                                                       join s in db.IS_TrnActivities
+                                                       on d.Id equals s.SupportId
+                                                       into joinActivities
+                                                       from activities in joinActivities.DefaultIfEmpty()
+                                                       where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                                       && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                                       && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                       && d.SupportType == "Technical"
+                                                       && d.SupportStatus == documentStatus
+                                                       select new Entities.TrnActivity
+                                                       {
+                                                           Id = activities.Id == null ? 0 : activities.Id,
+                                                           DocumentNumber = "SN - " + d.SupportNumber,
+                                                           ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                           Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                           Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                           StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                           StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                           LeadId = null,
+                                                           QuotationId = null,
+                                                           DeliveryId = null,
+                                                           SupportId = d.Id,
+                                                           SoftwareDevelopmentId = null,
+                                                           CustomerId = d.CustomerId,
+                                                           ProductId = d.ProductId,
+                                                           ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                           NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                           ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                           ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                           HeaderStatus = d.SupportStatus,
+                                                           EncodedBy = d.MstUser.FullName
+                                                       };
+
+                                        return supports.ToList();
+                                    }
+                                    else
+                                    {
+                                        if (document.Equals("Support - Functional"))
+                                        {
+                                            var supports = from d in db.IS_TrnSupports
+                                                           join s in db.IS_TrnActivities
+                                                           on d.Id equals s.SupportId
+                                                           into joinActivities
+                                                           from activities in joinActivities.DefaultIfEmpty()
+                                                           where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                                           && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                                           && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                           && d.SupportType == "Functional"
+                                                           && d.SupportStatus == documentStatus
+                                                           select new Entities.TrnActivity
+                                                           {
+                                                               Id = activities.Id == null ? 0 : activities.Id,
+                                                               DocumentNumber = "SN - " + d.SupportNumber,
+                                                               ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                               Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                               Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                               StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                               StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                               LeadId = null,
+                                                               QuotationId = null,
+                                                               DeliveryId = null,
+                                                               SupportId = d.Id,
+                                                               SoftwareDevelopmentId = null,
+                                                               CustomerId = d.CustomerId,
+                                                               ProductId = d.ProductId,
+                                                               ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                               NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                               ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                               ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                               HeaderStatus = d.SupportStatus,
+                                                               EncodedBy = d.MstUser.FullName
+                                                           };
+
+                                            return supports.ToList();
+                                        }
+                                        else
+                                        {
+                                            return null;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -405,7 +806,16 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 Data.IS_TrnActivity newActivity = new Data.IS_TrnActivity();
                 newActivity.ActivityNumber = activityNumberValue;
                 newActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
-                newActivity.StaffUserId = userId;
+
+                if (activity.SupportId != null)
+                {
+                    newActivity.StaffUserId = activity.StaffUserId;
+                }
+                else
+                {
+                    newActivity.StaffUserId = userId;
+                }
+
                 newActivity.CustomerId = activity.CustomerId;
                 newActivity.ProductId = activity.ProductId;
                 newActivity.ParticularCategory = activity.ParticularCategory;
@@ -440,7 +850,12 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 {
                     var updateActivity = activities.FirstOrDefault();
                     updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
-                    //updateActivity.StaffUserId = activity.StaffUserId;
+
+                    if (activity.SupportId != null)
+                    {
+                        updateActivity.StaffUserId = activity.StaffUserId;
+                    }
+
                     updateActivity.CustomerId = activity.CustomerId;
                     updateActivity.ProductId = activity.ProductId;
                     updateActivity.ParticularCategory = activity.ParticularCategory;

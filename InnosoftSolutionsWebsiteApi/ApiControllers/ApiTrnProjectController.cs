@@ -30,32 +30,75 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list project
-        [HttpGet, Route("list/byProjectDateRange/{startProjectDate}/{endProjectDate}")]
-        public List<Entities.TrnProject> listProjectByProjectDateRange(String startProjectDate, String endProjectDate)
+        [HttpGet, Route("list/byProjectDateRange/{startProjectDate}/{endProjectDate}/{status}")]
+        public List<Entities.TrnProject> listProjectByProjectDateRange(String startProjectDate, String endProjectDate, String status)
         {
-            var projects = from d in db.IS_TrnProjects
-                           where d.ProjectDate >= Convert.ToDateTime(startProjectDate)
-                           && d.ProjectDate <= Convert.ToDateTime(endProjectDate)
-                           select new Entities.TrnProject
-                           {
-                               Id = d.Id,
-                               ProjectNumber = d.ProjectNumber,
-                               ProjectDate = d.ProjectDate.ToShortDateString(),
-                               ProjectName = d.ProjectName,
-                               ProjectType = d.ProjectType,
-                               CustomerId = d.CustomerId,
-                               Customer = d.MstArticle.Article,
-                               Particulars = d.Particulars,
-                               EncodedByUserId = d.EncodedByUserId,
-                               EncodedByUser = d.MstUser.FullName,
-                               ProjectManagerUserId = d.ProjectManagerUserId,
-                               ProjectManagerUser = d.MstUser1.FullName,
-                               ProjectStartDate = d.ProjectStartDate.ToShortDateString(),
-                               ProjectEndDate = d.ProjectEndDate.ToShortDateString(),
-                               ProjectStatus = d.ProjectStatus
-                           };
+            if (status.Equals("ALL"))
+            {
+                var projects = from d in db.IS_TrnProjects.OrderByDescending(d => d.Id)
+                               where d.ProjectDate >= Convert.ToDateTime(startProjectDate)
+                               && d.ProjectDate <= Convert.ToDateTime(endProjectDate)
+                               select new Entities.TrnProject
+                               {
+                                   Id = d.Id,
+                                   ProjectNumber = d.ProjectNumber,
+                                   ProjectDate = d.ProjectDate.ToShortDateString(),
+                                   ProjectName = d.ProjectName,
+                                   ProjectType = d.ProjectType,
+                                   CustomerId = d.CustomerId,
+                                   Customer = d.MstArticle.Article,
+                                   Particulars = d.Particulars,
+                                   EncodedByUserId = d.EncodedByUserId,
+                                   EncodedByUser = d.MstUser.FullName,
+                                   ProjectManagerUserId = d.ProjectManagerUserId,
+                                   ProjectManagerUser = d.MstUser1.FullName,
+                                   ProjectStartDate = d.ProjectStartDate.ToShortDateString(),
+                                   ProjectEndDate = d.ProjectEndDate.ToShortDateString(),
+                                   ProjectStatus = d.ProjectStatus
+                               };
 
-            return projects.ToList();
+                return projects.ToList();
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (status.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (status.Equals("CANCELLED"))
+                    {
+                        documentStatus = "CANCELLED";
+                    }
+                }
+
+                var projects = from d in db.IS_TrnProjects.OrderByDescending(d => d.Id)
+                               where d.ProjectDate >= Convert.ToDateTime(startProjectDate)
+                               && d.ProjectDate <= Convert.ToDateTime(endProjectDate)
+                               && d.ProjectStatus == documentStatus
+                               select new Entities.TrnProject
+                               {
+                                   Id = d.Id,
+                                   ProjectNumber = d.ProjectNumber,
+                                   ProjectDate = d.ProjectDate.ToShortDateString(),
+                                   ProjectName = d.ProjectName,
+                                   ProjectType = d.ProjectType,
+                                   CustomerId = d.CustomerId,
+                                   Customer = d.MstArticle.Article,
+                                   Particulars = d.Particulars,
+                                   EncodedByUserId = d.EncodedByUserId,
+                                   EncodedByUser = d.MstUser.FullName,
+                                   ProjectManagerUserId = d.ProjectManagerUserId,
+                                   ProjectManagerUser = d.MstUser1.FullName,
+                                   ProjectStartDate = d.ProjectStartDate.ToShortDateString(),
+                                   ProjectEndDate = d.ProjectEndDate.ToShortDateString(),
+                                   ProjectStatus = d.ProjectStatus
+                               };
+
+                return projects.ToList();
+            }
         }
 
         // list project by status

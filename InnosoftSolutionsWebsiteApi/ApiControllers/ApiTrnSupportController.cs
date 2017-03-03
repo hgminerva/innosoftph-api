@@ -31,38 +31,173 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list support
-        [HttpGet, Route("list/bySupportDateRange/{startSupportDate}/{endSupportDate}")]
-        public List<Entities.TrnSupport> listSupportBySupportDateRange(String startSupportDate, String endSupportDate)
+        [HttpGet, Route("list/bySupportDateRange/{startSupportDate}/{endSupportDate}/{status}/{supportType}")]
+        public List<Entities.TrnSupport> listSupportBySupportDateRange(String startSupportDate, String endSupportDate, String status, String supportType)
         {
-            var supports = from d in db.IS_TrnSupports
-                           where d.SupportDate >= Convert.ToDateTime(startSupportDate)
-                           && d.SupportDate <= Convert.ToDateTime(endSupportDate)
-                           select new Entities.TrnSupport
-                           {
-                               Id = d.Id,
-                               SupportNumber = d.SupportNumber,
-                               SupportDate = d.SupportDate.ToShortDateString(),
-                               ContinuityId = d.ContinuityId,
-                               ContinuityNumber = d.IS_TrnContinuity.ContinuityNumber,
-                               IssueCategory = d.IssueCategory,
-                               Issue = d.Issue,
-                               CustomerId = d.CustomerId,
-                               Customer = d.MstArticle.Article,
-                               ProductId = d.ProductId,
-                               Product = d.MstArticle1.Article,
-                               SupportType = d.SupportType,
-                               Severity = d.Severity,
-                               Caller = d.Caller,
-                               Remarks = d.Remarks,
-                               ScreenShotURL = d.ScreenShotURL,
-                               EncodedByUserId = d.EncodedByUserId,
-                               EncodedByUser = d.MstUser.FullName,
-                               AssignedToUserId = d.AssignedToUserId,
-                               AssignedToUser = d.MstUser1.FullName,
-                               SupportStatus = d.SupportStatus
-                           };
+            String documentStatus = "OPEN";
+            if (status.Equals("CLOSE"))
+            {
+                documentStatus = "CLOSE";
+            }
+            else
+            {
+                if (status.Equals("WAITING FOR CLIENT"))
+                {
+                    documentStatus = "WAITING FOR CLIENT";
+                }
+                else
+                {
+                    if (status.Equals("CANCELLED"))
+                    {
+                        documentStatus = "CANCELLED";
+                    }
+                }
+            }
 
-            return supports.ToList();
+            String documentSupportType = "Technical";
+            if (supportType.Equals("Functional"))
+            {
+                documentSupportType = "Functional";
+            }
+
+            if (status.Equals("ALL"))
+            {
+                if (supportType.Equals("ALL"))
+                {
+                    var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
+                                   where d.SupportDate >= Convert.ToDateTime(startSupportDate)
+                                   && d.SupportDate <= Convert.ToDateTime(endSupportDate)
+                                   select new Entities.TrnSupport
+                                   {
+                                       Id = d.Id,
+                                       SupportNumber = d.SupportNumber,
+                                       SupportDate = d.SupportDate.ToShortDateString(),
+                                       ContinuityId = d.ContinuityId,
+                                       ContinuityNumber = d.IS_TrnContinuity.ContinuityNumber,
+                                       IssueCategory = d.IssueCategory,
+                                       Issue = d.Issue,
+                                       CustomerId = d.CustomerId,
+                                       Customer = d.MstArticle.Article,
+                                       ProductId = d.ProductId,
+                                       Product = d.MstArticle1.Article,
+                                       SupportType = d.SupportType,
+                                       Severity = d.Severity,
+                                       Caller = d.Caller,
+                                       Remarks = d.Remarks,
+                                       ScreenShotURL = d.ScreenShotURL,
+                                       EncodedByUserId = d.EncodedByUserId,
+                                       EncodedByUser = d.MstUser.FullName,
+                                       AssignedToUserId = d.AssignedToUserId,
+                                       AssignedToUser = d.MstUser1.FullName,
+                                       SupportStatus = d.SupportStatus
+                                   };
+
+                    return supports.ToList();
+                }
+                else
+                {
+                    var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
+                                   where d.SupportDate >= Convert.ToDateTime(startSupportDate)
+                                   && d.SupportDate <= Convert.ToDateTime(endSupportDate)
+                                   && d.SupportType == documentSupportType
+                                   select new Entities.TrnSupport
+                                   {
+                                       Id = d.Id,
+                                       SupportNumber = d.SupportNumber,
+                                       SupportDate = d.SupportDate.ToShortDateString(),
+                                       ContinuityId = d.ContinuityId,
+                                       ContinuityNumber = d.IS_TrnContinuity.ContinuityNumber,
+                                       IssueCategory = d.IssueCategory,
+                                       Issue = d.Issue,
+                                       CustomerId = d.CustomerId,
+                                       Customer = d.MstArticle.Article,
+                                       ProductId = d.ProductId,
+                                       Product = d.MstArticle1.Article,
+                                       SupportType = d.SupportType,
+                                       Severity = d.Severity,
+                                       Caller = d.Caller,
+                                       Remarks = d.Remarks,
+                                       ScreenShotURL = d.ScreenShotURL,
+                                       EncodedByUserId = d.EncodedByUserId,
+                                       EncodedByUser = d.MstUser.FullName,
+                                       AssignedToUserId = d.AssignedToUserId,
+                                       AssignedToUser = d.MstUser1.FullName,
+                                       SupportStatus = d.SupportStatus
+                                   };
+
+                    return supports.ToList();
+                }
+            }
+            else
+            {
+                if (supportType.Equals("ALL"))
+                {
+                    var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
+                                   where d.SupportDate >= Convert.ToDateTime(startSupportDate)
+                                   && d.SupportDate <= Convert.ToDateTime(endSupportDate)
+                                   && d.SupportStatus == documentStatus
+                                   select new Entities.TrnSupport
+                                   {
+                                       Id = d.Id,
+                                       SupportNumber = d.SupportNumber,
+                                       SupportDate = d.SupportDate.ToShortDateString(),
+                                       ContinuityId = d.ContinuityId,
+                                       ContinuityNumber = d.IS_TrnContinuity.ContinuityNumber,
+                                       IssueCategory = d.IssueCategory,
+                                       Issue = d.Issue,
+                                       CustomerId = d.CustomerId,
+                                       Customer = d.MstArticle.Article,
+                                       ProductId = d.ProductId,
+                                       Product = d.MstArticle1.Article,
+                                       SupportType = d.SupportType,
+                                       Severity = d.Severity,
+                                       Caller = d.Caller,
+                                       Remarks = d.Remarks,
+                                       ScreenShotURL = d.ScreenShotURL,
+                                       EncodedByUserId = d.EncodedByUserId,
+                                       EncodedByUser = d.MstUser.FullName,
+                                       AssignedToUserId = d.AssignedToUserId,
+                                       AssignedToUser = d.MstUser1.FullName,
+                                       SupportStatus = d.SupportStatus
+                                   };
+
+                    return supports.ToList();
+                }
+                else
+                {
+                    var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
+                                   where d.SupportDate >= Convert.ToDateTime(startSupportDate)
+                                   && d.SupportDate <= Convert.ToDateTime(endSupportDate)
+                                   && d.SupportStatus == documentStatus
+                                   && d.SupportType == documentSupportType
+                                   select new Entities.TrnSupport
+                                   {
+                                       Id = d.Id,
+                                       SupportNumber = d.SupportNumber,
+                                       SupportDate = d.SupportDate.ToShortDateString(),
+                                       ContinuityId = d.ContinuityId,
+                                       ContinuityNumber = d.IS_TrnContinuity.ContinuityNumber,
+                                       IssueCategory = d.IssueCategory,
+                                       Issue = d.Issue,
+                                       CustomerId = d.CustomerId,
+                                       Customer = d.MstArticle.Article,
+                                       ProductId = d.ProductId,
+                                       Product = d.MstArticle1.Article,
+                                       SupportType = d.SupportType,
+                                       Severity = d.Severity,
+                                       Caller = d.Caller,
+                                       Remarks = d.Remarks,
+                                       ScreenShotURL = d.ScreenShotURL,
+                                       EncodedByUserId = d.EncodedByUserId,
+                                       EncodedByUser = d.MstUser.FullName,
+                                       AssignedToUserId = d.AssignedToUserId,
+                                       AssignedToUser = d.MstUser1.FullName,
+                                       SupportStatus = d.SupportStatus
+                                   };
+
+                    return supports.ToList();
+                }
+            }
         }
 
         // get support by id

@@ -31,35 +31,82 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list delivery
-        [HttpGet, Route("list/byDeliveryDateRange/{startDeliveryDate}/{endDeliveryDate}")]
-        public List<Entities.TrnDelivery> listDeliveryByDeliveryDateRange(String startDeliveryDate, String endDeliveryDate)
+        [HttpGet, Route("list/byDeliveryDateRange/{startDeliveryDate}/{endDeliveryDate}/{status}")]
+        public List<Entities.TrnDelivery> listDeliveryByDeliveryDateRange(String startDeliveryDate, String endDeliveryDate, String status)
         {
-            var deliveries = from d in db.IS_TrnDeliveries
-                             where d.DeliveryDate >= Convert.ToDateTime(startDeliveryDate)
-                             && d.DeliveryDate <= Convert.ToDateTime(endDeliveryDate)
-                             select new Entities.TrnDelivery
-                             {
-                                 Id = d.Id,
-                                 DeliveryNumber = d.DeliveryNumber,
-                                 DeliveryDate = d.DeliveryDate.ToShortDateString(),
-                                 QuotationId = d.QuotationId,
-                                 QuotationNumber = d.IS_TrnQuotation.QuotationNumber,
-                                 CustomerId = d.CustomerId,
-                                 Customer = d.MstArticle.Article,
-                                 ProductId = d.ProductId,
-                                 Product = d.MstArticle1.Article,
-                                 MeetingDate = d.MeetingDate.ToShortDateString(),
-                                 Remarks = d.Remarks,
-                                 SalesUserId = d.SalesUserId,
-                                 SalesUser = d.MstUser.FullName,
-                                 TechnicalUserId = d.TechnicalUserId,
-                                 TechnicalUser = d.MstUser1.FullName,
-                                 FunctionalUserId = d.FunctionalUserId,
-                                 FunctionalUser = d.MstUser2.FullName,
-                                 DeliveryStatus = d.DeliveryStatus
-                             };
+            if (status.Equals("ALL"))
+            {
+                var deliveries = from d in db.IS_TrnDeliveries.OrderByDescending(d => d.Id)
+                                 where d.DeliveryDate >= Convert.ToDateTime(startDeliveryDate)
+                                 && d.DeliveryDate <= Convert.ToDateTime(endDeliveryDate)
+                                 select new Entities.TrnDelivery
+                                 {
+                                     Id = d.Id,
+                                     DeliveryNumber = d.DeliveryNumber,
+                                     DeliveryDate = d.DeliveryDate.ToShortDateString(),
+                                     QuotationId = d.QuotationId,
+                                     QuotationNumber = d.IS_TrnQuotation.QuotationNumber,
+                                     CustomerId = d.CustomerId,
+                                     Customer = d.MstArticle.Article,
+                                     ProductId = d.ProductId,
+                                     Product = d.MstArticle1.Article,
+                                     MeetingDate = d.MeetingDate.ToShortDateString(),
+                                     Remarks = d.Remarks,
+                                     SalesUserId = d.SalesUserId,
+                                     SalesUser = d.MstUser.FullName,
+                                     TechnicalUserId = d.TechnicalUserId,
+                                     TechnicalUser = d.MstUser1.FullName,
+                                     FunctionalUserId = d.FunctionalUserId,
+                                     FunctionalUser = d.MstUser2.FullName,
+                                     DeliveryStatus = d.DeliveryStatus
+                                 };
 
-            return deliveries.ToList();
+                return deliveries.ToList();
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (status.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (status.Equals("CANCELLED"))
+                    {
+                        documentStatus = "CANCELLED";
+                    }
+                }
+
+                var deliveries = from d in db.IS_TrnDeliveries.OrderByDescending(d => d.Id)
+                                 where d.DeliveryDate >= Convert.ToDateTime(startDeliveryDate)
+                                 && d.DeliveryDate <= Convert.ToDateTime(endDeliveryDate)
+                                 && d.DeliveryStatus == documentStatus
+                                 select new Entities.TrnDelivery
+                                 {
+                                     Id = d.Id,
+                                     DeliveryNumber = d.DeliveryNumber,
+                                     DeliveryDate = d.DeliveryDate.ToShortDateString(),
+                                     QuotationId = d.QuotationId,
+                                     QuotationNumber = d.IS_TrnQuotation.QuotationNumber,
+                                     CustomerId = d.CustomerId,
+                                     Customer = d.MstArticle.Article,
+                                     ProductId = d.ProductId,
+                                     Product = d.MstArticle1.Article,
+                                     MeetingDate = d.MeetingDate.ToShortDateString(),
+                                     Remarks = d.Remarks,
+                                     SalesUserId = d.SalesUserId,
+                                     SalesUser = d.MstUser.FullName,
+                                     TechnicalUserId = d.TechnicalUserId,
+                                     TechnicalUser = d.MstUser1.FullName,
+                                     FunctionalUserId = d.FunctionalUserId,
+                                     FunctionalUser = d.MstUser2.FullName,
+                                     DeliveryStatus = d.DeliveryStatus
+                                 };
+
+                return deliveries.ToList();
+            }
+
         }
 
         // list delivery
