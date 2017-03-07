@@ -50,6 +50,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                        ProductId = d.ProductId,
                                        Product = d.MstArticle1.Article,
                                        ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                       Remarks = d.Remarks,
                                        StaffUserId = d.StaffUserId,
                                        StaffUser = d.MstUser.FullName,
                                        ContinuityStatus = d.ContinuityStatus
@@ -81,6 +82,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                        ProductId = d.ProductId,
                                        Product = d.MstArticle1.Article,
                                        ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                       Remarks = d.Remarks,
                                        StaffUserId = d.StaffUserId,
                                        StaffUser = d.MstUser.FullName,
                                        ContinuityStatus = d.ContinuityStatus
@@ -108,6 +110,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                    ProductId = d.ProductId,
                                    Product = d.MstArticle1.Article,
                                    ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                   Remarks = d.Remarks,
                                    StaffUserId = d.StaffUserId,
                                    StaffUser = d.MstUser.FullName,
                                    ContinuityStatus = d.ContinuityStatus
@@ -135,6 +138,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                    ProductId = d.ProductId,
                                    Product = d.MstArticle1.Article,
                                    ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                   Remarks = d.Remarks,
                                    StaffUserId = d.StaffUserId,
                                    StaffUser = d.MstUser.FullName,
                                    ContinuityStatus = d.ContinuityStatus
@@ -186,6 +190,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 newContinuity.CustomerId = deliveries.FirstOrDefault().CustomerId;
                 newContinuity.ProductId = deliveries.FirstOrDefault().ProductId;
                 newContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
+                newContinuity.Remarks = continuity.Remarks;
                 newContinuity.StaffUserId = userId;
                 newContinuity.ContinuityStatus = continuity.ContinuityStatus;
                 db.IS_TrnContinuities.InsertOnSubmit(newContinuity);
@@ -215,6 +220,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     updateContinuity.CustomerId = deliveries.FirstOrDefault().CustomerId;
                     updateContinuity.ProductId = deliveries.FirstOrDefault().ProductId;
                     updateContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
+                    updateContinuity.Remarks = continuity.Remarks;
                     updateContinuity.ContinuityStatus = continuity.ContinuityStatus;
                     db.SubmitChanges();
 

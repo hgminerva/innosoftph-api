@@ -17,6 +17,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public Int32 ProductId { get; set; }
         public String Product { get; set; }
         public String ExpiryDate { get; set; }
+        public String Remarks { get; set; }
         public Int32 StaffUserId { get; set; }
         public String StaffUser { get; set; }
         public String ContinuityStatus { get; set; }

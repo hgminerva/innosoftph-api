@@ -3155,6 +3155,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private System.DateTime _ExpiryDate;
 		
+		private string _Remarks;
+		
 		private int _StaffUserId;
 		
 		private string _ContinuityStatus;
@@ -3187,6 +3189,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnProductIdChanged();
     partial void OnExpiryDateChanging(System.DateTime value);
     partial void OnExpiryDateChanged();
+    partial void OnRemarksChanging(string value);
+    partial void OnRemarksChanged();
     partial void OnStaffUserIdChanging(int value);
     partial void OnStaffUserIdChanged();
     partial void OnContinuityStatusChanging(string value);
@@ -3351,6 +3355,26 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._ExpiryDate = value;
 					this.SendPropertyChanged("ExpiryDate");
 					this.OnExpiryDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(255)")]
+		public string Remarks
+		{
+			get
+			{
+				return this._Remarks;
+			}
+			set
+			{
+				if ((this._Remarks != value))
+				{
+					this.OnRemarksChanging(value);
+					this.SendPropertyChanging();
+					this._Remarks = value;
+					this.SendPropertyChanged("Remarks");
+					this.OnRemarksChanged();
 				}
 			}
 		}

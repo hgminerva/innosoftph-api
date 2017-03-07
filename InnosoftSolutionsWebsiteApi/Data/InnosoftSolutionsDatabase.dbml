@@ -114,6 +114,7 @@
       <Column Name="CustomerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ExpiryDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Remarks" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="StaffUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ContinuityStatus" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="IS_TrnContinuity_IS_TrnSupport" Member="IS_TrnSupports" ThisKey="Id" OtherKey="ContinuityId" Type="IS_TrnSupport" />
