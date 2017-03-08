@@ -19,7 +19,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list")]
         public List<Entities.MstUser> listUser()
         {
-            var users = from d in db.MstUsers
+            var users = from d in db.MstUsers.OrderBy(d => d.FullName)
                         select new Entities.MstUser
                         {
                             Id = d.Id,

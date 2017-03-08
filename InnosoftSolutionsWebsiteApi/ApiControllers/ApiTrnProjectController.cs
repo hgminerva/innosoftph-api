@@ -105,7 +105,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byProjectStatus")]
         public List<Entities.TrnProject> listContinuityByProjectStatus()
         {
-            var projects = from d in db.IS_TrnProjects
+            var projects = from d in db.IS_TrnProjects.OrderBy(d => d.ProjectName)
                            where d.ProjectStatus == "OPEN"
                            select new Entities.TrnProject
                            {

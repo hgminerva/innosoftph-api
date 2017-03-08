@@ -101,7 +101,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byQuotationStatus")]
         public List<Entities.TrnQuotation> listLeadByQuotationStatus()
         {
-            var quotations = from d in db.IS_TrnQuotations
+            var quotations = from d in db.IS_TrnQuotations.OrderBy(d => d.MstArticle.Article)
                              where d.QuotationStatus == "OPEN"
                              select new Entities.TrnQuotation
                              {

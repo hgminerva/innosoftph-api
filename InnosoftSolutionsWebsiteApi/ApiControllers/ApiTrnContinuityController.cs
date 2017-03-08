@@ -96,7 +96,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byContinuityStatus")]
         public List<Entities.TrnContinuity> listContinuityByContinuityStatus()
         {
-            var continuities = from d in db.IS_TrnContinuities
+            var continuities = from d in db.IS_TrnContinuities.OrderBy(d => d.MstArticle.Article)
                                where d.ContinuityStatus == "OPEN"
                                select new Entities.TrnContinuity
                                {
@@ -123,7 +123,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byCustomerId/byContinuityStatus/{customerId}")]
         public List<Entities.TrnContinuity> listContinuityByCustomerIdByContinuityStatus(String customerId)
         {
-            var continuities = from d in db.IS_TrnContinuities
+            var continuities = from d in db.IS_TrnContinuities.OrderBy(d => d.MstArticle.Article)
                                where d.CustomerId == Convert.ToInt32(customerId)
                                && d.ContinuityStatus == "OPEN"
                                select new Entities.TrnContinuity
@@ -151,7 +151,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/continuity/customers")]
         public List<Entities.TrnContinuity> listContinuityCustomers()
         {
-            var continuities = from d in db.IS_TrnContinuities
+            var continuities = from d in db.IS_TrnContinuities.OrderBy(d => d.MstArticle.Article)
                                group d by new
                                {
                                    CustomerId = d.CustomerId,

@@ -113,7 +113,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byDeliveryStatus")]
         public List<Entities.TrnDelivery> listDeliveryByDeliveryStatus()
         {
-            var deliveries = from d in db.IS_TrnDeliveries
+            var deliveries = from d in db.IS_TrnDeliveries.OrderBy(d => d.MstArticle.Article)
                              where d.DeliveryStatus == "OPEN"
                              select new Entities.TrnDelivery
                              {
@@ -219,14 +219,14 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 var deliveries = from d in db.IS_TrnDeliveries where d.Id == Convert.ToInt32(id) select d;
                 if (deliveries.Any())
                 {
+                    var quotations = from d in db.IS_TrnQuotations where d.Id == delivery.QuotationId select d;
                     var updateDelivery = deliveries.FirstOrDefault();
                     updateDelivery.DeliveryDate = Convert.ToDateTime(delivery.DeliveryDate);
                     updateDelivery.QuotationId = delivery.QuotationId;
-                    updateDelivery.CustomerId = delivery.CustomerId;
-                    updateDelivery.ProductId = delivery.ProductId;
+                    updateDelivery.CustomerId = quotations.FirstOrDefault().CustomerId;
+                    updateDelivery.ProductId = quotations.FirstOrDefault().ProductId;
                     updateDelivery.MeetingDate = Convert.ToDateTime(delivery.MeetingDate);
                     updateDelivery.Remarks = delivery.Remarks;
-                    //updateDelivery.SalesUserId = userId;
                     updateDelivery.TechnicalUserId = delivery.TechnicalUserId;
                     updateDelivery.FunctionalUserId = delivery.FunctionalUserId;
                     updateDelivery.DeliveryStatus = delivery.DeliveryStatus;

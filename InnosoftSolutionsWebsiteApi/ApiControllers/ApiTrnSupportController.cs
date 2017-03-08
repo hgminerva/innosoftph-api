@@ -286,13 +286,14 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 var supports = from d in db.IS_TrnSupports where d.Id == Convert.ToInt32(id) select d;
                 if (supports.Any())
                 {
+                    var continuities = from d in db.IS_TrnContinuities where d.Id == support.ContinuityId select d;
                     var updateSupport = supports.FirstOrDefault();
                     updateSupport.SupportDate = Convert.ToDateTime(support.SupportDate);
                     updateSupport.ContinuityId = support.ContinuityId;
                     updateSupport.IssueCategory = support.IssueCategory;
                     updateSupport.Issue = support.Issue;
-                    updateSupport.CustomerId = support.CustomerId;
-                    updateSupport.ProductId = support.ProductId;
+                    updateSupport.CustomerId = continuities.FirstOrDefault().CustomerId;
+                    updateSupport.ProductId = continuities.FirstOrDefault().ProductId;
                     updateSupport.SupportType = support.SupportType;
                     updateSupport.Severity = support.Severity;
                     updateSupport.Caller = support.Caller;

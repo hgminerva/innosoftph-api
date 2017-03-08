@@ -109,7 +109,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byLeadStatus")]
         public List<Entities.TrnLead> listLeadByLeadStatus()
         {
-            var leads = from d in db.IS_TrnLeads
+            var leads = from d in db.IS_TrnLeads.OrderBy(d => d.LeadName)
                         where d.LeadStatus == "OPEN"
                         select new Entities.TrnLead
                         {

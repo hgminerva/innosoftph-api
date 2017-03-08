@@ -34,7 +34,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byLeadId/{leadId}")]
         public List<Entities.TrnActivity> listActivityByLeadId(String leadId)
         {
-            var activities = from d in db.IS_TrnActivities
+            var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.LeadId == Convert.ToInt32(leadId)
                              select new Entities.TrnActivity
                              {
@@ -66,7 +66,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byQuotationId/{quotationId}")]
         public List<Entities.TrnActivity> listActivityByQuotationId(String quotationId)
         {
-            var activities = from d in db.IS_TrnActivities
+            var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.QuotationId == Convert.ToInt32(quotationId)
                              select new Entities.TrnActivity
                              {
@@ -98,7 +98,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byDeliveryId/{deliveryId}")]
         public List<Entities.TrnActivity> listActivityByDeliveryId(String deliveryId)
         {
-            var activities = from d in db.IS_TrnActivities
+            var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.DeliveryId == Convert.ToInt32(deliveryId)
                              select new Entities.TrnActivity
                              {
@@ -130,7 +130,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/bySupportId/{supportId}")]
         public List<Entities.TrnActivity> listActivityBySupportId(String supportId)
         {
-            var activities = from d in db.IS_TrnActivities
+            var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.SupportId == Convert.ToInt32(supportId)
                              select new Entities.TrnActivity
                              {
@@ -162,7 +162,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/bySoftwareDevelopmentId/{softwareDevelopmentId}")]
         public List<Entities.TrnActivity> listActivityBySoftwareDevelopmentId(String softwareDevelopmentId)
         {
-            var activities = from d in db.IS_TrnActivities
+            var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.SoftwareDevelopmentId == Convert.ToInt32(softwareDevelopmentId)
                              select new Entities.TrnActivity
                              {
@@ -198,7 +198,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             {
                 if (document.Equals("Lead"))
                 {
-                    var leads = from d in db.IS_TrnLeads
+                    var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
                                 join s in db.IS_TrnActivities
                                 on d.Id equals s.LeadId
                                 into joinActivities
@@ -236,7 +236,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 {
                     if (document.Equals("Quotation"))
                     {
-                        var quotations = from d in db.IS_TrnQuotations
+                        var quotations = from d in db.IS_TrnQuotations.OrderByDescending(d => d.Id)
                                          join s in db.IS_TrnActivities
                                          on d.Id equals s.QuotationId
                                          into joinActivities
@@ -274,7 +274,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     {
                         if (document.Equals("Delivery"))
                         {
-                            var deliveries = from d in db.IS_TrnDeliveries
+                            var deliveries = from d in db.IS_TrnDeliveries.OrderByDescending(d => d.Id)
                                              join s in db.IS_TrnActivities
                                              on d.Id equals s.DeliveryId
                                              into joinActivities
@@ -312,7 +312,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                         {
                             if (document.Equals("Support"))
                             {
-                                var supports = from d in db.IS_TrnSupports
+                                var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
                                                join s in db.IS_TrnActivities
                                                on d.Id equals s.SupportId
                                                into joinActivities
@@ -350,7 +350,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             {
                                 if (document.Equals("Software Development"))
                                 {
-                                    var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments
+                                    var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments.OrderByDescending(d => d.Id)
                                                                join s in db.IS_TrnActivities
                                                                on d.Id equals s.SoftwareDevelopmentId
                                                                into joinActivities
@@ -388,7 +388,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                 {
                                     if (document.Equals("Support - Technical"))
                                     {
-                                        var supports = from d in db.IS_TrnSupports
+                                        var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
                                                        join s in db.IS_TrnActivities
                                                        on d.Id equals s.SupportId
                                                        into joinActivities
@@ -427,7 +427,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     {
                                         if (document.Equals("Support - Functional"))
                                         {
-                                            var supports = from d in db.IS_TrnSupports
+                                            var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
                                                            join s in db.IS_TrnActivities
                                                            on d.Id equals s.SupportId
                                                            into joinActivities
@@ -504,7 +504,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
                 if (document.Equals("Lead"))
                 {
-                    var leads = from d in db.IS_TrnLeads
+                    var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
                                 join s in db.IS_TrnActivities
                                 on d.Id equals s.LeadId
                                 into joinActivities
@@ -543,7 +543,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 {
                     if (document.Equals("Quotation"))
                     {
-                        var quotations = from d in db.IS_TrnQuotations
+                        var quotations = from d in db.IS_TrnQuotations.OrderByDescending(d => d.Id)
                                          join s in db.IS_TrnActivities
                                          on d.Id equals s.QuotationId
                                          into joinActivities
@@ -582,7 +582,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     {
                         if (document.Equals("Delivery"))
                         {
-                            var deliveries = from d in db.IS_TrnDeliveries
+                            var deliveries = from d in db.IS_TrnDeliveries.OrderByDescending(d => d.Id)
                                              join s in db.IS_TrnActivities
                                              on d.Id equals s.DeliveryId
                                              into joinActivities
@@ -621,7 +621,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                         {
                             if (document.Equals("Support"))
                             {
-                                var supports = from d in db.IS_TrnSupports
+                                var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
                                                join s in db.IS_TrnActivities
                                                on d.Id equals s.SupportId
                                                into joinActivities
@@ -660,7 +660,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             {
                                 if (document.Equals("Software Development"))
                                 {
-                                    var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments
+                                    var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments.OrderByDescending(d => d.Id)
                                                                join s in db.IS_TrnActivities
                                                                on d.Id equals s.SoftwareDevelopmentId
                                                                into joinActivities
@@ -699,7 +699,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                 {
                                     if (document.Equals("Support - Technical"))
                                     {
-                                        var supports = from d in db.IS_TrnSupports
+                                        var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
                                                        join s in db.IS_TrnActivities
                                                        on d.Id equals s.SupportId
                                                        into joinActivities
@@ -739,7 +739,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     {
                                         if (document.Equals("Support - Functional"))
                                         {
-                                            var supports = from d in db.IS_TrnSupports
+                                            var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
                                                            join s in db.IS_TrnActivities
                                                            on d.Id equals s.SupportId
                                                            into joinActivities
@@ -803,38 +803,156 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     activityNumberValue = fillLeadingZeroes(activityNumber, 10);
                 }
                 var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
-                Data.IS_TrnActivity newActivity = new Data.IS_TrnActivity();
-                newActivity.ActivityNumber = activityNumberValue;
-                newActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
-
-                if (activity.SupportId != null)
+                // lead activity
+                if (activity.LeadId != null)
                 {
-                    newActivity.StaffUserId = activity.StaffUserId;
+                    var leads = from d in db.IS_TrnLeads where d.Id == activity.LeadId select d;
+                    if (leads.Any())
+                    {
+                        Data.IS_TrnActivity newActivity = new Data.IS_TrnActivity();
+                        newActivity.ActivityNumber = activityNumberValue;
+                        newActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                        newActivity.StaffUserId = userId;
+                        newActivity.CustomerId = null;
+                        newActivity.ProductId = null;
+                        newActivity.ParticularCategory = activity.ParticularCategory;
+                        newActivity.Particulars = activity.Particulars;
+                        newActivity.NumberOfHours = activity.NumberOfHours;
+                        newActivity.ActivityAmount = activity.ActivityAmount;
+                        newActivity.ActivityStatus = activity.ActivityStatus;
+                        newActivity.LeadId = activity.LeadId;
+                        newActivity.QuotationId = null;
+                        newActivity.DeliveryId = null;
+                        newActivity.SupportId = null;
+                        newActivity.SoftwareDevelopmentId = null;
+                        db.IS_TrnActivities.InsertOnSubmit(newActivity);
+                        db.SubmitChanges();
+                    }
                 }
                 else
                 {
-                    newActivity.StaffUserId = userId;
-                }
+                    // quotation activity
+                    if (activity.QuotationId != null)
+                    {
+                        var quotations = from d in db.IS_TrnQuotations where d.Id == activity.QuotationId select d;
+                        if (quotations.Any())
+                        {
+                            Data.IS_TrnActivity newActivity = new Data.IS_TrnActivity();
+                            newActivity.ActivityNumber = activityNumberValue;
+                            newActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                            newActivity.StaffUserId = userId;
+                            newActivity.CustomerId = quotations.FirstOrDefault().CustomerId;
+                            newActivity.ProductId = quotations.FirstOrDefault().ProductId;
+                            newActivity.ParticularCategory = activity.ParticularCategory;
+                            newActivity.Particulars = activity.Particulars;
+                            newActivity.NumberOfHours = activity.NumberOfHours;
+                            newActivity.ActivityAmount = activity.ActivityAmount;
+                            newActivity.ActivityStatus = activity.ActivityStatus;
+                            newActivity.LeadId = null;
+                            newActivity.QuotationId = activity.QuotationId;
+                            newActivity.DeliveryId = null;
+                            newActivity.SupportId = null;
+                            newActivity.SoftwareDevelopmentId = null;
+                            db.IS_TrnActivities.InsertOnSubmit(newActivity);
+                            db.SubmitChanges();
+                        }
+                    }
+                    else
+                    {
+                        // delivery activity
+                        if (activity.DeliveryId != null)
+                        {
+                            var deliveries = from d in db.IS_TrnDeliveries where d.Id == activity.DeliveryId select d;
+                            if (deliveries.Any())
+                            {
+                                Data.IS_TrnActivity newActivity = new Data.IS_TrnActivity();
+                                newActivity.ActivityNumber = activityNumberValue;
+                                newActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                                newActivity.StaffUserId = userId;
+                                newActivity.CustomerId = deliveries.FirstOrDefault().CustomerId;
+                                newActivity.ProductId = deliveries.FirstOrDefault().ProductId;
+                                newActivity.ParticularCategory = activity.ParticularCategory;
+                                newActivity.Particulars = activity.Particulars;
+                                newActivity.NumberOfHours = activity.NumberOfHours;
+                                newActivity.ActivityAmount = activity.ActivityAmount;
+                                newActivity.ActivityStatus = activity.ActivityStatus;
+                                newActivity.LeadId = null;
+                                newActivity.QuotationId = null;
+                                newActivity.DeliveryId = activity.DeliveryId;
+                                newActivity.SupportId = null;
+                                newActivity.SoftwareDevelopmentId = null;
+                                db.IS_TrnActivities.InsertOnSubmit(newActivity);
+                                db.SubmitChanges();
+                            }
+                        }
+                        else
+                        {
+                            // support activity
+                            if (activity.SupportId != null)
+                            {
+                                var supports = from d in db.IS_TrnSupports where d.Id == activity.SupportId select d;
+                                if (supports.Any())
+                                {
+                                    Data.IS_TrnActivity newActivity = new Data.IS_TrnActivity();
+                                    newActivity.ActivityNumber = activityNumberValue;
+                                    newActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                                    newActivity.StaffUserId = activity.StaffUserId;
+                                    newActivity.CustomerId = supports.FirstOrDefault().CustomerId;
+                                    newActivity.ProductId = supports.FirstOrDefault().ProductId;
+                                    newActivity.ParticularCategory = activity.ParticularCategory;
+                                    newActivity.Particulars = activity.Particulars;
+                                    newActivity.NumberOfHours = activity.NumberOfHours;
+                                    newActivity.ActivityAmount = activity.ActivityAmount;
+                                    newActivity.ActivityStatus = activity.ActivityStatus;
+                                    newActivity.LeadId = null;
+                                    newActivity.QuotationId = null;
+                                    newActivity.DeliveryId = null;
+                                    newActivity.SupportId = activity.SupportId;
+                                    newActivity.SoftwareDevelopmentId = null;
+                                    db.IS_TrnActivities.InsertOnSubmit(newActivity);
+                                    db.SubmitChanges();
+                                }
+                            }
+                            else
+                            {
+                                // software development activity
+                                if (activity.SoftwareDevelopmentId != null)
+                                {
+                                    var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments where d.Id == activity.SoftwareDevelopmentId select d;
+                                    if (softwareDevelopments.Any())
+                                    {
+                                        Debug.WriteLine(userId);
 
-                newActivity.CustomerId = activity.CustomerId;
-                newActivity.ProductId = activity.ProductId;
-                newActivity.ParticularCategory = activity.ParticularCategory;
-                newActivity.Particulars = activity.Particulars;
-                newActivity.NumberOfHours = activity.NumberOfHours;
-                newActivity.ActivityAmount = activity.ActivityAmount;
-                newActivity.ActivityStatus = activity.ActivityStatus;
-                newActivity.LeadId = activity.LeadId;
-                newActivity.QuotationId = activity.QuotationId;
-                newActivity.DeliveryId = activity.DeliveryId;
-                newActivity.SupportId = activity.SupportId;
-                newActivity.SoftwareDevelopmentId = activity.SoftwareDevelopmentId;
-                db.IS_TrnActivities.InsertOnSubmit(newActivity);
-                db.SubmitChanges();
+                                        Data.IS_TrnActivity newActivity = new Data.IS_TrnActivity();
+                                        newActivity.ActivityNumber = activityNumberValue;
+                                        newActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                                        newActivity.StaffUserId = userId;
+                                        newActivity.CustomerId = softwareDevelopments.FirstOrDefault().IS_TrnProject.CustomerId;
+                                        newActivity.ProductId = null;
+                                        newActivity.ParticularCategory = activity.ParticularCategory;
+                                        newActivity.Particulars = activity.Particulars;
+                                        newActivity.NumberOfHours = activity.NumberOfHours;
+                                        newActivity.ActivityAmount = activity.ActivityAmount;
+                                        newActivity.ActivityStatus = activity.ActivityStatus;
+                                        newActivity.LeadId = null;
+                                        newActivity.QuotationId = null;
+                                        newActivity.DeliveryId = null;
+                                        newActivity.SupportId = null;
+                                        newActivity.SoftwareDevelopmentId = activity.SoftwareDevelopmentId;
+                                        db.IS_TrnActivities.InsertOnSubmit(newActivity);
+                                        db.SubmitChanges();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine(e);
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
@@ -845,30 +963,116 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         {
             try
             {
+                var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
                 var activities = from d in db.IS_TrnActivities where d.Id == Convert.ToInt32(id) select d;
                 if (activities.Any())
                 {
-                    var updateActivity = activities.FirstOrDefault();
-                    updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
-
-                    if (activity.SupportId != null)
+                    // lead activity
+                    if (activity.LeadId != null)
                     {
-                        updateActivity.StaffUserId = activity.StaffUserId;
+                        var leads = from d in db.IS_TrnLeads where d.Id == activity.LeadId select d;
+                        if (leads.Any())
+                        {
+                            var updateActivity = activities.FirstOrDefault();
+                            updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                            updateActivity.ParticularCategory = activity.ParticularCategory;
+                            updateActivity.Particulars = activity.Particulars;
+                            updateActivity.NumberOfHours = activity.NumberOfHours;
+                            updateActivity.ActivityAmount = activity.ActivityAmount;
+                            updateActivity.ActivityStatus = activity.ActivityStatus;
+                            updateActivity.LeadId = activity.LeadId;
+                            db.SubmitChanges();
+                        }
                     }
-
-                    updateActivity.CustomerId = activity.CustomerId;
-                    updateActivity.ProductId = activity.ProductId;
-                    updateActivity.ParticularCategory = activity.ParticularCategory;
-                    updateActivity.Particulars = activity.Particulars;
-                    updateActivity.NumberOfHours = activity.NumberOfHours;
-                    updateActivity.ActivityAmount = activity.ActivityAmount;
-                    updateActivity.ActivityStatus = activity.ActivityStatus;
-                    updateActivity.LeadId = activity.LeadId;
-                    updateActivity.QuotationId = activity.QuotationId;
-                    updateActivity.DeliveryId = activity.DeliveryId;
-                    updateActivity.SupportId = activity.SupportId;
-                    updateActivity.SoftwareDevelopmentId = activity.SoftwareDevelopmentId;
-                    db.SubmitChanges();
+                    else
+                    {
+                        // quotation activity
+                        if (activity.QuotationId != null)
+                        {
+                            var quotations = from d in db.IS_TrnQuotations where d.Id == activity.QuotationId select d;
+                            if (quotations.Any())
+                            {
+                                var updateActivity = activities.FirstOrDefault();
+                                updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                                updateActivity.CustomerId = quotations.FirstOrDefault().CustomerId;
+                                updateActivity.ProductId = quotations.FirstOrDefault().ProductId;
+                                updateActivity.ParticularCategory = activity.ParticularCategory;
+                                updateActivity.Particulars = activity.Particulars;
+                                updateActivity.NumberOfHours = activity.NumberOfHours;
+                                updateActivity.ActivityAmount = activity.ActivityAmount;
+                                updateActivity.ActivityStatus = activity.ActivityStatus;
+                                updateActivity.QuotationId = activity.QuotationId;
+                                db.SubmitChanges();
+                            }
+                        }
+                        else
+                        {
+                            // delivery activity
+                            if (activity.DeliveryId != null)
+                            {
+                                var deliveries = from d in db.IS_TrnDeliveries where d.Id == activity.DeliveryId select d;
+                                if (deliveries.Any())
+                                {
+                                    var updateActivity = activities.FirstOrDefault();
+                                    updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                                    updateActivity.CustomerId = deliveries.FirstOrDefault().CustomerId;
+                                    updateActivity.ProductId = deliveries.FirstOrDefault().ProductId;
+                                    updateActivity.ParticularCategory = activity.ParticularCategory;
+                                    updateActivity.Particulars = activity.Particulars;
+                                    updateActivity.NumberOfHours = activity.NumberOfHours;
+                                    updateActivity.ActivityAmount = activity.ActivityAmount;
+                                    updateActivity.ActivityStatus = activity.ActivityStatus;
+                                    updateActivity.DeliveryId = activity.DeliveryId;
+                                    db.SubmitChanges();
+                                }
+                            }
+                            else
+                            {
+                                // support activity
+                                if (activity.SupportId != null)
+                                {
+                                    var supports = from d in db.IS_TrnSupports where d.Id == activity.SupportId select d;
+                                    if (supports.Any())
+                                    {
+                                        var updateActivity = activities.FirstOrDefault();
+                                        updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                                        updateActivity.StaffUserId = activity.StaffUserId;
+                                        updateActivity.CustomerId = supports.FirstOrDefault().CustomerId;
+                                        updateActivity.ProductId = supports.FirstOrDefault().ProductId;
+                                        updateActivity.ParticularCategory = activity.ParticularCategory;
+                                        updateActivity.Particulars = activity.Particulars;
+                                        updateActivity.NumberOfHours = activity.NumberOfHours;
+                                        updateActivity.ActivityAmount = activity.ActivityAmount;
+                                        updateActivity.ActivityStatus = activity.ActivityStatus;
+                                        updateActivity.SupportId = activity.SupportId;
+                                        db.SubmitChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    // software development activity
+                                    if (activity.SoftwareDevelopmentId != null)
+                                    {
+                                        var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments where d.Id == activity.SoftwareDevelopmentId select d;
+                                        if (softwareDevelopments.Any())
+                                        {
+                                            var updateActivity = activities.FirstOrDefault();
+                                            updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
+                                            updateActivity.StaffUserId = userId;
+                                            updateActivity.CustomerId = softwareDevelopments.FirstOrDefault().IS_TrnProject.CustomerId;
+                                            updateActivity.ParticularCategory = activity.ParticularCategory;
+                                            updateActivity.Particulars = activity.Particulars;
+                                            updateActivity.NumberOfHours = activity.NumberOfHours;
+                                            updateActivity.ActivityAmount = activity.ActivityAmount;
+                                            updateActivity.ActivityStatus = activity.ActivityStatus;
+                                            updateActivity.SoftwareDevelopmentId = activity.SoftwareDevelopmentId;
+                                            db.SubmitChanges();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
