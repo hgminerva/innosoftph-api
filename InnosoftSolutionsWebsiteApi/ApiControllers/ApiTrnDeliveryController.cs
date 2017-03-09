@@ -114,7 +114,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         public List<Entities.TrnDelivery> listDeliveryByDeliveryStatus()
         {
             var deliveries = from d in db.IS_TrnDeliveries.OrderBy(d => d.MstArticle.Article)
-                             where d.DeliveryStatus == "OPEN"
+                             //where d.DeliveryStatus == "OPEN"
                              select new Entities.TrnDelivery
                              {
                                  Id = d.Id,

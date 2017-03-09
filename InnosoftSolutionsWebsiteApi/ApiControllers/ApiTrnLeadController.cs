@@ -110,7 +110,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         public List<Entities.TrnLead> listLeadByLeadStatus()
         {
             var leads = from d in db.IS_TrnLeads.OrderBy(d => d.LeadName)
-                        where d.LeadStatus == "OPEN"
+                        //where d.LeadStatus == "OPEN"
                         select new Entities.TrnLead
                         {
                             Id = d.Id,

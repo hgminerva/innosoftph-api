@@ -102,7 +102,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         public List<Entities.TrnQuotation> listLeadByQuotationStatus()
         {
             var quotations = from d in db.IS_TrnQuotations.OrderBy(d => d.MstArticle.Article)
-                             where d.QuotationStatus == "OPEN"
+                             //where d.QuotationStatus == "OPEN"
                              select new Entities.TrnQuotation
                              {
                                  Id = d.Id,

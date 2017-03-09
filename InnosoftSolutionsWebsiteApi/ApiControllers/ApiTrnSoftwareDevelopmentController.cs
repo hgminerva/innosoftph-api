@@ -105,7 +105,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         public List<Entities.TrnSoftwareDevelopment> listSoftwareDevelopmentBySoftwareDevelopmentStatus()
         {
             var softwareDevelopments = from d in db.IS_TrnSoftwareDevelopments.OrderBy(d => d.IS_TrnProject.ProjectName)
-                                       where d.SoftDevStatus == "OPEN"
+                                       //where d.SoftDevStatus == "OPEN"
                                        select new Entities.TrnSoftwareDevelopment
                                        {
                                            Id = d.Id,

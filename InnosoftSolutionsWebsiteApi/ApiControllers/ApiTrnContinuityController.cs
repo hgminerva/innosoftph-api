@@ -97,7 +97,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         public List<Entities.TrnContinuity> listContinuityByContinuityStatus()
         {
             var continuities = from d in db.IS_TrnContinuities.OrderBy(d => d.MstArticle.Article)
-                               where d.ContinuityStatus == "OPEN"
+                               //where d.ContinuityStatus == "OPEN"
                                select new Entities.TrnContinuity
                                {
                                    Id = d.Id,
@@ -125,7 +125,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         {
             var continuities = from d in db.IS_TrnContinuities.OrderBy(d => d.MstArticle.Article)
                                where d.CustomerId == Convert.ToInt32(customerId)
-                               && d.ContinuityStatus == "OPEN"
+                               //&& d.ContinuityStatus == "OPEN"
                                select new Entities.TrnContinuity
                                {
                                    Id = d.Id,
