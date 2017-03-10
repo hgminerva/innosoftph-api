@@ -2642,7 +2642,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Particulars
 		{
 			get
@@ -3359,7 +3359,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(1000)")]
 		public string Remarks
 		{
 			get
@@ -3846,7 +3846,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Remarks
 		{
 			get
@@ -4398,7 +4398,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Address
 		{
 			get
@@ -4518,7 +4518,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Remarks
 		{
 			get
@@ -4946,7 +4946,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Particulars
 		{
 			get
@@ -5425,7 +5425,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Remarks
 		{
 			get
@@ -5849,7 +5849,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Task
 		{
 			get
@@ -5869,7 +5869,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Remarks
 		{
 			get
@@ -6436,7 +6436,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remarks", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string Remarks
 		{
 			get
@@ -6456,7 +6456,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScreenShotURL", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScreenShotURL", DbType="NVarChar(1000) NOT NULL", CanBeNull=false)]
 		public string ScreenShotURL
 		{
 			get
