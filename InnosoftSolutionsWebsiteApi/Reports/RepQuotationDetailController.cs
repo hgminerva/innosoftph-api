@@ -2,6 +2,7 @@
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,7 +16,7 @@ namespace InnosoftSolutionsWebsiteApi.Reports
         private Data.InnosoftSolutionsDatabaseDataContext db = new Data.InnosoftSolutionsDatabaseDataContext();
 
         // quotation detail
-        public ActionResult quotationDetail(String quotationId)
+        public byte[] quotationDetail(String quotationId, List<Entities.PrintQuotationObjectLists> quotationObjectLists)
         {
             if (quotationId != null)
             {
@@ -58,6 +59,16 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                 quotationDetailIntroHeader.AddCell(new PdfPCell(new Phrase("Email: info@innosoft.ph Website: http://www.innosoft.ph/", fontArial12)) { HorizontalAlignment = 0, Border = 0, PaddingBottom = 2f });
                 document.Add(quotationDetailIntroHeader);
 
+                foreach (var quotationObjectList in quotationObjectLists)
+                {
+                    Debug.WriteLine(quotationObjectList.CustomerName);
+                }
+
+                foreach (var productList in quotationObjectLists.FirstOrDefault().ProdcutLists)
+                {
+                    Debug.WriteLine(productList.ProductCode);
+                }
+
                 // Document close
                 document.Close();
 
@@ -65,11 +76,12 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                 workStream.Write(byteInfo, 0, byteInfo.Length);
                 workStream.Position = 0;
 
-                return new FileStreamResult(workStream, "application/pdf");
+                //return new FileStreamResult(workStream, "application/pdf");
+                return workStream.ToArray();
             }
             else
             {
-                return RedirectToAction("NotFound", "Software");
+                return null;
             }
         }
     }
