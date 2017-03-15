@@ -16,7 +16,7 @@ namespace InnosoftSolutionsWebsiteApi.Reports
         private Data.InnosoftSolutionsDatabaseDataContext db = new Data.InnosoftSolutionsDatabaseDataContext();
 
         // quotation detail
-        public byte[] quotationDetail(String quotationId, List<Entities.PrintQuotationObjectLists> quotationObjectLists)
+        public ActionResult quotationDetail(String quotationId, List<Entities.PrintQuotationObjectLists> quotationObjectLists)
         {
             if (quotationId != null)
             {
@@ -76,8 +76,7 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                 workStream.Write(byteInfo, 0, byteInfo.Length);
                 workStream.Position = 0;
 
-                //return new FileStreamResult(workStream, "application/pdf");
-                return workStream.ToArray();
+                return new FileStreamResult(workStream, "application/pdf");
             }
             else
             {
