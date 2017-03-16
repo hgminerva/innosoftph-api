@@ -18,5 +18,6 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String LeadsRefNo { get; set; }
         public List<Entities.PrintQuotationProductLists> ProdcutLists { get; set; }
         public List<Entities.PrintQuotationPaymentLists> PaymentLists { get; set; }
+        public List<Entities.PrintQuotationTimelineLists> TimelineLists { get; set; }
     }
 }

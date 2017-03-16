@@ -234,6 +234,7 @@
     <Compile Include="Entities\PrintQuotationObjectLists.cs" />
     <Compile Include="Entities\PrintQuotationPaymentLists.cs" />
     <Compile Include="Entities\PrintQuotationProductLists.cs" />
+    <Compile Include="Entities\PrintQuotationTimelineLists.cs" />
     <Compile Include="Entities\TrnActivity.cs" />
     <Compile Include="Entities\TrnContinuity.cs" />
     <Compile Include="Entities\TrnDelivery.cs" />
