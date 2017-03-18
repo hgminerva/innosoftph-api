@@ -19,5 +19,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public List<Entities.PrintQuotationProductLists> ProdcutLists { get; set; }
         public List<Entities.PrintQuotationPaymentLists> PaymentLists { get; set; }
         public List<Entities.PrintQuotationTimelineLists> TimelineLists { get; set; }
+        public String PreparedByUser { get; set; }
+        public String ApprovedByUser { get; set; }
     }
 }

@@ -221,8 +221,24 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                 quotationDetailQuotationbcsLabel.WidthPercentage = 100;
                 quotationDetailQuotationbcsLabel.AddCell(new PdfPCell(new Phrase("VI. \t\t\t\t\t\t\t\t Business Continuity Service (BCS)", fontArial11)) { Border = 0, PaddingTop = 20f, PaddingBottom = 2f, HorizontalAlignment = 0 });
                 quotationDetailQuotationbcsLabel.AddCell(new PdfPCell(new Phrase("a. \t\t\t\t\t\t\t\t Automatic Ten Percent (10%) Annual Business Continuity Fee after Installation Date. The Fee is computed based on the Software Cost.", fontArial11)) { Border = 0, PaddingTop = 2f, PaddingBottom = 2f, PaddingLeft = 30f, HorizontalAlignment = 0 });
-                quotationDetailQuotationbcsLabel.AddCell(new PdfPCell(new Phrase("b. \t\t\t\t\t\t\t\t Free One (1) Year BCS from the start of the Installation Date.", fontArial11)) { Border = 0, PaddingTop = 2f, PaddingBottom = 2f, PaddingLeft = 30f, HorizontalAlignment = 0 });
+                quotationDetailQuotationbcsLabel.AddCell(new PdfPCell(new Phrase("b. \t\t\t\t\t\t\t\t Free One (1) Year BCS from the start of the Installation Date.", fontArial11)) { Border = 0, PaddingTop = 2f, PaddingBottom = 30f, PaddingLeft = 30f, HorizontalAlignment = 0 });
                 document.Add(quotationDetailQuotationbcsLabel);
+
+                // quotaion users
+                PdfPTable quotationDetailQuotationUser = new PdfPTable(3);
+                float[] quotationDetailQuotationUserWithCells = new float[] { 30f, 30f, 30f };
+                quotationDetailQuotationUser.SetWidths(quotationDetailQuotationUserWithCells);
+                quotationDetailQuotationUser.WidthPercentage = 100;
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Prepared By", fontArial11Bold)) { HorizontalAlignment = 1, PaddingTop = 5f, PaddingBottom = 7f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Approved By", fontArial11Bold)) { HorizontalAlignment = 1, PaddingTop = 5f, PaddingBottom = 7f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Conforme and Date Signed", fontArial11Bold)) { HorizontalAlignment = 1, PaddingTop = 5f, PaddingBottom = 7f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase(quotationObjectLists.FirstOrDefault().PreparedByUser, fontArial11)) { HorizontalAlignment = 1, PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase(quotationObjectLists.FirstOrDefault().ApprovedByUser, fontArial11)) { HorizontalAlignment = 1, PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("", fontArial11)) { PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Signature over printed name", fontArial11)) { HorizontalAlignment = 1, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Signature over printed name", fontArial11)) { HorizontalAlignment = 1, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Signature over printed name", fontArial11)) { HorizontalAlignment = 1, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                document.Add(quotationDetailQuotationUser);
 
                 // Document close
                 document.Close();
