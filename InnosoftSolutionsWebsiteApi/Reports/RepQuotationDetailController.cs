@@ -108,7 +108,7 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase("Contact Email", fontArial11Bold)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.CustomerContactPerson, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase("Leads Ref No", fontArial11Bold)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
-                    quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.ClientPONo, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.LeadsRefNo, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     document.Add(quotationDetailCustomerDetail);
                 }
 
