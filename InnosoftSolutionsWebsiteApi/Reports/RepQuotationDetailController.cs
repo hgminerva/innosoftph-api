@@ -41,6 +41,7 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                 Font fontArial11ITALIC = FontFactory.GetFont("Arial", 12, Font.ITALIC);
                 Font fontArial10Bold = FontFactory.GetFont("Arial", 10, Font.BOLD);
                 Font fontArial10 = FontFactory.GetFont("Arial", 10);
+                Font fontArial10ITALIC = FontFactory.GetFont("Arial", 10, Font.ITALIC);
 
                 // line
                 Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
@@ -102,11 +103,11 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase("Client PO No", fontArial11Bold)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.ClientPONo, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase("Contact Number", fontArial11Bold)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
-                    quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.CustomerContactPerson, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.CustomerContactNumber, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase("Client PO Date", fontArial11Bold)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.ClientPONo, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase("Contact Email", fontArial11Bold)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
-                    quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.CustomerContactPerson, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.CustomerContactEmail, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase("Leads Ref No", fontArial11Bold)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailCustomerDetail.AddCell(new PdfPCell(new Phrase(customerDetail.LeadsRefNo, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     document.Add(quotationDetailCustomerDetail);
@@ -232,8 +233,14 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                 quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Prepared By", fontArial11Bold)) { HorizontalAlignment = 1, PaddingTop = 5f, PaddingBottom = 7f, PaddingLeft = 5f, PaddingRight = 5f });
                 quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Approved By", fontArial11Bold)) { HorizontalAlignment = 1, PaddingTop = 5f, PaddingBottom = 7f, PaddingLeft = 5f, PaddingRight = 5f });
                 quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Conforme and Date Signed", fontArial11Bold)) { HorizontalAlignment = 1, PaddingTop = 5f, PaddingBottom = 7f, PaddingLeft = 5f, PaddingRight = 5f });
-                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase(quotationObjectLists.FirstOrDefault().PreparedByUser, fontArial11)) { HorizontalAlignment = 1, PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
-                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase(quotationObjectLists.FirstOrDefault().ApprovedByUser, fontArial11)) { HorizontalAlignment = 1, PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                var accountExecutiveLabel = new Phrase();
+                accountExecutiveLabel.Add(new Chunk(quotationObjectLists.FirstOrDefault().PreparedByUser + "\n", fontArial11));
+                accountExecutiveLabel.Add(new Chunk("Account Executive", fontArial10ITALIC));
+                var salesManagerLabel = new Phrase();
+                salesManagerLabel.Add(new Chunk(quotationObjectLists.FirstOrDefault().ApprovedByUser + "\n", fontArial11));
+                salesManagerLabel.Add(new Chunk("Sales Manager", fontArial10ITALIC));
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase(accountExecutiveLabel)) { HorizontalAlignment = 1, PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase(salesManagerLabel)) { HorizontalAlignment = 1, PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
                 quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("", fontArial11)) { PaddingTop = 40f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
                 quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Signature over printed name", fontArial11)) { HorizontalAlignment = 1, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
                 quotationDetailQuotationUser.AddCell(new PdfPCell(new Phrase("Signature over printed name", fontArial11)) { HorizontalAlignment = 1, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
