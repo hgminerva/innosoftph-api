@@ -14,6 +14,8 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String QuotationNumber { get; set; }
         public Int32 CustomerId { get; set; }
         public String Customer { get; set; }
+        public String CustomerContactNumber { get; set; }
+        public String CustomerAddress { get; set; }
         public Int32 ProductId { get; set; }
         public String Product { get; set; }
         public String MeetingDate { get; set; }

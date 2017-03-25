@@ -10,13 +10,62 @@ using System.Web.Mvc;
 
 namespace InnosoftSolutionsWebsiteApi.Reports
 {
+    // product list 
+    public class PrintQuotationProductLists
+    {
+        public Int32 Id { get; set; }
+        public String ProductCode { get; set; }
+        public String ProductDescription { get; set; }
+        public Decimal Price { get; set; }
+        public Decimal Quantity { get; set; }
+        public Decimal Amount { get; set; }
+    }
+
+    // payment list
+    public class PrintQuotationPaymentLists
+    {
+        public Int32 Id { get; set; }
+        public String Description { get; set; }
+        public Decimal Amount { get; set; }
+        public String Remarks { get; set; }
+    }
+
+    // timeline list
+    public class PrintQuotationTimelineLists
+    {
+        public Int32 Id { get; set; }
+        public String Product { get; set; }
+        public String Timeline { get; set; }
+        public String Remarks { get; set; }
+    }
+
+    // Object List
+    public class PrintQuotationObjectLists
+    {
+        public String CustomerName { get; set; }
+        public String CustomerAddress { get; set; }
+        public String CustomerContactPerson { get; set; }
+        public String CustomerContactNumber { get; set; }
+        public String CustomerContactEmail { get; set; }
+        public String QRefNumber { get; set; }
+        public String QDate { get; set; }
+        public String ClientPONo { get; set; }
+        public String LeadsRefNo { get; set; }
+        public List<PrintQuotationProductLists> ProdcutLists { get; set; }
+        public List<PrintQuotationPaymentLists> PaymentLists { get; set; }
+        public List<PrintQuotationTimelineLists> TimelineLists { get; set; }
+        public String PreparedByUser { get; set; }
+        public String ApprovedByUser { get; set; }
+    }
+
+    // PDF
     public class RepQuotationDetailController : Controller
     {
         // database - LinQ to SQL class
         private Data.InnosoftSolutionsDatabaseDataContext db = new Data.InnosoftSolutionsDatabaseDataContext();
 
         // quotation detail
-        public ActionResult quotationDetail(String quotationId, List<Entities.PrintQuotationObjectLists> quotationObjectLists)
+        public ActionResult quotationDetail(String quotationId, List<PrintQuotationObjectLists> quotationObjectLists)
         {
             if (quotationId != null)
             {

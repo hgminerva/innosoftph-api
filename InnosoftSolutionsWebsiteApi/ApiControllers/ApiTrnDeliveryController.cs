@@ -155,6 +155,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                QuotationNumber = d.IS_TrnQuotation.QuotationNumber,
                                CustomerId = d.CustomerId,
                                Customer = d.MstArticle.Article,
+                               CustomerContactNumber = d.MstArticle.ContactNumber,
+                               CustomerAddress = d.MstArticle.Address,
                                ProductId = d.ProductId,
                                Product = d.MstArticle1.Article,
                                MeetingDate = d.MeetingDate.ToShortDateString(),
