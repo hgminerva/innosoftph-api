@@ -185,6 +185,7 @@
     <Compile Include="ApiControllers\ApiTrnLeadController.cs" />
     <Compile Include="ApiControllers\ApiTrnProjectController.cs" />
     <Compile Include="ApiControllers\ApiTrnQuotationController.cs" />
+    <Compile Include="ApiControllers\ApiTrnRequestController.cs" />
     <Compile Include="ApiControllers\ApiTrnSoftwareDevelopmentController.cs" />
     <Compile Include="ApiControllers\ApiTrnSupportController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Entities\TrnLead.cs" />
     <Compile Include="Entities\TrnProject.cs" />
     <Compile Include="Entities\TrnQuotation.cs" />
+    <Compile Include="Entities\TrnRequest.cs" />
     <Compile Include="Entities\TrnSoftwareDevelopment.cs" />
     <Compile Include="Entities\TrnSupport.cs" />
     <Compile Include="Global.asax.cs">

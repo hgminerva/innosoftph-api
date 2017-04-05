@@ -66,6 +66,9 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void InsertIS_TrnQuotation(IS_TrnQuotation instance);
     partial void UpdateIS_TrnQuotation(IS_TrnQuotation instance);
     partial void DeleteIS_TrnQuotation(IS_TrnQuotation instance);
+    partial void InsertIS_TrnRequest(IS_TrnRequest instance);
+    partial void UpdateIS_TrnRequest(IS_TrnRequest instance);
+    partial void DeleteIS_TrnRequest(IS_TrnRequest instance);
     partial void InsertIS_TrnSoftwareDevelopment(IS_TrnSoftwareDevelopment instance);
     partial void UpdateIS_TrnSoftwareDevelopment(IS_TrnSoftwareDevelopment instance);
     partial void DeleteIS_TrnSoftwareDevelopment(IS_TrnSoftwareDevelopment instance);
@@ -332,6 +335,14 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			get
 			{
 				return this.GetTable<IS_TrnQuotation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<IS_TrnRequest> IS_TrnRequests
+		{
+			get
+			{
+				return this.GetTable<IS_TrnRequest>();
 			}
 		}
 		
@@ -5693,6 +5704,407 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		{
 			this.SendPropertyChanging();
 			entity.IS_TrnQuotation = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.IS_TrnRequest")]
+	public partial class IS_TrnRequest : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _RequestNumber;
+		
+		private System.DateTime _RequestDate;
+		
+		private string _RequestType;
+		
+		private string _Particulars;
+		
+		private int _EncodedByUserId;
+		
+		private System.Nullable<int> _CheckedByUserId;
+		
+		private string _CheckedRemarks;
+		
+		private System.Nullable<int> _ApprovedByUserId;
+		
+		private string _ApprovedRemarks;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+		private EntityRef<MstUser> _MstUser1;
+		
+		private EntityRef<MstUser> _MstUser2;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnRequestNumberChanging(string value);
+    partial void OnRequestNumberChanged();
+    partial void OnRequestDateChanging(System.DateTime value);
+    partial void OnRequestDateChanged();
+    partial void OnRequestTypeChanging(string value);
+    partial void OnRequestTypeChanged();
+    partial void OnParticularsChanging(string value);
+    partial void OnParticularsChanged();
+    partial void OnEncodedByUserIdChanging(int value);
+    partial void OnEncodedByUserIdChanged();
+    partial void OnCheckedByUserIdChanging(System.Nullable<int> value);
+    partial void OnCheckedByUserIdChanged();
+    partial void OnCheckedRemarksChanging(string value);
+    partial void OnCheckedRemarksChanged();
+    partial void OnApprovedByUserIdChanging(System.Nullable<int> value);
+    partial void OnApprovedByUserIdChanged();
+    partial void OnApprovedRemarksChanging(string value);
+    partial void OnApprovedRemarksChanged();
+    #endregion
+		
+		public IS_TrnRequest()
+		{
+			this._MstUser = default(EntityRef<MstUser>);
+			this._MstUser1 = default(EntityRef<MstUser>);
+			this._MstUser2 = default(EntityRef<MstUser>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RequestNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string RequestNumber
+		{
+			get
+			{
+				return this._RequestNumber;
+			}
+			set
+			{
+				if ((this._RequestNumber != value))
+				{
+					this.OnRequestNumberChanging(value);
+					this.SendPropertyChanging();
+					this._RequestNumber = value;
+					this.SendPropertyChanged("RequestNumber");
+					this.OnRequestNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RequestDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RequestDate
+		{
+			get
+			{
+				return this._RequestDate;
+			}
+			set
+			{
+				if ((this._RequestDate != value))
+				{
+					this.OnRequestDateChanging(value);
+					this.SendPropertyChanging();
+					this._RequestDate = value;
+					this.SendPropertyChanged("RequestDate");
+					this.OnRequestDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RequestType", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string RequestType
+		{
+			get
+			{
+				return this._RequestType;
+			}
+			set
+			{
+				if ((this._RequestType != value))
+				{
+					this.OnRequestTypeChanging(value);
+					this.SendPropertyChanging();
+					this._RequestType = value;
+					this.SendPropertyChanged("RequestType");
+					this.OnRequestTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Particulars
+		{
+			get
+			{
+				return this._Particulars;
+			}
+			set
+			{
+				if ((this._Particulars != value))
+				{
+					this.OnParticularsChanging(value);
+					this.SendPropertyChanging();
+					this._Particulars = value;
+					this.SendPropertyChanged("Particulars");
+					this.OnParticularsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EncodedByUserId", DbType="Int NOT NULL")]
+		public int EncodedByUserId
+		{
+			get
+			{
+				return this._EncodedByUserId;
+			}
+			set
+			{
+				if ((this._EncodedByUserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnEncodedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._EncodedByUserId = value;
+					this.SendPropertyChanged("EncodedByUserId");
+					this.OnEncodedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckedByUserId", DbType="Int")]
+		public System.Nullable<int> CheckedByUserId
+		{
+			get
+			{
+				return this._CheckedByUserId;
+			}
+			set
+			{
+				if ((this._CheckedByUserId != value))
+				{
+					if (this._MstUser1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCheckedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._CheckedByUserId = value;
+					this.SendPropertyChanged("CheckedByUserId");
+					this.OnCheckedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CheckedRemarks", DbType="NVarChar(MAX)")]
+		public string CheckedRemarks
+		{
+			get
+			{
+				return this._CheckedRemarks;
+			}
+			set
+			{
+				if ((this._CheckedRemarks != value))
+				{
+					this.OnCheckedRemarksChanging(value);
+					this.SendPropertyChanging();
+					this._CheckedRemarks = value;
+					this.SendPropertyChanged("CheckedRemarks");
+					this.OnCheckedRemarksChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovedByUserId", DbType="Int")]
+		public System.Nullable<int> ApprovedByUserId
+		{
+			get
+			{
+				return this._ApprovedByUserId;
+			}
+			set
+			{
+				if ((this._ApprovedByUserId != value))
+				{
+					if (this._MstUser2.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnApprovedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovedByUserId = value;
+					this.SendPropertyChanged("ApprovedByUserId");
+					this.OnApprovedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovedRemarks", DbType="NVarChar(MAX)")]
+		public string ApprovedRemarks
+		{
+			get
+			{
+				return this._ApprovedRemarks;
+			}
+			set
+			{
+				if ((this._ApprovedRemarks != value))
+				{
+					this.OnApprovedRemarksChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovedRemarks = value;
+					this.SendPropertyChanged("ApprovedRemarks");
+					this.OnApprovedRemarksChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnRequest", Storage="_MstUser", ThisKey="EncodedByUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.IS_TrnRequests.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.IS_TrnRequests.Add(this);
+						this._EncodedByUserId = value.Id;
+					}
+					else
+					{
+						this._EncodedByUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnRequest1", Storage="_MstUser1", ThisKey="CheckedByUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser1
+		{
+			get
+			{
+				return this._MstUser1.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser1.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser1.Entity = null;
+						previousValue.IS_TrnRequests1.Remove(this);
+					}
+					this._MstUser1.Entity = value;
+					if ((value != null))
+					{
+						value.IS_TrnRequests1.Add(this);
+						this._CheckedByUserId = value.Id;
+					}
+					else
+					{
+						this._CheckedByUserId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("MstUser1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnRequest2", Storage="_MstUser2", ThisKey="ApprovedByUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser2
+		{
+			get
+			{
+				return this._MstUser2.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser2.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser2.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser2.Entity = null;
+						previousValue.IS_TrnRequests2.Remove(this);
+					}
+					this._MstUser2.Entity = value;
+					if ((value != null))
+					{
+						value.IS_TrnRequests2.Add(this);
+						this._ApprovedByUserId = value.Id;
+					}
+					else
+					{
+						this._ApprovedByUserId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("MstUser2");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -18178,6 +18590,12 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private EntitySet<IS_TrnQuotation> _IS_TrnQuotations;
 		
+		private EntitySet<IS_TrnRequest> _IS_TrnRequests;
+		
+		private EntitySet<IS_TrnRequest> _IS_TrnRequests1;
+		
+		private EntitySet<IS_TrnRequest> _IS_TrnRequests2;
+		
 		private EntitySet<IS_TrnSoftwareDevelopment> _IS_TrnSoftwareDevelopments;
 		
 		private EntitySet<IS_TrnSoftwareDevelopment> _IS_TrnSoftwareDevelopments1;
@@ -18414,6 +18832,9 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._IS_TrnProjects = new EntitySet<IS_TrnProject>(new Action<IS_TrnProject>(this.attach_IS_TrnProjects), new Action<IS_TrnProject>(this.detach_IS_TrnProjects));
 			this._IS_TrnProjects1 = new EntitySet<IS_TrnProject>(new Action<IS_TrnProject>(this.attach_IS_TrnProjects1), new Action<IS_TrnProject>(this.detach_IS_TrnProjects1));
 			this._IS_TrnQuotations = new EntitySet<IS_TrnQuotation>(new Action<IS_TrnQuotation>(this.attach_IS_TrnQuotations), new Action<IS_TrnQuotation>(this.detach_IS_TrnQuotations));
+			this._IS_TrnRequests = new EntitySet<IS_TrnRequest>(new Action<IS_TrnRequest>(this.attach_IS_TrnRequests), new Action<IS_TrnRequest>(this.detach_IS_TrnRequests));
+			this._IS_TrnRequests1 = new EntitySet<IS_TrnRequest>(new Action<IS_TrnRequest>(this.attach_IS_TrnRequests1), new Action<IS_TrnRequest>(this.detach_IS_TrnRequests1));
+			this._IS_TrnRequests2 = new EntitySet<IS_TrnRequest>(new Action<IS_TrnRequest>(this.attach_IS_TrnRequests2), new Action<IS_TrnRequest>(this.detach_IS_TrnRequests2));
 			this._IS_TrnSoftwareDevelopments = new EntitySet<IS_TrnSoftwareDevelopment>(new Action<IS_TrnSoftwareDevelopment>(this.attach_IS_TrnSoftwareDevelopments), new Action<IS_TrnSoftwareDevelopment>(this.detach_IS_TrnSoftwareDevelopments));
 			this._IS_TrnSoftwareDevelopments1 = new EntitySet<IS_TrnSoftwareDevelopment>(new Action<IS_TrnSoftwareDevelopment>(this.attach_IS_TrnSoftwareDevelopments1), new Action<IS_TrnSoftwareDevelopment>(this.detach_IS_TrnSoftwareDevelopments1));
 			this._IS_TrnSupports = new EntitySet<IS_TrnSupport>(new Action<IS_TrnSupport>(this.attach_IS_TrnSupports), new Action<IS_TrnSupport>(this.detach_IS_TrnSupports));
@@ -18981,6 +19402,45 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			set
 			{
 				this._IS_TrnQuotations.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnRequest", Storage="_IS_TrnRequests", ThisKey="Id", OtherKey="EncodedByUserId")]
+		public EntitySet<IS_TrnRequest> IS_TrnRequests
+		{
+			get
+			{
+				return this._IS_TrnRequests;
+			}
+			set
+			{
+				this._IS_TrnRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnRequest1", Storage="_IS_TrnRequests1", ThisKey="Id", OtherKey="CheckedByUserId")]
+		public EntitySet<IS_TrnRequest> IS_TrnRequests1
+		{
+			get
+			{
+				return this._IS_TrnRequests1;
+			}
+			set
+			{
+				this._IS_TrnRequests1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_IS_TrnRequest2", Storage="_IS_TrnRequests2", ThisKey="Id", OtherKey="ApprovedByUserId")]
+		public EntitySet<IS_TrnRequest> IS_TrnRequests2
+		{
+			get
+			{
+				return this._IS_TrnRequests2;
+			}
+			set
+			{
+				this._IS_TrnRequests2.Assign(value);
 			}
 		}
 		
@@ -20457,6 +20917,42 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstUser = null;
+		}
+		
+		private void attach_IS_TrnRequests(IS_TrnRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_IS_TrnRequests(IS_TrnRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+		
+		private void attach_IS_TrnRequests1(IS_TrnRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = this;
+		}
+		
+		private void detach_IS_TrnRequests1(IS_TrnRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = null;
+		}
+		
+		private void attach_IS_TrnRequests2(IS_TrnRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser2 = this;
+		}
+		
+		private void detach_IS_TrnRequests2(IS_TrnRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser2 = null;
 		}
 		
 		private void attach_IS_TrnSoftwareDevelopments(IS_TrnSoftwareDevelopment entity)

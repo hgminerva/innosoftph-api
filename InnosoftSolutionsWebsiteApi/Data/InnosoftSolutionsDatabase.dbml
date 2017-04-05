@@ -209,6 +209,23 @@
       <Association Name="MstUser_IS_TrnQuotation" Member="MstUser" ThisKey="EncodedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.IS_TrnRequest" Member="IS_TrnRequests">
+    <Type Name="IS_TrnRequest">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RequestNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="RequestDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="RequestType" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Particulars" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="EncodedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CheckedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CheckedRemarks" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ApprovedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ApprovedRemarks" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="MstUser_IS_TrnRequest" Member="MstUser" ThisKey="EncodedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_IS_TrnRequest1" Member="MstUser1" ThisKey="CheckedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_IS_TrnRequest2" Member="MstUser2" ThisKey="ApprovedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.IS_TrnSoftwareDevelopment" Member="IS_TrnSoftwareDevelopments">
     <Type Name="IS_TrnSoftwareDevelopment">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -736,6 +753,9 @@
       <Association Name="MstUser_IS_TrnProject" Member="IS_TrnProjects" ThisKey="Id" OtherKey="EncodedByUserId" Type="IS_TrnProject" />
       <Association Name="MstUser_IS_TrnProject1" Member="IS_TrnProjects1" ThisKey="Id" OtherKey="ProjectManagerUserId" Type="IS_TrnProject" />
       <Association Name="MstUser_IS_TrnQuotation" Member="IS_TrnQuotations" ThisKey="Id" OtherKey="EncodedByUserId" Type="IS_TrnQuotation" />
+      <Association Name="MstUser_IS_TrnRequest" Member="IS_TrnRequests" ThisKey="Id" OtherKey="EncodedByUserId" Type="IS_TrnRequest" />
+      <Association Name="MstUser_IS_TrnRequest1" Member="IS_TrnRequests1" ThisKey="Id" OtherKey="CheckedByUserId" Type="IS_TrnRequest" />
+      <Association Name="MstUser_IS_TrnRequest2" Member="IS_TrnRequests2" ThisKey="Id" OtherKey="ApprovedByUserId" Type="IS_TrnRequest" />
       <Association Name="MstUser_IS_TrnSoftwareDevelopment" Member="IS_TrnSoftwareDevelopments" ThisKey="Id" OtherKey="EncodedByUserId" Type="IS_TrnSoftwareDevelopment" />
       <Association Name="MstUser_IS_TrnSoftwareDevelopment1" Member="IS_TrnSoftwareDevelopments1" ThisKey="Id" OtherKey="AssignedToUserId" Type="IS_TrnSoftwareDevelopment" />
       <Association Name="MstUser_IS_TrnSupport" Member="IS_TrnSupports" ThisKey="Id" OtherKey="EncodedByUserId" Type="IS_TrnSupport" />
