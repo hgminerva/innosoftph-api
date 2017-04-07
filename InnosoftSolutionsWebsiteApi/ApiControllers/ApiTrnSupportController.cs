@@ -59,6 +59,13 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             {
                 documentSupportType = "Functional";
             }
+            else
+            {
+                if (supportType.Equals("Customize"))
+                {
+                    documentSupportType = "Customize";
+                }
+            }
 
             if (status.Equals("ALL"))
             {

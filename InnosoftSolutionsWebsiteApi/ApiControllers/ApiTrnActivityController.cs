@@ -464,7 +464,47 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                         }
                                         else
                                         {
-                                            return null;
+                                            if (document.Equals("Support - Customize"))
+                                            {
+                                                var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
+                                                               join s in db.IS_TrnActivities
+                                                               on d.Id equals s.SupportId
+                                                               into joinActivities
+                                                               from activities in joinActivities.DefaultIfEmpty()
+                                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                                               && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                               && d.SupportType == "Customize"
+                                                               select new Entities.TrnActivity
+                                                               {
+                                                                   Id = activities.Id == null ? 0 : activities.Id,
+                                                                   DocumentNumber = "SN - " + d.SupportNumber,
+                                                                   ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                                   Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                                   Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                                   StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                                   StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                                   LeadId = null,
+                                                                   QuotationId = null,
+                                                                   DeliveryId = null,
+                                                                   SupportId = d.Id,
+                                                                   SoftwareDevelopmentId = null,
+                                                                   CustomerId = d.CustomerId,
+                                                                   ProductId = d.ProductId,
+                                                                   ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                                   NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                                   ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                                   ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                                   HeaderStatus = d.SupportStatus,
+                                                                   EncodedBy = d.MstUser.FullName
+                                                               };
+
+                                                return supports.ToList();
+                                            }
+                                            else
+                                            {
+                                                return null;
+                                            }
                                         }
                                     }
                                 }
@@ -777,7 +817,48 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                         }
                                         else
                                         {
-                                            return null;
+                                            if (document.Equals("Support - Customize"))
+                                            {
+                                                var supports = from d in db.IS_TrnSupports.OrderByDescending(d => d.Id)
+                                                               join s in db.IS_TrnActivities
+                                                               on d.Id equals s.SupportId
+                                                               into joinActivities
+                                                               from activities in joinActivities.DefaultIfEmpty()
+                                                               where (activities.ActivityDate != null ? activities.ActivityDate >= Convert.ToDateTime(startDate) : d.SupportDate >= Convert.ToDateTime(startDate))
+                                                               && (activities.ActivityDate != null ? activities.ActivityDate <= Convert.ToDateTime(endDate) : d.SupportDate <= Convert.ToDateTime(endDate))
+                                                               && (activities.ActivityDate == null ? d.SupportDate <= Convert.ToDateTime(endDate) : activities.Id == joinActivities.OrderByDescending(s => s.Id).FirstOrDefault().Id)
+                                                               && d.SupportType == "Customize"
+                                                               && d.SupportStatus == documentStatus
+                                                               select new Entities.TrnActivity
+                                                               {
+                                                                   Id = activities.Id == null ? 0 : activities.Id,
+                                                                   DocumentNumber = "SN - " + d.SupportNumber,
+                                                                   ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
+                                                                   Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                                   Activity = activities.Particulars == null ? " " : activities.Particulars,
+                                                                   StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
+                                                                   StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
+                                                                   LeadId = null,
+                                                                   QuotationId = null,
+                                                                   DeliveryId = null,
+                                                                   SupportId = d.Id,
+                                                                   SoftwareDevelopmentId = null,
+                                                                   CustomerId = d.CustomerId,
+                                                                   ProductId = d.ProductId,
+                                                                   ParticularCategory = activities.ParticularCategory == null ? " " : activities.ParticularCategory,
+                                                                   NumberOfHours = activities.NumberOfHours == null ? 0 : activities.NumberOfHours,
+                                                                   ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
+                                                                   ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
+                                                                   HeaderStatus = d.SupportStatus,
+                                                                   EncodedBy = d.MstUser.FullName
+                                                               };
+
+                                                return supports.ToList();
+                                            }
+                                            else
+                                            {
+                                                return null;
+                                            }
                                         }
                                     }
                                 }
