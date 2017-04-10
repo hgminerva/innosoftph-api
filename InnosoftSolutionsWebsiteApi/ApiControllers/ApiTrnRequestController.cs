@@ -30,12 +30,13 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list request
-        [HttpGet, Route("list/byRequestDateRange/{startRequestDate}/{endRequestDate}")]
-        public List<Entities.TrnRequest> listRequestByRequestDateRange(String startRequestDate, String endRequestDate)
+        [HttpGet, Route("list/byRequestDateRange/{startRequestDate}/{endRequestDate}/{requestType}")]
+        public List<Entities.TrnRequest> listRequestByRequestDateRange(String startRequestDate, String endRequestDate, String requestType)
         {
             var requests = from d in db.IS_TrnRequests.OrderByDescending(d => d.Id)
                            where d.RequestDate >= Convert.ToDateTime(startRequestDate)
                            && d.RequestDate <= Convert.ToDateTime(endRequestDate)
+                           && d.RequestType == requestType
                            select new Entities.TrnRequest
                            {
                                Id = d.Id,
