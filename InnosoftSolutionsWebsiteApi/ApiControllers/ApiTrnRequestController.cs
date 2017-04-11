@@ -128,12 +128,20 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             try
             {
                 var requests = from d in db.IS_TrnRequests where d.Id == Convert.ToInt32(id) select d;
+                var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
                 if (requests.Any())
                 {
-                    db.IS_TrnRequests.DeleteOnSubmit(requests.First());
-                    db.SubmitChanges();
+                    if (requests.FirstOrDefault().EncodedByUserId == userId)
+                    {
+                        db.IS_TrnRequests.DeleteOnSubmit(requests.First());
+                        db.SubmitChanges();
 
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                        return Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest);
+                    }
                 }
                 else
                 {

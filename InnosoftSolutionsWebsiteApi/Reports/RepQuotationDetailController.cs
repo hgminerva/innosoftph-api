@@ -16,6 +16,7 @@ namespace InnosoftSolutionsWebsiteApi.Reports
         public Int32 Id { get; set; }
         public String ProductCode { get; set; }
         public String ProductDescription { get; set; }
+        public Boolean IsDiscount { get; set; }
         public Decimal Price { get; set; }
         public Decimal Quantity { get; set; }
         public Decimal Amount { get; set; }
@@ -181,7 +182,15 @@ namespace InnosoftSolutionsWebsiteApi.Reports
                 Decimal totalAmount = 0;
                 foreach (var productList in quotationObjectLists.FirstOrDefault().ProdcutLists)
                 {
-                    totalAmount += productList.Amount;
+                    if (productList.IsDiscount)
+                    {
+                        totalAmount -= productList.Amount;
+                    }
+                    else
+                    {
+                        totalAmount += productList.Amount;
+                    }
+
                     quotationDetailQuotationProduct.AddCell(new PdfPCell(new Phrase(productList.ProductCode, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailQuotationProduct.AddCell(new PdfPCell(new Phrase(productList.ProductDescription, fontArial11)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     quotationDetailQuotationProduct.AddCell(new PdfPCell(new Phrase(productList.Price.ToString("#,##0.00"), fontArial11)) { HorizontalAlignment = 2, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
