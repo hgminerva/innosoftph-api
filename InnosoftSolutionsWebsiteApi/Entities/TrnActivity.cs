@@ -30,5 +30,6 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String Activity { get; set; }
         public String HeaderStatus { get; set; }
         public String EncodedBy { get; set; }
+        public String HeaderRemarks { get; set; }
     }
 }
