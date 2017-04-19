@@ -1362,7 +1362,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 CustomerId = d.CustomerId,
                                                                                 Customer = d.MstArticle.Article,
                                                                                 ProductId = d.ProductId,
-                                                                                Product = d.MstArticle1.Article,
+                                                                                Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
                                                                                 NumberOfHours = d.NumberOfHours,
@@ -1492,7 +1492,43 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                 }
                                                 else
                                                 {
-                                                    return null;
+                                                    if (document.Equals("ALL"))
+                                                    {
+                                                        var allActivities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
+                                                                            where d.ActivityDate >= Convert.ToDateTime(startDate)
+                                                                            && d.ActivityDate <= Convert.ToDateTime(endDate)
+                                                                            select new Entities.TrnActivity
+                                                                            {
+                                                                                Id = d.Id,
+                                                                                DocumentNumber = d.LeadId != null ? "LN-" + d.IS_TrnLead.LeadNumber : d.QuotationId != null ? "QN-" + d.IS_TrnQuotation.QuotationNumber : d.DeliveryId != null ? "DN-" + d.IS_TrnDelivery.DeliveryNumber : d.SupportId != null ? "SN-" + d.IS_TrnSupport.SupportNumber : d.SoftwareDevelopmentId != null ? "SD-" + d.IS_TrnSoftwareDevelopment.SoftDevNumber : " ",
+                                                                                ActivityNumber = d.ActivityNumber,
+                                                                                ActivityDate = d.ActivityDate.ToShortDateString(),
+                                                                                StaffUserId = d.StaffUserId,
+                                                                                StaffUser = d.MstUser.FullName,
+                                                                                CustomerId = d.CustomerId,
+                                                                                Customer = d.LeadId != null ? d.IS_TrnLead.LeadName : d.MstArticle.Article,
+                                                                                ProductId = d.ProductId,
+                                                                                Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
+                                                                                ParticularCategory = d.ParticularCategory,
+                                                                                Particulars = d.Particulars,
+                                                                                NumberOfHours = d.NumberOfHours,
+                                                                                ActivityAmount = d.ActivityAmount,
+                                                                                ActivityStatus = d.ActivityStatus,
+                                                                                LeadId = d.LeadId,
+                                                                                QuotationId = d.QuotationId,
+                                                                                DeliveryId = d.DeliveryId,
+                                                                                SupportId = d.SupportId,
+                                                                                SoftwareDevelopmentId = d.SoftwareDevelopmentId,
+                                                                                HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
+                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " "
+                                                                            };
+
+                                                        return allActivities.ToList();
+                                                    }
+                                                    else
+                                                    {
+                                                        return null;
+                                                    }
                                                 }
                                             }
                                         }
@@ -1670,7 +1706,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 CustomerId = d.CustomerId,
                                                                                 Customer = d.MstArticle.Article,
                                                                                 ProductId = d.ProductId,
-                                                                                Product = d.MstArticle1.Article,
+                                                                                Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
                                                                                 NumberOfHours = d.NumberOfHours,
@@ -1803,7 +1839,44 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                 }
                                                 else
                                                 {
-                                                    return null;
+                                                    if (document.Equals("ALL"))
+                                                    {
+                                                        var allActivities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
+                                                                            where d.ActivityDate >= Convert.ToDateTime(startDate)
+                                                                            && d.ActivityDate <= Convert.ToDateTime(endDate)
+                                                                            && d.StaffUserId == Convert.ToInt32(staffId)
+                                                                            select new Entities.TrnActivity
+                                                                            {
+                                                                                Id = d.Id,
+                                                                                DocumentNumber = d.LeadId != null ? "LN-" + d.IS_TrnLead.LeadNumber : d.QuotationId != null ? "QN-" + d.IS_TrnQuotation.QuotationNumber : d.DeliveryId != null ? "DN-" + d.IS_TrnDelivery.DeliveryNumber : d.SupportId != null ? "SN-" + d.IS_TrnSupport.SupportNumber : d.SoftwareDevelopmentId != null ? "SD-" + d.IS_TrnSoftwareDevelopment.SoftDevNumber : " ",
+                                                                                ActivityNumber = d.ActivityNumber,
+                                                                                ActivityDate = d.ActivityDate.ToShortDateString(),
+                                                                                StaffUserId = d.StaffUserId,
+                                                                                StaffUser = d.MstUser.FullName,
+                                                                                CustomerId = d.CustomerId,
+                                                                                Customer = d.LeadId != null ? d.IS_TrnLead.LeadName : d.MstArticle.Article,
+                                                                                ProductId = d.ProductId,
+                                                                                Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
+                                                                                ParticularCategory = d.ParticularCategory,
+                                                                                Particulars = d.Particulars,
+                                                                                NumberOfHours = d.NumberOfHours,
+                                                                                ActivityAmount = d.ActivityAmount,
+                                                                                ActivityStatus = d.ActivityStatus,
+                                                                                LeadId = d.LeadId,
+                                                                                QuotationId = d.QuotationId,
+                                                                                DeliveryId = d.DeliveryId,
+                                                                                SupportId = d.SupportId,
+                                                                                SoftwareDevelopmentId = d.SoftwareDevelopmentId,
+                                                                                HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
+                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " "
+                                                                            };
+
+                                                        return allActivities.ToList();
+                                                    }
+                                                    else
+                                                    {
+                                                        return null;
+                                                    }
                                                 }
                                             }
                                         }
@@ -2011,7 +2084,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 CustomerId = d.CustomerId,
                                                                                 Customer = d.MstArticle.Article,
                                                                                 ProductId = d.ProductId,
-                                                                                Product = d.MstArticle1.Article,
+                                                                                Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
                                                                                 NumberOfHours = d.NumberOfHours,
@@ -2144,7 +2217,78 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                 }
                                                 else
                                                 {
-                                                    return null;
+                                                    if (document.Equals("ALL"))
+                                                    {
+                                                        var allActivities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
+                                                                            where d.ActivityDate >= Convert.ToDateTime(startDate)
+                                                                            && d.ActivityDate <= Convert.ToDateTime(endDate)
+                                                                            select new Entities.TrnActivity
+                                                                            {
+                                                                                Id = d.Id,
+                                                                                DocumentNumber = d.LeadId != null ? "LN-" + d.IS_TrnLead.LeadNumber : d.QuotationId != null ? "QN-" + d.IS_TrnQuotation.QuotationNumber : d.DeliveryId != null ? "DN-" + d.IS_TrnDelivery.DeliveryNumber : d.SupportId != null ? "SN-" + d.IS_TrnSupport.SupportNumber : d.SoftwareDevelopmentId != null ? "SD-" + d.IS_TrnSoftwareDevelopment.SoftDevNumber : " ",
+                                                                                ActivityNumber = d.ActivityNumber,
+                                                                                ActivityDate = d.ActivityDate.ToShortDateString(),
+                                                                                StaffUserId = d.StaffUserId,
+                                                                                StaffUser = d.MstUser.FullName,
+                                                                                CustomerId = d.CustomerId,
+                                                                                Customer = d.LeadId != null ? d.IS_TrnLead.LeadName : d.MstArticle.Article,
+                                                                                ProductId = d.ProductId,
+                                                                                Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
+                                                                                ParticularCategory = d.ParticularCategory,
+                                                                                Particulars = d.Particulars,
+                                                                                NumberOfHours = d.NumberOfHours,
+                                                                                ActivityAmount = d.ActivityAmount,
+                                                                                ActivityStatus = d.ActivityStatus,
+                                                                                LeadId = d.LeadId,
+                                                                                QuotationId = d.QuotationId,
+                                                                                DeliveryId = d.DeliveryId,
+                                                                                SupportId = d.SupportId,
+                                                                                SoftwareDevelopmentId = d.SoftwareDevelopmentId,
+                                                                                HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
+                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " "
+                                                                            };
+
+                                                        if (allActivities.Any())
+                                                        {
+                                                            var allActivitiesList = from d in allActivities
+                                                                                    where d.HeaderStatus == documentStatus
+                                                                                    select new Entities.TrnActivity
+                                                                                    {
+                                                                                        Id = d.Id,
+                                                                                        DocumentNumber = d.DocumentNumber,
+                                                                                        ActivityNumber = d.ActivityNumber,
+                                                                                        ActivityDate = d.ActivityDate,
+                                                                                        StaffUserId = d.StaffUserId,
+                                                                                        StaffUser = d.StaffUser,
+                                                                                        CustomerId = d.CustomerId,
+                                                                                        Customer = d.Customer,
+                                                                                        ProductId = d.ProductId,
+                                                                                        Product = d.Product,
+                                                                                        ParticularCategory = d.ParticularCategory,
+                                                                                        Particulars = d.Particulars,
+                                                                                        NumberOfHours = d.NumberOfHours,
+                                                                                        ActivityAmount = d.ActivityAmount,
+                                                                                        ActivityStatus = d.ActivityStatus,
+                                                                                        LeadId = d.LeadId,
+                                                                                        QuotationId = d.QuotationId,
+                                                                                        DeliveryId = d.DeliveryId,
+                                                                                        SupportId = d.SupportId,
+                                                                                        SoftwareDevelopmentId = d.SoftwareDevelopmentId,
+                                                                                        HeaderRemarks = d.HeaderRemarks,
+                                                                                        HeaderStatus = d.HeaderStatus
+                                                                                    };
+
+                                                            return allActivitiesList.ToList();
+                                                        }
+                                                        else
+                                                        {
+                                                            return null;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        return null;
+                                                    }
                                                 }
                                             }
                                         }
@@ -2327,7 +2471,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 CustomerId = d.CustomerId,
                                                                                 Customer = d.MstArticle.Article,
                                                                                 ProductId = d.ProductId,
-                                                                                Product = d.MstArticle1.Article,
+                                                                                Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
                                                                                 NumberOfHours = d.NumberOfHours,
@@ -2463,7 +2607,79 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                 }
                                                 else
                                                 {
-                                                    return null;
+                                                    if (document.Equals("ALL"))
+                                                    {
+                                                        var allActivities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
+                                                                            where d.ActivityDate >= Convert.ToDateTime(startDate)
+                                                                            && d.ActivityDate <= Convert.ToDateTime(endDate)
+                                                                            && d.StaffUserId == Convert.ToInt32(staffId)
+                                                                            select new Entities.TrnActivity
+                                                                            {
+                                                                                Id = d.Id,
+                                                                                DocumentNumber = d.LeadId != null ? "LN-" + d.IS_TrnLead.LeadNumber : d.QuotationId != null ? "QN-" + d.IS_TrnQuotation.QuotationNumber : d.DeliveryId != null ? "DN-" + d.IS_TrnDelivery.DeliveryNumber : d.SupportId != null ? "SN-" + d.IS_TrnSupport.SupportNumber : d.SoftwareDevelopmentId != null ? "SD-" + d.IS_TrnSoftwareDevelopment.SoftDevNumber : " ",
+                                                                                ActivityNumber = d.ActivityNumber,
+                                                                                ActivityDate = d.ActivityDate.ToShortDateString(),
+                                                                                StaffUserId = d.StaffUserId,
+                                                                                StaffUser = d.MstUser.FullName,
+                                                                                CustomerId = d.CustomerId,
+                                                                                Customer = d.LeadId != null ? d.IS_TrnLead.LeadName : d.MstArticle.Article,
+                                                                                ProductId = d.ProductId,
+                                                                                Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
+                                                                                ParticularCategory = d.ParticularCategory,
+                                                                                Particulars = d.Particulars,
+                                                                                NumberOfHours = d.NumberOfHours,
+                                                                                ActivityAmount = d.ActivityAmount,
+                                                                                ActivityStatus = d.ActivityStatus,
+                                                                                LeadId = d.LeadId,
+                                                                                QuotationId = d.QuotationId,
+                                                                                DeliveryId = d.DeliveryId,
+                                                                                SupportId = d.SupportId,
+                                                                                SoftwareDevelopmentId = d.SoftwareDevelopmentId,
+                                                                                HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
+                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " "
+                                                                            };
+
+                                                        if (allActivities.Any())
+                                                        {
+                                                            var allActivitiesList = from d in allActivities
+                                                                                    where d.HeaderStatus == documentStatus
+                                                                                    select new Entities.TrnActivity
+                                                                                    {
+                                                                                        Id = d.Id,
+                                                                                        DocumentNumber = d.DocumentNumber,
+                                                                                        ActivityNumber = d.ActivityNumber,
+                                                                                        ActivityDate = d.ActivityDate,
+                                                                                        StaffUserId = d.StaffUserId,
+                                                                                        StaffUser = d.StaffUser,
+                                                                                        CustomerId = d.CustomerId,
+                                                                                        Customer = d.Customer,
+                                                                                        ProductId = d.ProductId,
+                                                                                        Product = d.Product,
+                                                                                        ParticularCategory = d.ParticularCategory,
+                                                                                        Particulars = d.Particulars,
+                                                                                        NumberOfHours = d.NumberOfHours,
+                                                                                        ActivityAmount = d.ActivityAmount,
+                                                                                        ActivityStatus = d.ActivityStatus,
+                                                                                        LeadId = d.LeadId,
+                                                                                        QuotationId = d.QuotationId,
+                                                                                        DeliveryId = d.DeliveryId,
+                                                                                        SupportId = d.SupportId,
+                                                                                        SoftwareDevelopmentId = d.SoftwareDevelopmentId,
+                                                                                        HeaderRemarks = d.HeaderRemarks,
+                                                                                        HeaderStatus = d.HeaderStatus
+                                                                                    };
+
+                                                            return allActivitiesList.ToList();
+                                                        }
+                                                        else
+                                                        {
+                                                            return null;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        return null;
+                                                    }
                                                 }
                                             }
                                         }
