@@ -2691,5 +2691,82 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 }
             }
         }
+
+        // no of activities per staffs
+        [HttpGet, Route("list/no_of_activities_per_staff/{start_date}/{end_date}/{status}")]
+        public List<Entities.TrnActivity> list_NoOf_Activities_Per_Staff(String start_date, String end_date, String status)
+        {
+            if (status.Equals("ALL"))
+            {
+                var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.MstUser.FullName)
+                                 where d.ActivityDate >= Convert.ToDateTime(start_date)
+                                 && d.ActivityDate <= Convert.ToDateTime(end_date)
+                                 group d by new
+                                 {
+                                     StaffUserId = d.StaffUserId,
+                                     StaffUser = d.MstUser.FullName,
+                                 } into g
+                                 select new Entities.TrnActivity
+                                 {
+                                     StaffUser = g.Key.StaffUser,
+                                     No_of_Lead_Activities = g.Count(s => s.LeadId != null),
+                                     No_of_Quotation_Activities = g.Count(s => s.QuotationId != null),
+                                     No_of_Delivery_Activities = g.Count(s => s.DeliveryId != null),
+                                     No_of_Support_Activities = g.Count(s => s.SupportId != null),
+                                     No_of_Software_Development_Activities = g.Count(s => s.SoftwareDevelopmentId != null)
+                                 };
+
+                return activities.ToList();
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (status.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (status.Equals("WAITING FOR CLIENT"))
+                    {
+                        documentStatus = "WAITING FOR CLIENT";
+                    }
+                    else
+                    {
+                        if (status.Equals("CANCELLED"))
+                        {
+                            documentStatus = "CANCELLED";
+                        }
+                        else
+                        {
+                            if (status.Equals("DONE"))
+                            {
+                                documentStatus = "DONE";
+                            }
+                        }
+                    }
+                }
+
+                var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.MstUser.FullName)
+                                 where d.ActivityDate >= Convert.ToDateTime(start_date)
+                                 && d.ActivityDate <= Convert.ToDateTime(end_date)
+                                 group d by new
+                                 {
+                                     StaffUserId = d.StaffUserId,
+                                     StaffUser = d.MstUser.FullName,
+                                 } into g
+                                 select new Entities.TrnActivity
+                                 {
+                                     StaffUser = g.Key.StaffUser,
+                                     No_of_Lead_Activities = g.Count(s => s.LeadId != null && s.IS_TrnLead.LeadStatus == documentStatus),
+                                     No_of_Quotation_Activities = g.Count(s => s.QuotationId != null && s.IS_TrnQuotation.QuotationStatus == documentStatus),
+                                     No_of_Delivery_Activities = g.Count(s => s.DeliveryId != null && s.IS_TrnDelivery.DeliveryStatus == documentStatus),
+                                     No_of_Support_Activities = g.Count(s => s.SupportId != null && s.IS_TrnSupport.SupportStatus == documentStatus),
+                                     No_of_Software_Development_Activities = g.Count(s => s.SoftwareDevelopmentId != null && s.IS_TrnSoftwareDevelopment.SoftDevStatus == documentStatus)
+                                 };
+
+                return activities.ToList();
+            }
+        }
     }
 }

@@ -31,5 +31,11 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String HeaderStatus { get; set; }
         public String EncodedBy { get; set; }
         public String HeaderRemarks { get; set; }
+        public Int32 No_of_Lead_Activities { get; set; }
+        public Int32 No_of_Quotation_Activities { get; set; }
+        public Int32 No_of_Delivery_Activities { get; set; }
+        public Int32 No_of_Support_Activities { get; set; }
+        public Int32 No_of_Software_Development_Activities { get; set; }
+        public Int32 Total_No_of_Activities { get; set; }
     }
 }
