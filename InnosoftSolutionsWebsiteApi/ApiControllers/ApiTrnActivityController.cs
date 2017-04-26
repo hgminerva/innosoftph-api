@@ -2698,7 +2698,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         {
             if (status.Equals("ALL"))
             {
-                var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.MstUser.FullName)
+                var activities = from d in db.IS_TrnActivities
                                  where d.ActivityDate >= Convert.ToDateTime(start_date)
                                  && d.ActivityDate <= Convert.ToDateTime(end_date)
                                  group d by new
@@ -2716,7 +2716,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                      No_of_Software_Development_Activities = g.Count(s => s.SoftwareDevelopmentId != null)
                                  };
 
-                return activities.ToList();
+                return activities.OrderBy(d => d.StaffUser).ToList();
             }
             else
             {
@@ -2765,7 +2765,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                      No_of_Software_Development_Activities = g.Count(s => s.SoftwareDevelopmentId != null && s.IS_TrnSoftwareDevelopment.SoftDevStatus == documentStatus)
                                  };
 
-                return activities.ToList();
+                return activities.OrderBy(d => d.StaffUser).ToList();
             }
         }
     }
