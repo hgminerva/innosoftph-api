@@ -36,8 +36,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
             if (status.Equals("ALL"))
             {
                 var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                   where d.ContinuityDate >= Convert.ToDateTime(startContinuityDate)
-                                   && d.ContinuityDate <= Convert.ToDateTime(endContinuityDate)
+                                   where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
+                                   && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
                                    select new Entities.TrnContinuity
                                    {
                                        Id = d.Id,
@@ -67,8 +67,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 }
 
                 var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                   where d.ContinuityDate >= Convert.ToDateTime(startContinuityDate)
-                                   && d.ContinuityDate <= Convert.ToDateTime(endContinuityDate)
+                                   where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
+                                   && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
                                    && d.ContinuityStatus == documentStatus
                                    select new Entities.TrnContinuity
                                    {
