@@ -3168,6 +3168,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private string _Remarks;
 		
+		private decimal _ContinuityAmount;
+		
 		private int _StaffUserId;
 		
 		private string _ContinuityStatus;
@@ -3202,6 +3204,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnExpiryDateChanged();
     partial void OnRemarksChanging(string value);
     partial void OnRemarksChanged();
+    partial void OnContinuityAmountChanging(decimal value);
+    partial void OnContinuityAmountChanged();
     partial void OnStaffUserIdChanging(int value);
     partial void OnStaffUserIdChanged();
     partial void OnContinuityStatusChanging(string value);
@@ -3386,6 +3390,26 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._Remarks = value;
 					this.SendPropertyChanged("Remarks");
 					this.OnRemarksChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContinuityAmount", DbType="Decimal(18,5) NOT NULL")]
+		public decimal ContinuityAmount
+		{
+			get
+			{
+				return this._ContinuityAmount;
+			}
+			set
+			{
+				if ((this._ContinuityAmount != value))
+				{
+					this.OnContinuityAmountChanging(value);
+					this.SendPropertyChanging();
+					this._ContinuityAmount = value;
+					this.SendPropertyChanged("ContinuityAmount");
+					this.OnContinuityAmountChanged();
 				}
 			}
 		}

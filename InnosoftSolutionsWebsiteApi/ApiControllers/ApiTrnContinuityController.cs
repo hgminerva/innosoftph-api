@@ -30,33 +30,70 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list continuity
-        [HttpGet, Route("list/byContinuityDateRange/{startContinuityDate}/{endContinuityDate}/{status}")]
-        public List<Entities.TrnContinuity> listContinuityByContinuityDateRange(String startContinuityDate, String endContinuityDate, String status)
+        [HttpGet, Route("list/byContinuityDateRange/{dateType}/{startContinuityDate}/{endContinuityDate}/{status}")]
+        public List<Entities.TrnContinuity> listContinuityByContinuityDateRange(String dateType, String startContinuityDate, String endContinuityDate, String status)
         {
             if (status.Equals("ALL"))
             {
-                var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                   where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
-                                   && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
-                                   select new Entities.TrnContinuity
-                                   {
-                                       Id = d.Id,
-                                       ContinuityNumber = d.ContinuityNumber,
-                                       ContinuityDate = d.ContinuityDate.ToShortDateString(),
-                                       DeliveryId = d.DeliveryId,
-                                       DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
-                                       CustomerId = d.CustomerId,
-                                       Customer = d.MstArticle.Article,
-                                       ProductId = d.ProductId,
-                                       Product = d.MstArticle1.Article,
-                                       ExpiryDate = d.ExpiryDate.ToShortDateString(),
-                                       Remarks = d.Remarks,
-                                       StaffUserId = d.StaffUserId,
-                                       StaffUser = d.MstUser.FullName,
-                                       ContinuityStatus = d.ContinuityStatus
-                                   };
+                if (dateType.Equals("Continuity Date"))
+                {
+                    var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
+                                       where d.ContinuityDate >= Convert.ToDateTime(startContinuityDate)
+                                       && d.ContinuityDate <= Convert.ToDateTime(endContinuityDate)
+                                       select new Entities.TrnContinuity
+                                       {
+                                           Id = d.Id,
+                                           ContinuityNumber = d.ContinuityNumber,
+                                           ContinuityDate = d.ContinuityDate.ToShortDateString(),
+                                           DeliveryId = d.DeliveryId,
+                                           DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
+                                           CustomerId = d.CustomerId,
+                                           Customer = d.MstArticle.Article,
+                                           ProductId = d.ProductId,
+                                           Product = d.MstArticle1.Article,
+                                           ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                           Remarks = d.Remarks,
+                                           ContinuityAmount = d.ContinuityAmount,
+                                           StaffUserId = d.StaffUserId,
+                                           StaffUser = d.MstUser.FullName,
+                                           ContinuityStatus = d.ContinuityStatus
+                                       };
 
-                return continuities.ToList();
+                    return continuities.ToList();
+                }
+                else
+                {
+                    if (dateType.Equals("Expiry Date"))
+                    {
+                        var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
+                                           where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
+                                           && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
+                                           select new Entities.TrnContinuity
+                                           {
+                                               Id = d.Id,
+                                               ContinuityNumber = d.ContinuityNumber,
+                                               ContinuityDate = d.ContinuityDate.ToShortDateString(),
+                                               DeliveryId = d.DeliveryId,
+                                               DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
+                                               CustomerId = d.CustomerId,
+                                               Customer = d.MstArticle.Article,
+                                               ProductId = d.ProductId,
+                                               Product = d.MstArticle1.Article,
+                                               ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                               Remarks = d.Remarks,
+                                               ContinuityAmount = d.ContinuityAmount,
+                                               StaffUserId = d.StaffUserId,
+                                               StaffUser = d.MstUser.FullName,
+                                               ContinuityStatus = d.ContinuityStatus
+                                           };
+
+                        return continuities.ToList();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
             }
             else
             {
@@ -66,29 +103,67 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     documentStatus = "EXPIRED";
                 }
 
-                var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                   where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
-                                   && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
-                                   && d.ContinuityStatus == documentStatus
-                                   select new Entities.TrnContinuity
-                                   {
-                                       Id = d.Id,
-                                       ContinuityNumber = d.ContinuityNumber,
-                                       ContinuityDate = d.ContinuityDate.ToShortDateString(),
-                                       DeliveryId = d.DeliveryId,
-                                       DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
-                                       CustomerId = d.CustomerId,
-                                       Customer = d.MstArticle.Article,
-                                       ProductId = d.ProductId,
-                                       Product = d.MstArticle1.Article,
-                                       ExpiryDate = d.ExpiryDate.ToShortDateString(),
-                                       Remarks = d.Remarks,
-                                       StaffUserId = d.StaffUserId,
-                                       StaffUser = d.MstUser.FullName,
-                                       ContinuityStatus = d.ContinuityStatus
-                                   };
+                if (dateType.Equals("Continuity Date"))
+                {
+                    var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
+                                       where d.ContinuityDate >= Convert.ToDateTime(startContinuityDate)
+                                       && d.ContinuityDate <= Convert.ToDateTime(endContinuityDate)
+                                       && d.ContinuityStatus == documentStatus
+                                       select new Entities.TrnContinuity
+                                       {
+                                           Id = d.Id,
+                                           ContinuityNumber = d.ContinuityNumber,
+                                           ContinuityDate = d.ContinuityDate.ToShortDateString(),
+                                           DeliveryId = d.DeliveryId,
+                                           DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
+                                           CustomerId = d.CustomerId,
+                                           Customer = d.MstArticle.Article,
+                                           ProductId = d.ProductId,
+                                           Product = d.MstArticle1.Article,
+                                           ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                           Remarks = d.Remarks,
+                                           ContinuityAmount = d.ContinuityAmount,
+                                           StaffUserId = d.StaffUserId,
+                                           StaffUser = d.MstUser.FullName,
+                                           ContinuityStatus = d.ContinuityStatus
+                                       };
 
-                return continuities.ToList();
+                    return continuities.ToList();
+                }
+                else
+                {
+                    if (dateType.Equals("Expiry Date"))
+                    {
+                        var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
+                                           where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
+                                           && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
+                                           && d.ContinuityStatus == documentStatus
+                                           select new Entities.TrnContinuity
+                                           {
+                                               Id = d.Id,
+                                               ContinuityNumber = d.ContinuityNumber,
+                                               ContinuityDate = d.ContinuityDate.ToShortDateString(),
+                                               DeliveryId = d.DeliveryId,
+                                               DeliveryNumber = d.IS_TrnDelivery.DeliveryNumber,
+                                               CustomerId = d.CustomerId,
+                                               Customer = d.MstArticle.Article,
+                                               ProductId = d.ProductId,
+                                               Product = d.MstArticle1.Article,
+                                               ExpiryDate = d.ExpiryDate.ToShortDateString(),
+                                               Remarks = d.Remarks,
+                                               ContinuityAmount = d.ContinuityAmount,
+                                               StaffUserId = d.StaffUserId,
+                                               StaffUser = d.MstUser.FullName,
+                                               ContinuityStatus = d.ContinuityStatus
+                                           };
+
+                        return continuities.ToList();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
             }
         }
 
@@ -111,6 +186,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                    Product = d.MstArticle1.Article,
                                    ExpiryDate = d.ExpiryDate.ToShortDateString(),
                                    Remarks = d.Remarks,
+                                   ContinuityAmount = d.ContinuityAmount,
                                    StaffUserId = d.StaffUserId,
                                    StaffUser = d.MstUser.FullName,
                                    ContinuityStatus = d.ContinuityStatus
@@ -139,6 +215,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                    Product = d.MstArticle1.Article,
                                    ExpiryDate = d.ExpiryDate.ToShortDateString(),
                                    Remarks = d.Remarks,
+                                   ContinuityAmount = d.ContinuityAmount,
                                    StaffUserId = d.StaffUserId,
                                    StaffUser = d.MstUser.FullName,
                                    ContinuityStatus = d.ContinuityStatus
@@ -191,6 +268,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 newContinuity.ProductId = deliveries.FirstOrDefault().ProductId;
                 newContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
                 newContinuity.Remarks = continuity.Remarks;
+                newContinuity.ContinuityAmount = continuity.ContinuityAmount;
                 newContinuity.StaffUserId = userId;
                 newContinuity.ContinuityStatus = continuity.ContinuityStatus;
                 db.IS_TrnContinuities.InsertOnSubmit(newContinuity);
@@ -221,6 +299,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     updateContinuity.ProductId = deliveries.FirstOrDefault().ProductId;
                     updateContinuity.ExpiryDate = Convert.ToDateTime(continuity.ExpiryDate);
                     updateContinuity.Remarks = continuity.Remarks;
+                    updateContinuity.ContinuityAmount = continuity.ContinuityAmount;
                     updateContinuity.ContinuityStatus = continuity.ContinuityStatus;
                     db.SubmitChanges();
 
