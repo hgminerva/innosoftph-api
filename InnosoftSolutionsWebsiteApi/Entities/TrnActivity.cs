@@ -37,5 +37,6 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public Int32 No_of_Support_Activities { get; set; }
         public Int32 No_of_Software_Development_Activities { get; set; }
         public Int32 Total_No_of_Activities { get; set; }
+        public String NoOfDays { get; set; }
     }
 }

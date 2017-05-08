@@ -56,7 +56,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  QuotationId = d.QuotationId,
                                  DeliveryId = d.DeliveryId,
                                  SupportId = d.SupportId,
-                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId
+                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                              };
 
             return activities.ToList();
@@ -189,6 +189,11 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
             return activities.ToList();
         }
+        public Int32 daysBetween(DateTime d2, DateTime d1)
+        {
+            TimeSpan span = d2.Subtract(d1);
+            return (Int32)span.TotalDays;
+        }
 
         // get document with latest activity by document reference and by date ranged
         [HttpGet, Route("list/byDocument/byDateRanged/{document}/{startDate}/{endDate}/{status}")]
@@ -227,7 +232,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                     ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                     HeaderStatus = d.LeadStatus,
-                                    EncodedBy = d.MstUser.FullName
+                                    EncodedBy = d.MstUser.FullName,
+                                    NoOfDays = daysBetween(DateTime.Today, d.LeadDate).ToString()
                                 };
 
                     return leads.ToList();
@@ -265,7 +271,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                              ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                              HeaderStatus = d.QuotationStatus,
-                                             EncodedBy = d.MstUser.FullName
+                                             EncodedBy = d.MstUser.FullName,
+                                             NoOfDays = daysBetween(DateTime.Today, d.QuotationDate).ToString()
                                          };
 
                         return quotations.ToList();
@@ -303,7 +310,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                  ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                  HeaderStatus = d.DeliveryStatus,
-                                                 EncodedBy = d.MstUser.FullName
+                                                 EncodedBy = d.MstUser.FullName,
+                                                 NoOfDays = daysBetween(DateTime.Today, d.DeliveryDate).ToString()
                                              };
 
                             return deliveries.ToList();
@@ -341,7 +349,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                    HeaderStatus = d.SupportStatus,
-                                                   EncodedBy = d.MstUser.FullName
+                                                   EncodedBy = d.MstUser.FullName,
+                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                };
 
                                 return supports.ToList();
@@ -379,7 +388,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SoftDevStatus,
-                                                                   EncodedBy = d.MstUser.FullName
+                                                                   EncodedBy = d.MstUser.FullName,
+                                                                   NoOfDays = daysBetween(DateTime.Today, d.SoftDevDate).ToString()
                                                                };
 
                                     return softwareDevelopments.ToList();
@@ -418,7 +428,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                            ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                            ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                            HeaderStatus = d.SupportStatus,
-                                                           EncodedBy = d.MstUser.FullName
+                                                           EncodedBy = d.MstUser.FullName,
+                                                           NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                        };
 
                                         return supports.ToList();
@@ -457,7 +468,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                                ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                HeaderStatus = d.SupportStatus,
-                                                               EncodedBy = d.MstUser.FullName
+                                                               EncodedBy = d.MstUser.FullName,
+                                                               NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                            };
 
                                             return supports.ToList();
@@ -496,7 +508,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SupportStatus,
-                                                                   EncodedBy = d.MstUser.FullName
+                                                                   EncodedBy = d.MstUser.FullName,
+                                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                                };
 
                                                 return supports.ToList();
@@ -574,7 +587,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                     ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                     HeaderStatus = d.LeadStatus,
-                                    EncodedBy = d.MstUser.FullName
+                                    EncodedBy = d.MstUser.FullName,
+                                    NoOfDays = daysBetween(DateTime.Today, d.LeadDate).ToString()
                                 };
 
                     return leads.ToList();
@@ -613,7 +627,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                              ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                              HeaderStatus = d.QuotationStatus,
-                                             EncodedBy = d.MstUser.FullName
+                                             EncodedBy = d.MstUser.FullName,
+                                             NoOfDays = daysBetween(DateTime.Today, d.QuotationDate).ToString()
                                          };
 
                         return quotations.ToList();
@@ -652,7 +667,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                  ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                  HeaderStatus = d.DeliveryStatus,
-                                                 EncodedBy = d.MstUser.FullName
+                                                 EncodedBy = d.MstUser.FullName,
+                                                 NoOfDays = daysBetween(DateTime.Today, d.DeliveryDate).ToString()
                                              };
 
                             return deliveries.ToList();
@@ -691,7 +707,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                    HeaderStatus = d.SupportStatus,
-                                                   EncodedBy = d.MstUser.FullName
+                                                   EncodedBy = d.MstUser.FullName,
+                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                };
 
                                 return supports.ToList();
@@ -730,7 +747,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SoftDevStatus,
-                                                                   EncodedBy = d.MstUser.FullName
+                                                                   EncodedBy = d.MstUser.FullName,
+                                                                   NoOfDays = daysBetween(DateTime.Today, d.SoftDevDate).ToString()
                                                                };
 
                                     return softwareDevelopments.ToList();
@@ -770,7 +788,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                            ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                            ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                            HeaderStatus = d.SupportStatus,
-                                                           EncodedBy = d.MstUser.FullName
+                                                           EncodedBy = d.MstUser.FullName,
+                                                           NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                        };
 
                                         return supports.ToList();
@@ -810,7 +829,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                                ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                HeaderStatus = d.SupportStatus,
-                                                               EncodedBy = d.MstUser.FullName
+                                                               EncodedBy = d.MstUser.FullName,
+                                                               NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                            };
 
                                             return supports.ToList();
@@ -850,7 +870,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityAmount = activities.ActivityAmount == null ? 0 : activities.ActivityAmount,
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SupportStatus,
-                                                                   EncodedBy = d.MstUser.FullName
+                                                                   EncodedBy = d.MstUser.FullName,
+                                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
                                                                };
 
                                                 return supports.ToList();
