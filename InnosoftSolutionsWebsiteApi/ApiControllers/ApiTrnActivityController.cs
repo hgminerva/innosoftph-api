@@ -551,6 +551,20 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             {
                                 documentStatus = "DONE";
                             }
+                            else
+                            {
+                                if (status.Equals("FOR CLOSING"))
+                                {
+                                    documentStatus = "FOR CLOSING";
+                                }
+                                else
+                                {
+                                    if (status.Equals("DUPLICATE"))
+                                    {
+                                        documentStatus = "DUPLICATE";
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -1933,6 +1947,20 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             {
                                 documentStatus = "DONE";
                             }
+                            else
+                            {
+                                if (status.Equals("FOR CLOSING"))
+                                {
+                                    documentStatus = "FOR CLOSING";
+                                }
+                                else
+                                {
+                                    if (status.Equals("DUPLICATE"))
+                                    {
+                                        documentStatus = "DUPLICATE";
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2763,6 +2791,20 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             if (status.Equals("DONE"))
                             {
                                 documentStatus = "DONE";
+                            }
+                            else
+                            {
+                                if (status.Equals("FOR CLOSING"))
+                                {
+                                    documentStatus = "FOR CLOSING";
+                                }
+                                else
+                                {
+                                    if (status.Equals("DUPLICATE"))
+                                    {
+                                        documentStatus = "DUPLICATE";
+                                    }
+                                }
                             }
                         }
                     }

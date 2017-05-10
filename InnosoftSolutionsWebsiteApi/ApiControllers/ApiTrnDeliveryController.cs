@@ -76,6 +76,20 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     {
                         documentStatus = "CANCELLED";
                     }
+                    else
+                    {
+                        if (status.Equals("FOR CLOSING"))
+                        {
+                            documentStatus = "FOR CLOSING";
+                        }
+                        else
+                        {
+                            if (status.Equals("DUPLICATE"))
+                            {
+                                documentStatus = "DUPLICATE";
+                            }
+                        }
+                    }
                 }
 
                 var deliveries = from d in db.IS_TrnDeliveries.OrderByDescending(d => d.Id)

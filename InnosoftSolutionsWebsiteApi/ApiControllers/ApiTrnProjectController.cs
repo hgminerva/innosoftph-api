@@ -72,6 +72,20 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     {
                         documentStatus = "CANCELLED";
                     }
+                    else
+                    {
+                        if (status.Equals("FOR CLOSING"))
+                        {
+                            documentStatus = "FOR CLOSING";
+                        }
+                        else
+                        {
+                            if (status.Equals("DUPLICATE"))
+                            {
+                                documentStatus = "DUPLICATE";
+                            }
+                        }
+                    }
                 }
 
                 var projects = from d in db.IS_TrnProjects.OrderByDescending(d => d.Id)
