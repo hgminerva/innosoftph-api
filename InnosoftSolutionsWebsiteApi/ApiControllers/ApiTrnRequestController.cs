@@ -184,7 +184,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // approve request
         [HttpPut, Route("approve/{id}")]
-        public HttpResponseMessage approveApprove(String id, Entities.TrnRequest request)
+        public HttpResponseMessage approveRequest(String id, Entities.TrnRequest request)
         {
             try
             {
@@ -195,6 +195,62 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     var updateApproveRequest = requests.FirstOrDefault();
                     updateApproveRequest.ApprovedByUserId = userId;
                     updateApproveRequest.ApprovedRemarks = request.ApprovedRemarks;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        // uncheck request
+        [HttpPut, Route("uncheck/{id}")]
+        public HttpResponseMessage uncheckRequest(String id)
+        {
+            try
+            {
+                var requests = from d in db.IS_TrnRequests where d.Id == Convert.ToInt32(id) select d;
+                if (requests.Any())
+                {
+                    var updateCheckRequest = requests.FirstOrDefault();
+                    var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
+                    updateCheckRequest.CheckedByUserId = null;
+                    updateCheckRequest.CheckedRemarks = null;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        // disapprove request
+        [HttpPut, Route("disapprove/{id}")]
+        public HttpResponseMessage disapproveRequest(String id)
+        {
+            try
+            {
+                var requests = from d in db.IS_TrnRequests where d.Id == Convert.ToInt32(id) select d;
+                if (requests.Any())
+                {
+                    var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
+                    var updateApproveRequest = requests.FirstOrDefault();
+                    updateApproveRequest.ApprovedByUserId = null;
+                    updateApproveRequest.ApprovedRemarks = null;
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
