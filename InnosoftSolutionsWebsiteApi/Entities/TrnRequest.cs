@@ -20,5 +20,6 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public Int32? ApprovedByUserId { get; set; }
         public String ApprovedByUser { get; set; }
         public String ApprovedRemarks { get; set; }
+        public String RequestStatus { get; set; }
     }
 }

@@ -30,31 +30,82 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list request
-        [HttpGet, Route("list/byRequestDateRange/{startRequestDate}/{endRequestDate}/{requestType}")]
-        public List<Entities.TrnRequest> listRequestByRequestDateRange(String startRequestDate, String endRequestDate, String requestType)
+        [HttpGet, Route("list/byRequestDateRange/{startRequestDate}/{endRequestDate}/{requestType}/{requestStatus}")]
+        public List<Entities.TrnRequest> listRequestByRequestDateRange(String startRequestDate, String endRequestDate, String requestType, String requestStatus)
         {
-            var requests = from d in db.IS_TrnRequests.OrderByDescending(d => d.Id)
-                           where d.RequestDate >= Convert.ToDateTime(startRequestDate)
-                           && d.RequestDate <= Convert.ToDateTime(endRequestDate)
-                           && d.RequestType == requestType
-                           select new Entities.TrnRequest
-                           {
-                               Id = d.Id,
-                               RequestNumber = d.RequestNumber,
-                               RequestDate = d.RequestDate.ToShortDateString(),
-                               RequestType = d.RequestType,
-                               Particulars = d.Particulars,
-                               EncodedByUserId = d.EncodedByUserId,
-                               EncodedByUser = d.MstUser.FullName,
-                               CheckedByUserId = d.CheckedByUserId,
-                               CheckedByUser = d.MstUser1.FullName,
-                               CheckedRemarks = d.CheckedRemarks,
-                               ApprovedByUserId = d.ApprovedByUserId,
-                               ApprovedByUser = d.MstUser2.FullName,
-                               ApprovedRemarks = d.ApprovedRemarks
-                           };
+            if (requestStatus.Equals("ALL"))
+            {
+                var requests = from d in db.IS_TrnRequests.OrderByDescending(d => d.Id)
+                               where d.RequestDate >= Convert.ToDateTime(startRequestDate)
+                               && d.RequestDate <= Convert.ToDateTime(endRequestDate)
+                               && d.RequestType == requestType
+                               select new Entities.TrnRequest
+                               {
+                                   Id = d.Id,
+                                   RequestNumber = d.RequestNumber,
+                                   RequestDate = d.RequestDate.ToShortDateString(),
+                                   RequestType = d.RequestType,
+                                   Particulars = d.Particulars,
+                                   EncodedByUserId = d.EncodedByUserId,
+                                   EncodedByUser = d.MstUser.FullName,
+                                   CheckedByUserId = d.CheckedByUserId,
+                                   CheckedByUser = d.MstUser1.FullName,
+                                   CheckedRemarks = d.CheckedRemarks,
+                                   ApprovedByUserId = d.ApprovedByUserId,
+                                   ApprovedByUser = d.MstUser2.FullName,
+                                   ApprovedRemarks = d.ApprovedRemarks,
+                                   RequestStatus = d.RequestStatus
+                               };
 
-            return requests.ToList();
+                return requests.ToList();
+            }
+            else
+            {
+                String documentStatus = "OPEN";
+                if (requestStatus.Equals("CLOSE"))
+                {
+                    documentStatus = "CLOSE";
+                }
+                else
+                {
+                    if (requestStatus.Equals("CANCELLED"))
+                    {
+                        documentStatus = "CANCELLED";
+                    }
+                    else
+                    {
+                        if (requestStatus.Equals("DUPLICATE"))
+                        {
+                            documentStatus = "DUPLICATE";
+                        }
+                    }
+                }
+
+                var requests = from d in db.IS_TrnRequests.OrderByDescending(d => d.Id)
+                               where d.RequestDate >= Convert.ToDateTime(startRequestDate)
+                               && d.RequestDate <= Convert.ToDateTime(endRequestDate)
+                               && d.RequestType == requestType
+                               && d.RequestStatus == documentStatus
+                               select new Entities.TrnRequest
+                               {
+                                   Id = d.Id,
+                                   RequestNumber = d.RequestNumber,
+                                   RequestDate = d.RequestDate.ToShortDateString(),
+                                   RequestType = d.RequestType,
+                                   Particulars = d.Particulars,
+                                   EncodedByUserId = d.EncodedByUserId,
+                                   EncodedByUser = d.MstUser.FullName,
+                                   CheckedByUserId = d.CheckedByUserId,
+                                   CheckedByUser = d.MstUser1.FullName,
+                                   CheckedRemarks = d.CheckedRemarks,
+                                   ApprovedByUserId = d.ApprovedByUserId,
+                                   ApprovedByUser = d.MstUser2.FullName,
+                                   ApprovedRemarks = d.ApprovedRemarks,
+                                   RequestStatus = d.RequestStatus
+                               };
+
+                return requests.ToList();
+            }
         }
 
         // add request
@@ -82,6 +133,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 newRequest.CheckedRemarks = null;
                 newRequest.ApprovedByUserId = null;
                 newRequest.ApprovedRemarks = null;
+                newRequest.RequestStatus = request.RequestStatus;
                 db.IS_TrnRequests.InsertOnSubmit(newRequest);
                 db.SubmitChanges();
 
@@ -106,6 +158,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     updateRequest.RequestDate = Convert.ToDateTime(request.RequestDate);
                     updateRequest.RequestType = request.RequestType;
                     updateRequest.Particulars = request.Particulars;
+                    updateRequest.RequestStatus = request.RequestStatus;
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
