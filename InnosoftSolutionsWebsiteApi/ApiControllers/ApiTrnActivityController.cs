@@ -1265,7 +1265,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  SupportId = d.SupportId,
                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                  HeaderRemarks = d.IS_TrnLead.Remarks,
-                                                 HeaderStatus = d.IS_TrnLead.LeadStatus
+                                                 HeaderStatus = d.IS_TrnLead.LeadStatus,
+                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
                                              };
 
                         return leadActivities.ToList();
@@ -1301,7 +1302,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           SupportId = d.SupportId,
                                                           SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                           HeaderRemarks = d.IS_TrnQuotation.Remarks,
-                                                          HeaderStatus = d.IS_TrnQuotation.QuotationStatus
+                                                          HeaderStatus = d.IS_TrnQuotation.QuotationStatus,
+                                                          NoOfDays = daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
                                                       };
 
                             return quotationActivities.ToList();
@@ -1337,7 +1339,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              SupportId = d.SupportId,
                                                              SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                              HeaderRemarks = d.IS_TrnDelivery.Remarks,
-                                                             HeaderStatus = d.IS_TrnDelivery.DeliveryStatus
+                                                             HeaderStatus = d.IS_TrnDelivery.DeliveryStatus,
+                                                             NoOfDays = daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
                                                          };
 
                                 return deliveryActivities.ToList();
@@ -1373,7 +1376,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 SupportId = d.SupportId,
                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                 HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                             };
 
                                     return supportActivities.ToList();
@@ -1409,7 +1413,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SupportId = d.SupportId,
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.IS_TrnSoftwareDevelopment.Task,
-                                                                                HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus
+                                                                                HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus,
+                                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
                                                                             };
 
                                         return softwareDevelopmentActivities.ToList();
@@ -1446,7 +1451,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  SupportId = d.SupportId,
                                                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                  HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                              };
 
                                             return supportTechnicalActivities.ToList();
@@ -1483,7 +1489,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       SupportId = d.SupportId,
                                                                                       SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                       HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                      HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                      HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                      NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                   };
 
                                                 return supportFunctionalActivities.ToList();
@@ -1520,7 +1527,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          SupportId = d.SupportId,
                                                                                          SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                          HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                         HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                         HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                         NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                      };
 
                                                     return supportCustomizeActivities.ToList();
@@ -1555,7 +1563,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SupportId = d.SupportId,
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
-                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " "
+                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " ",
+                                                                                NoOfDays = d.LeadId != null ? daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString(): d.QuotationId != null ? daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
                                                                             };
 
                                                         return allActivities.ToList();
@@ -1605,7 +1614,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  SupportId = d.SupportId,
                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                  HeaderRemarks = d.IS_TrnLead.Remarks,
-                                                 HeaderStatus = d.IS_TrnLead.LeadStatus
+                                                 HeaderStatus = d.IS_TrnLead.LeadStatus,
+                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
                                              };
 
                         return leadActivities.ToList();
@@ -1642,7 +1652,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           SupportId = d.SupportId,
                                                           SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                           HeaderRemarks = d.IS_TrnQuotation.Remarks,
-                                                          HeaderStatus = d.IS_TrnQuotation.QuotationStatus
+                                                          HeaderStatus = d.IS_TrnQuotation.QuotationStatus,
+                                                          NoOfDays = daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
                                                       };
 
                             return quotationActivities.ToList();
@@ -1679,7 +1690,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              SupportId = d.SupportId,
                                                              SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                              HeaderRemarks = d.IS_TrnDelivery.Remarks,
-                                                             HeaderStatus = d.IS_TrnDelivery.DeliveryStatus
+                                                             HeaderStatus = d.IS_TrnDelivery.DeliveryStatus,
+                                                             NoOfDays = daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
                                                          };
 
                                 return deliveryActivities.ToList();
@@ -1716,7 +1728,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 SupportId = d.SupportId,
                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                 HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                             };
 
                                     return supportActivities.ToList();
@@ -1753,7 +1766,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SupportId = d.SupportId,
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.IS_TrnSoftwareDevelopment.Task,
-                                                                                HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus
+                                                                                HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus,
+                                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
                                                                             };
 
                                         return softwareDevelopmentActivities.ToList();
@@ -1791,7 +1805,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  SupportId = d.SupportId,
                                                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                  HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                              };
 
                                             return supportTechnicalActivities.ToList();
@@ -1829,7 +1844,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       SupportId = d.SupportId,
                                                                                       SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                       HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                      HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                      HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                      NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                   };
 
                                                 return supportFunctionalActivities.ToList();
@@ -1867,7 +1883,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          SupportId = d.SupportId,
                                                                                          SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                          HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                         HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                         HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                         NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                      };
 
                                                     return supportCustomizeActivities.ToList();
@@ -1903,7 +1920,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SupportId = d.SupportId,
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
-                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " "
+                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " ",
+                                                                                NoOfDays = d.LeadId != null ? daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
                                                                             };
 
                                                         return allActivities.ToList();
@@ -1997,7 +2015,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  SupportId = d.SupportId,
                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                  HeaderRemarks = d.IS_TrnLead.Remarks,
-                                                 HeaderStatus = d.IS_TrnLead.LeadStatus
+                                                 HeaderStatus = d.IS_TrnLead.LeadStatus,
+                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
                                              };
 
                         return leadActivities.ToList();
@@ -2034,7 +2053,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           SupportId = d.SupportId,
                                                           SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                           HeaderRemarks = d.IS_TrnQuotation.Remarks,
-                                                          HeaderStatus = d.IS_TrnQuotation.QuotationStatus
+                                                          HeaderStatus = d.IS_TrnQuotation.QuotationStatus,
+                                                          NoOfDays = daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
                                                       };
 
                             return quotationActivities.ToList();
@@ -2071,7 +2091,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              SupportId = d.SupportId,
                                                              SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                              HeaderRemarks = d.IS_TrnDelivery.Remarks,
-                                                             HeaderStatus = d.IS_TrnDelivery.DeliveryStatus
+                                                             HeaderStatus = d.IS_TrnDelivery.DeliveryStatus,
+                                                             NoOfDays = daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
                                                          };
 
                                 return deliveryActivities.ToList();
@@ -2108,7 +2129,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 SupportId = d.SupportId,
                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                 HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                             };
 
                                     return supportActivities.ToList();
@@ -2145,7 +2167,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SupportId = d.SupportId,
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.IS_TrnSoftwareDevelopment.Task,
-                                                                                HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus
+                                                                                HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus,
+                                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
                                                                             };
 
                                         return softwareDevelopmentActivities.ToList();
@@ -2183,7 +2206,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  SupportId = d.SupportId,
                                                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                  HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                              };
 
                                             return supportTechnicalActivities.ToList();
@@ -2221,7 +2245,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       SupportId = d.SupportId,
                                                                                       SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                       HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                      HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                      HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                      NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                   };
 
                                                 return supportFunctionalActivities.ToList();
@@ -2259,7 +2284,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          SupportId = d.SupportId,
                                                                                          SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                          HeaderRemarks = d.IS_TrnSupport.Issue,
-                                                                                         HeaderStatus = d.IS_TrnSupport.SupportStatus
+                                                                                         HeaderStatus = d.IS_TrnSupport.SupportStatus,
+                                                                                         NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                      };
 
                                                     return supportCustomizeActivities.ToList();
@@ -2294,7 +2320,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SupportId = d.SupportId,
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
-                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " "
+                                                                                HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " ",
+                                                                                NoOfDays = d.LeadId != null ? daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
                                                                             };
 
                                                         if (allActivities.Any())
@@ -2324,7 +2351,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                         SupportId = d.SupportId,
                                                                                         SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                         HeaderRemarks = d.HeaderRemarks,
-                                                                                        HeaderStatus = d.HeaderStatus
+                                                                                        HeaderStatus = d.HeaderStatus,
+                                                                                        NoOfDays = d.NoOfDays
                                                                                     };
 
                                                             return allActivitiesList.ToList();
