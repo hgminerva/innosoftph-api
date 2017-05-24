@@ -10,6 +10,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public Int32 Id { get; set; }
         public String ActivityNumber { get; set; }
         public String ActivityDate { get; set; }
+        public DateTime Date { get; set; }
         public Int32 StaffUserId { get; set; }
         public String StaffUser { get; set; }
         public Int32? CustomerId { get; set; }
