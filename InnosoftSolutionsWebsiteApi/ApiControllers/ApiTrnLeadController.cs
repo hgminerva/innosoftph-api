@@ -35,87 +35,196 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("list/byLeadDateRange/{startLeadDate}/{endLeadDate}/{status}")]
         public List<Entities.TrnLead> listLeadByLeadDateRange(String startLeadDate, String endLeadDate, String status)
         {
-            if (status.Equals("ALL"))
-            {
-                var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
-                            where d.LeadDate >= Convert.ToDateTime(startLeadDate)
-                            && d.LeadDate <= Convert.ToDateTime(endLeadDate)
-                            select new Entities.TrnLead
-                            {
-                                Id = d.Id,
-                                LeadNumber = d.LeadNumber,
-                                LeadDate = d.LeadDate.ToShortDateString(),
-                                LeadName = d.LeadName,
-                                Address = d.Address,
-                                ContactPerson = d.ContactPerson,
-                                ContactPosition = d.ContactPosition,
-                                ContactEmail = d.ContactEmail,
-                                ContactPhoneNo = d.ContactPhoneNo,
-                                ReferredBy = d.ReferredBy,
-                                Remarks = d.Remarks,
-                                EncodedByUserId = d.EncodedByUserId,
-                                EncodedByUser = d.MstUser.FullName,
-                                AssignedToUserId = d.AssignedToUserId,
-                                AssignedToUser = d.MstUser1.FullName,
-                                LeadStatus = d.LeadStatus
-                            };
+            var currentUser = from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d;
+            var currentUserRightsForInnosoftLeadList = from d in db.MstUserForms
+                                                       where d.UserId == currentUser.FirstOrDefault().Id
+                                                       && d.SysForm.FormName.Equals("InnosoftLeadList")
+                                                       select d;
 
-                return leads.ToList();
-            }
-            else
+            if (currentUserRightsForInnosoftLeadList.Any())
             {
-                String documentStatus = "OPEN";
-                if (status.Equals("CLOSE"))
+                if (status.Equals("ALL"))
                 {
-                    documentStatus = "CLOSE";
+                    var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
+                                where d.LeadDate >= Convert.ToDateTime(startLeadDate)
+                                && d.LeadDate <= Convert.ToDateTime(endLeadDate)
+                                select new Entities.TrnLead
+                                {
+                                    Id = d.Id,
+                                    LeadNumber = d.LeadNumber,
+                                    LeadDate = d.LeadDate.ToShortDateString(),
+                                    LeadName = d.LeadName,
+                                    Address = d.Address,
+                                    ContactPerson = d.ContactPerson,
+                                    ContactPosition = d.ContactPosition,
+                                    ContactEmail = d.ContactEmail,
+                                    ContactPhoneNo = d.ContactPhoneNo,
+                                    ReferredBy = d.ReferredBy,
+                                    Remarks = d.Remarks,
+                                    EncodedByUserId = d.EncodedByUserId,
+                                    EncodedByUser = d.MstUser.FullName,
+                                    AssignedToUserId = d.AssignedToUserId,
+                                    AssignedToUser = d.MstUser1.FullName,
+                                    LeadStatus = d.LeadStatus
+                                };
+
+                    return leads.ToList();
                 }
                 else
                 {
-                    if (status.Equals("CANCELLED"))
+                    String documentStatus = "OPEN";
+                    if (status.Equals("CLOSE"))
                     {
-                        documentStatus = "CANCELLED";
+                        documentStatus = "CLOSE";
                     }
                     else
                     {
-                        if (status.Equals("FOR CLOSING"))
+                        if (status.Equals("CANCELLED"))
                         {
-                            documentStatus = "FOR CLOSING";
+                            documentStatus = "CANCELLED";
                         }
                         else
                         {
-                            if (status.Equals("DUPLICATE"))
+                            if (status.Equals("FOR CLOSING"))
                             {
-                                documentStatus = "DUPLICATE";
+                                documentStatus = "FOR CLOSING";
+                            }
+                            else
+                            {
+                                if (status.Equals("DUPLICATE"))
+                                {
+                                    documentStatus = "DUPLICATE";
+                                }
                             }
                         }
                     }
+
+                    var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
+                                where d.LeadDate >= Convert.ToDateTime(startLeadDate)
+                                && d.LeadDate <= Convert.ToDateTime(endLeadDate)
+                                && d.LeadStatus == documentStatus
+                                select new Entities.TrnLead
+                                {
+                                    Id = d.Id,
+                                    LeadNumber = d.LeadNumber,
+                                    LeadDate = d.LeadDate.ToShortDateString(),
+                                    LeadName = d.LeadName,
+                                    Address = d.Address,
+                                    ContactPerson = d.ContactPerson,
+                                    ContactPosition = d.ContactPosition,
+                                    ContactEmail = d.ContactEmail,
+                                    ContactPhoneNo = d.ContactPhoneNo,
+                                    ReferredBy = d.ReferredBy,
+                                    Remarks = d.Remarks,
+                                    EncodedByUserId = d.EncodedByUserId,
+                                    EncodedByUser = d.MstUser.FullName,
+                                    AssignedToUserId = d.AssignedToUserId,
+                                    AssignedToUser = d.MstUser1.FullName,
+                                    LeadStatus = d.LeadStatus
+                                };
+
+                    return leads.ToList();
                 }
+            }
+            else
+            {
+                var currentUserRightsForInnosoftLeadListAssignedUsersOnly = from d in db.MstUserForms
+                                                                            where d.UserId == currentUser.FirstOrDefault().Id
+                                                                            && d.SysForm.FormName.Equals("InnosoftLeadListAssignedUser")
+                                                                            select d;
 
-                var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
-                            where d.LeadDate >= Convert.ToDateTime(startLeadDate)
-                            && d.LeadDate <= Convert.ToDateTime(endLeadDate)
-                            && d.LeadStatus == documentStatus
-                            select new Entities.TrnLead
+                if (currentUserRightsForInnosoftLeadListAssignedUsersOnly.Any())
+                {
+
+                    if (status.Equals("ALL"))
+                    {
+                        var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
+                                    where d.LeadDate >= Convert.ToDateTime(startLeadDate)
+                                    && d.LeadDate <= Convert.ToDateTime(endLeadDate)
+                                    && d.AssignedToUserId == currentUser.FirstOrDefault().Id
+                                    select new Entities.TrnLead
+                                    {
+                                        Id = d.Id,
+                                        LeadNumber = d.LeadNumber,
+                                        LeadDate = d.LeadDate.ToShortDateString(),
+                                        LeadName = d.LeadName,
+                                        Address = d.Address,
+                                        ContactPerson = d.ContactPerson,
+                                        ContactPosition = d.ContactPosition,
+                                        ContactEmail = d.ContactEmail,
+                                        ContactPhoneNo = d.ContactPhoneNo,
+                                        ReferredBy = d.ReferredBy,
+                                        Remarks = d.Remarks,
+                                        EncodedByUserId = d.EncodedByUserId,
+                                        EncodedByUser = d.MstUser.FullName,
+                                        AssignedToUserId = d.AssignedToUserId,
+                                        AssignedToUser = d.MstUser1.FullName,
+                                        LeadStatus = d.LeadStatus
+                                    };
+
+                        return leads.ToList();
+                    }
+                    else
+                    {
+                        String documentStatus = "OPEN";
+                        if (status.Equals("CLOSE"))
+                        {
+                            documentStatus = "CLOSE";
+                        }
+                        else
+                        {
+                            if (status.Equals("CANCELLED"))
                             {
-                                Id = d.Id,
-                                LeadNumber = d.LeadNumber,
-                                LeadDate = d.LeadDate.ToShortDateString(),
-                                LeadName = d.LeadName,
-                                Address = d.Address,
-                                ContactPerson = d.ContactPerson,
-                                ContactPosition = d.ContactPosition,
-                                ContactEmail = d.ContactEmail,
-                                ContactPhoneNo = d.ContactPhoneNo,
-                                ReferredBy = d.ReferredBy,
-                                Remarks = d.Remarks,
-                                EncodedByUserId = d.EncodedByUserId,
-                                EncodedByUser = d.MstUser.FullName,
-                                AssignedToUserId = d.AssignedToUserId,
-                                AssignedToUser = d.MstUser1.FullName,
-                                LeadStatus = d.LeadStatus
-                            };
+                                documentStatus = "CANCELLED";
+                            }
+                            else
+                            {
+                                if (status.Equals("FOR CLOSING"))
+                                {
+                                    documentStatus = "FOR CLOSING";
+                                }
+                                else
+                                {
+                                    if (status.Equals("DUPLICATE"))
+                                    {
+                                        documentStatus = "DUPLICATE";
+                                    }
+                                }
+                            }
+                        }
 
-                return leads.ToList();
+                        var leads = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id)
+                                    where d.LeadDate >= Convert.ToDateTime(startLeadDate)
+                                    && d.LeadDate <= Convert.ToDateTime(endLeadDate)
+                                    && d.LeadStatus == documentStatus
+                                    && d.AssignedToUserId == currentUser.FirstOrDefault().Id
+                                    select new Entities.TrnLead
+                                    {
+                                        Id = d.Id,
+                                        LeadNumber = d.LeadNumber,
+                                        LeadDate = d.LeadDate.ToShortDateString(),
+                                        LeadName = d.LeadName,
+                                        Address = d.Address,
+                                        ContactPerson = d.ContactPerson,
+                                        ContactPosition = d.ContactPosition,
+                                        ContactEmail = d.ContactEmail,
+                                        ContactPhoneNo = d.ContactPhoneNo,
+                                        ReferredBy = d.ReferredBy,
+                                        Remarks = d.Remarks,
+                                        EncodedByUserId = d.EncodedByUserId,
+                                        EncodedByUser = d.MstUser.FullName,
+                                        AssignedToUserId = d.AssignedToUserId,
+                                        AssignedToUser = d.MstUser1.FullName,
+                                        LeadStatus = d.LeadStatus
+                                    };
+
+                        return leads.ToList();
+                    }
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -124,7 +233,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         public List<Entities.TrnLead> listLeadByLeadStatus()
         {
             var leads = from d in db.IS_TrnLeads.OrderBy(d => d.LeadName)
-                        //where d.LeadStatus == "OPEN"
+                            //where d.LeadStatus == "OPEN"
                         select new Entities.TrnLead
                         {
                             Id = d.Id,
@@ -152,29 +261,77 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         [HttpGet, Route("get/byId/{id}")]
         public Entities.TrnLead getLeadById(String id)
         {
-            var lead = from d in db.IS_TrnLeads
-                       where d.Id == Convert.ToInt32(id)
-                       select new Entities.TrnLead
-                       {
-                           Id = d.Id,
-                           LeadNumber = d.LeadNumber,
-                           LeadDate = d.LeadDate.ToShortDateString(),
-                           LeadName = d.LeadName,
-                           Address = d.Address,
-                           ContactPerson = d.ContactPerson,
-                           ContactPosition = d.ContactPosition,
-                           ContactEmail = d.ContactEmail,
-                           ContactPhoneNo = d.ContactPhoneNo,
-                           ReferredBy = d.ReferredBy,
-                           Remarks = d.Remarks,
-                           EncodedByUserId = d.EncodedByUserId,
-                           EncodedByUser = d.MstUser.FullName,
-                           AssignedToUserId = d.AssignedToUserId,
-                           AssignedToUser = d.MstUser1.FullName,
-                           LeadStatus = d.LeadStatus
-                       };
+            var currentUser = from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d;
+            var currentUserRightsForInnosoftLeadList = from d in db.MstUserForms
+                                                       where d.UserId == currentUser.FirstOrDefault().Id
+                                                       && d.SysForm.FormName.Equals("InnosoftLeadDetail")
+                                                       select d;
 
-            return (Entities.TrnLead)lead.FirstOrDefault();
+            if (currentUserRightsForInnosoftLeadList.Any())
+            {
+                var lead = from d in db.IS_TrnLeads
+                           where d.Id == Convert.ToInt32(id)
+                           select new Entities.TrnLead
+                           {
+                               Id = d.Id,
+                               LeadNumber = d.LeadNumber,
+                               LeadDate = d.LeadDate.ToShortDateString(),
+                               LeadName = d.LeadName,
+                               Address = d.Address,
+                               ContactPerson = d.ContactPerson,
+                               ContactPosition = d.ContactPosition,
+                               ContactEmail = d.ContactEmail,
+                               ContactPhoneNo = d.ContactPhoneNo,
+                               ReferredBy = d.ReferredBy,
+                               Remarks = d.Remarks,
+                               EncodedByUserId = d.EncodedByUserId,
+                               EncodedByUser = d.MstUser.FullName,
+                               AssignedToUserId = d.AssignedToUserId,
+                               AssignedToUser = d.MstUser1.FullName,
+                               LeadStatus = d.LeadStatus
+                           };
+
+                return (Entities.TrnLead)lead.FirstOrDefault();
+            }
+            else
+            {
+                var currentUserRightsForInnosoftLeadListAssignedUsersOnly = from d in db.MstUserForms
+                                                                            where d.UserId == currentUser.FirstOrDefault().Id
+                                                                            && d.SysForm.FormName.Equals("InnosoftLeadDetailAssignedUser")
+                                                                            select d;
+
+                if (currentUserRightsForInnosoftLeadListAssignedUsersOnly.Any())
+                {
+                    var lead = from d in db.IS_TrnLeads
+                               where d.Id == Convert.ToInt32(id)
+                               && d.AssignedToUserId == currentUser.FirstOrDefault().Id
+                               select new Entities.TrnLead
+                               {
+                                   Id = d.Id,
+                                   LeadNumber = d.LeadNumber,
+                                   LeadDate = d.LeadDate.ToShortDateString(),
+                                   LeadName = d.LeadName,
+                                   Address = d.Address,
+                                   ContactPerson = d.ContactPerson,
+                                   ContactPosition = d.ContactPosition,
+                                   ContactEmail = d.ContactEmail,
+                                   ContactPhoneNo = d.ContactPhoneNo,
+                                   ReferredBy = d.ReferredBy,
+                                   Remarks = d.Remarks,
+                                   EncodedByUserId = d.EncodedByUserId,
+                                   EncodedByUser = d.MstUser.FullName,
+                                   AssignedToUserId = d.AssignedToUserId,
+                                   AssignedToUser = d.MstUser1.FullName,
+                                   LeadStatus = d.LeadStatus
+                               };
+
+                    return (Entities.TrnLead)lead.FirstOrDefault();
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         // add lead
