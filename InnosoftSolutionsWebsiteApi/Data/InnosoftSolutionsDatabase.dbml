@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="innosoft_easyfis" Class="InnosoftSolutionsDatabaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=innosoftserver2.eastasia.cloudapp.azure.com;Initial Catalog=innosoft_easyfis;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="innosoft_easyfisConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AspNetRoles" Member="AspNetRoles">
+    <Type Name="AspNetRole">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="AspNetRole_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="RoleId" Type="AspNetUserRole" />
+    </Type>
+  </Table>
   <Table Name="dbo.TrnStockTransferItem" Member="TrnStockTransferItems">
     <Type Name="TrnStockTransferItem">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -19,13 +26,6 @@
       <Association Name="MstUnit_TrnStockTransferItem" Member="MstUnit" ThisKey="UnitId" OtherKey="Id" Type="MstUnit" IsForeignKey="true" />
       <Association Name="MstUnit_TrnStockTransferItem1" Member="MstUnit1" ThisKey="BaseUnitId" OtherKey="Id" Type="MstUnit" IsForeignKey="true" />
       <Association Name="TrnStockTransfer_TrnStockTransferItem" Member="TrnStockTransfer" ThisKey="STId" OtherKey="Id" Type="TrnStockTransfer" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.AspNetRoles" Member="AspNetRoles">
-    <Type Name="AspNetRole">
-      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Association Name="AspNetRole_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="RoleId" Type="AspNetUserRole" />
     </Type>
   </Table>
   <Table Name="dbo.AspNetUserClaims" Member="AspNetUserClaims">
@@ -58,11 +58,11 @@
   <Table Name="dbo.AspNetUsers" Member="AspNetUsers">
     <Type Name="AspNetUser">
       <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="FullName" Type="System.String" DbType="NChar(255)" CanBeNull="true" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="Address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="SecurityStamp" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
@@ -296,6 +296,11 @@
       <Association Name="MstAccount_MstArticleGroup2" Member="MstArticleGroups2" ThisKey="Id" OtherKey="CostAccountId" Type="MstArticleGroup" />
       <Association Name="MstAccount_MstArticleGroup3" Member="MstArticleGroups3" ThisKey="Id" OtherKey="AssetAccountId" Type="MstArticleGroup" />
       <Association Name="MstAccount_MstArticleGroup4" Member="MstArticleGroups4" ThisKey="Id" OtherKey="ExpenseAccountId" Type="MstArticleGroup" />
+      <Association Name="MstAccount_MstArticleGroupBranch" Member="MstArticleGroupBranches" ThisKey="Id" OtherKey="AccountId" Type="MstArticleGroupBranch" />
+      <Association Name="MstAccount_MstArticleGroupBranch1" Member="MstArticleGroupBranches1" ThisKey="Id" OtherKey="AssetAccountId" Type="MstArticleGroupBranch" />
+      <Association Name="MstAccount_MstArticleGroupBranch2" Member="MstArticleGroupBranches2" ThisKey="Id" OtherKey="CostAccountId" Type="MstArticleGroupBranch" />
+      <Association Name="MstAccount_MstArticleGroupBranch3" Member="MstArticleGroupBranches3" ThisKey="Id" OtherKey="ExpenseAccountId" Type="MstArticleGroupBranch" />
+      <Association Name="MstAccount_MstArticleGroupBranch4" Member="MstArticleGroupBranches4" ThisKey="Id" OtherKey="SalesAccountId" Type="MstArticleGroupBranch" />
       <Association Name="MstAccount_MstDiscount" Member="MstDiscounts" ThisKey="Id" OtherKey="AccountId" Type="MstDiscount" />
       <Association Name="MstAccount_MstPayType" Member="MstPayTypes" ThisKey="Id" OtherKey="AccountId" Type="MstPayType" />
       <Association Name="MstAccount_MstTaxType" Member="MstTaxTypes" ThisKey="Id" OtherKey="AccountId" Type="MstTaxType" />
@@ -381,7 +386,7 @@
       <Column Name="Article" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="Category" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="ArticleTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ArticleGroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ArticleGroupId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SalesAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CostAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -450,6 +455,7 @@
       <Association Name="MstArticle_TrnStockInItem" Member="TrnStockInItems" ThisKey="Id" OtherKey="ItemId" Type="TrnStockInItem" />
       <Association Name="MstArticle_TrnStockOut" Member="TrnStockOuts" ThisKey="Id" OtherKey="ArticleId" Type="TrnStockOut" />
       <Association Name="MstArticle_TrnStockOutItem" Member="TrnStockOutItems" ThisKey="Id" OtherKey="ItemId" Type="TrnStockOutItem" />
+      <Association Name="MstArticle_TrnStockTransfer" Member="TrnStockTransfers" ThisKey="Id" OtherKey="ArticleId" Type="TrnStockTransfer" />
       <Association Name="MstAccount_MstArticle" Member="MstAccount" ThisKey="AccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
       <Association Name="MstAccount_MstArticle1" Member="MstAccount1" ThisKey="SalesAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
       <Association Name="MstAccount_MstArticle2" Member="MstAccount2" ThisKey="CostAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
@@ -457,8 +463,8 @@
       <Association Name="MstAccount_MstArticle4" Member="MstAccount4" ThisKey="ExpenseAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
       <Association Name="MstArticleGroup_MstArticle" Member="MstArticleGroup" ThisKey="ArticleGroupId" OtherKey="Id" Type="MstArticleGroup" IsForeignKey="true" />
       <Association Name="MstArticleType_MstArticle" Member="MstArticleType" ThisKey="ArticleTypeId" OtherKey="Id" Type="MstArticleType" IsForeignKey="true" />
-      <Association Name="MstTaxType_MstArticle" Member="MstTaxType" ThisKey="OutputTaxId" OtherKey="Id" Type="MstTaxType" IsForeignKey="true" />
-      <Association Name="MstTaxType_MstArticle1" Member="MstTaxType1" ThisKey="InputTaxId" OtherKey="Id" Type="MstTaxType" IsForeignKey="true" />
+      <Association Name="MstTaxType_MstArticle" Member="MstTaxType" ThisKey="InputTaxId" OtherKey="Id" Type="MstTaxType" IsForeignKey="true" />
+      <Association Name="MstTaxType_MstArticle1" Member="MstTaxType1" ThisKey="OutputTaxId" OtherKey="Id" Type="MstTaxType" IsForeignKey="true" />
       <Association Name="MstTaxType_MstArticle2" Member="MstTaxType2" ThisKey="WTaxTypeId" OtherKey="Id" Type="MstTaxType" IsForeignKey="true" />
       <Association Name="MstTerm_MstArticle" Member="MstTerm" ThisKey="TermId" OtherKey="Id" Type="MstTerm" IsForeignKey="true" />
       <Association Name="MstUnit_MstArticle" Member="MstUnit" ThisKey="UnitId" OtherKey="Id" Type="MstUnit" IsForeignKey="true" />
@@ -503,6 +509,7 @@
       <Column Name="UpdatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="MstArticleGroup_MstArticle" Member="MstArticles" ThisKey="Id" OtherKey="ArticleGroupId" Type="MstArticle" />
+      <Association Name="MstArticleGroup_MstArticleGroupBranch" Member="MstArticleGroupBranches" ThisKey="Id" OtherKey="ArticleGroupId" Type="MstArticleGroupBranch" />
       <Association Name="MstAccount_MstArticleGroup" Member="MstAccount" ThisKey="AccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
       <Association Name="MstAccount_MstArticleGroup1" Member="MstAccount1" ThisKey="SalesAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
       <Association Name="MstAccount_MstArticleGroup2" Member="MstAccount2" ThisKey="CostAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
@@ -511,6 +518,25 @@
       <Association Name="MstArticleType_MstArticleGroup" Member="MstArticleType" ThisKey="ArticleTypeId" OtherKey="Id" Type="MstArticleType" IsForeignKey="true" />
       <Association Name="MstUser_MstArticleGroup" Member="MstUser" ThisKey="CreatedById" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_MstArticleGroup1" Member="MstUser1" ThisKey="UpdatedById" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstArticleGroupBranch" Member="MstArticleGroupBranches">
+    <Type Name="MstArticleGroupBranch">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ArticleGroupId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BranchId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SalesAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CostAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AssetAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ExpenseAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstAccount_MstArticleGroupBranch" Member="MstAccount" ThisKey="AccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
+      <Association Name="MstAccount_MstArticleGroupBranch1" Member="MstAccount1" ThisKey="AssetAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
+      <Association Name="MstAccount_MstArticleGroupBranch2" Member="MstAccount2" ThisKey="CostAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
+      <Association Name="MstAccount_MstArticleGroupBranch3" Member="MstAccount3" ThisKey="ExpenseAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
+      <Association Name="MstAccount_MstArticleGroupBranch4" Member="MstAccount4" ThisKey="SalesAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
+      <Association Name="MstArticleGroup_MstArticleGroupBranch" Member="MstArticleGroup" ThisKey="ArticleGroupId" OtherKey="Id" Type="MstArticleGroup" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="MstBranch_MstArticleGroupBranch" Member="MstBranch" ThisKey="BranchId" OtherKey="Id" Type="MstBranch" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstArticleInventory" Member="MstArticleInventories">
@@ -582,6 +608,7 @@
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstBranch_MstArticleGroupBranch" Member="MstArticleGroupBranches" ThisKey="Id" OtherKey="BranchId" Type="MstArticleGroupBranch" />
       <Association Name="MstBranch_MstArticleInventory" Member="MstArticleInventories" ThisKey="Id" OtherKey="BranchId" Type="MstArticleInventory" />
       <Association Name="MstBranch_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="BranchId" Type="MstUser" />
       <Association Name="MstBranch_TrnCollection" Member="TrnCollections" ThisKey="Id" OtherKey="BranchId" Type="TrnCollection" />
@@ -636,6 +663,7 @@
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstDiscount_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="DefaultSalesInvoiceDiscountId" Type="MstUser" />
       <Association Name="MstDiscount_TrnSalesInvoiceItem" Member="TrnSalesInvoiceItems" ThisKey="Id" OtherKey="DiscountId" Type="TrnSalesInvoiceItem" />
       <Association Name="MstAccount_MstDiscount" Member="MstAccount" ThisKey="AccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
       <Association Name="MstUser_MstDiscount" Member="MstUser" ThisKey="CreatedById" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
@@ -671,8 +699,8 @@
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="MstTaxType_MstArticle" Member="MstArticles" ThisKey="Id" OtherKey="OutputTaxId" Type="MstArticle" />
-      <Association Name="MstTaxType_MstArticle1" Member="MstArticles1" ThisKey="Id" OtherKey="InputTaxId" Type="MstArticle" />
+      <Association Name="MstTaxType_MstArticle" Member="MstArticles" ThisKey="Id" OtherKey="InputTaxId" Type="MstArticle" />
+      <Association Name="MstTaxType_MstArticle1" Member="MstArticles1" ThisKey="Id" OtherKey="OutputTaxId" Type="MstArticle" />
       <Association Name="MstTaxType_MstArticle2" Member="MstArticles2" ThisKey="Id" OtherKey="WTaxTypeId" Type="MstArticle" />
       <Association Name="MstTaxType_TrnReceivingReceiptItem" Member="TrnReceivingReceiptItems" ThisKey="Id" OtherKey="VATId" Type="TrnReceivingReceiptItem" />
       <Association Name="MstTaxType_TrnReceivingReceiptItem1" Member="TrnReceivingReceiptItems1" ThisKey="Id" OtherKey="WTAXId" Type="TrnReceivingReceiptItem" />
@@ -730,21 +758,23 @@
   <Table Name="dbo.MstUser" Member="MstUsers">
     <Type Name="MstUser">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="FullName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="UpdatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="CompanyId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="BranchId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IncomeAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SupplierAdvancesAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CustomerAdvancesAccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="OfficialReceiptName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="OfficialReceiptName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="InventoryType" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="DefaultSalesInvoiceDiscountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="MstUser_IS_TrnActivity" Member="IS_TrnActivities" ThisKey="Id" OtherKey="StaffUserId" Type="IS_TrnActivity" />
       <Association Name="MstUser_IS_TrnContinuity" Member="IS_TrnContinuities" ThisKey="Id" OtherKey="StaffUserId" Type="IS_TrnContinuity" />
       <Association Name="MstUser_IS_TrnDelivery" Member="IS_TrnDeliveries" ThisKey="Id" OtherKey="SalesUserId" Type="IS_TrnDelivery" />
@@ -851,6 +881,7 @@
       <Association Name="MstAccount_MstUser2" Member="MstAccount2" ThisKey="CustomerAdvancesAccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
       <Association Name="MstBranch_MstUser" Member="MstBranch" ThisKey="BranchId" OtherKey="Id" Type="MstBranch" IsForeignKey="true" />
       <Association Name="MstCompany_MstUser" Member="MstCompany" ThisKey="CompanyId" OtherKey="Id" Type="MstCompany" IsForeignKey="true" />
+      <Association Name="MstDiscount_MstUser" Member="MstDiscount" ThisKey="DefaultSalesInvoiceDiscountId" OtherKey="Id" Type="MstDiscount" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstUserForm" Member="MstUserForms">
@@ -1152,8 +1183,8 @@
       <Column Name="Cost" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="Amount" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="BaseUnitId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="BaseQuantity" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
-      <Column Name="BaseCost" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="BaseQuantity" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
+      <Column Name="BaseCost" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Association Name="MstArticle_TrnPurchaseOrderItem" Member="MstArticle" ThisKey="ItemId" OtherKey="Id" Type="MstArticle" IsForeignKey="true" />
       <Association Name="MstUnit_TrnPurchaseOrderItem" Member="MstUnit" ThisKey="UnitId" OtherKey="Id" Type="MstUnit" IsForeignKey="true" />
       <Association Name="MstUnit_TrnPurchaseOrderItem1" Member="MstUnit1" ThisKey="BaseUnitId" OtherKey="Id" Type="MstUnit" IsForeignKey="true" />
@@ -1295,6 +1326,7 @@
       <Column Name="BaseUnitId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="BaseQuantity" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="BasePrice" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
+      <Column Name="SalesItemTimeStamp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="MstArticle_TrnSalesInvoiceItem" Member="MstArticle" ThisKey="ItemId" OtherKey="Id" Type="MstArticle" IsForeignKey="true" />
       <Association Name="MstArticleInventory_TrnSalesInvoiceItem" Member="MstArticleInventory" ThisKey="ItemInventoryId" OtherKey="Id" Type="MstArticleInventory" IsForeignKey="true" />
       <Association Name="MstDiscount_TrnSalesInvoiceItem" Member="MstDiscount" ThisKey="DiscountId" OtherKey="Id" Type="MstDiscount" IsForeignKey="true" />
@@ -1451,6 +1483,7 @@
       <Column Name="STNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="STDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ToBranchId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ArticleId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Particulars" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="ManualSTNumber" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="PreparedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -1464,6 +1497,7 @@
       <Association Name="TrnStockTransfer_TrnStockTransferItem" Member="TrnStockTransferItems" ThisKey="Id" OtherKey="STId" Type="TrnStockTransferItem" />
       <Association Name="TrnStockTransfer_TrnInventory" Member="TrnInventories" ThisKey="Id" OtherKey="STId" Type="TrnInventory" />
       <Association Name="TrnStockTransfer_TrnJournal" Member="TrnJournals" ThisKey="Id" OtherKey="STId" Type="TrnJournal" />
+      <Association Name="MstArticle_TrnStockTransfer" Member="MstArticle" ThisKey="ArticleId" OtherKey="Id" Type="MstArticle" IsForeignKey="true" />
       <Association Name="MstBranch_TrnStockTransfer" Member="MstBranch" ThisKey="BranchId" OtherKey="Id" Type="MstBranch" IsForeignKey="true" />
       <Association Name="MstBranch_TrnStockTransfer1" Member="MstBranch1" ThisKey="ToBranchId" OtherKey="Id" Type="MstBranch" IsForeignKey="true" />
       <Association Name="MstUser_TrnStockTransfer" Member="MstUser" ThisKey="ApprovedById" OtherKey="Id" Type="MstUser" IsForeignKey="true" />

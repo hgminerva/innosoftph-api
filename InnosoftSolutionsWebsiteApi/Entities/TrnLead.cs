@@ -22,6 +22,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String EncodedByUser { get; set; }
         public Int32? AssignedToUserId { get; set; }
         public String AssignedToUser { get; set; }
+        public Boolean IsAssignedToDisabled { get; set; }
         public String LeadStatus { get; set; }
     }
 }

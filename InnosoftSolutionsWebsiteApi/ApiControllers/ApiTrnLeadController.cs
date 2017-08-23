@@ -340,33 +340,84 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         {
             try
             {
-                // get last lead number
-                var lastLeadNumber = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id) select d;
-                var leadNumberValue = "0000000001";
-                if (lastLeadNumber.Any())
-                {
-                    var leadNumber = Convert.ToInt32(lastLeadNumber.FirstOrDefault().LeadNumber) + 0000000001;
-                    leadNumberValue = fillLeadingZeroes(leadNumber, 10);
-                }
-                var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
-                Data.IS_TrnLead newLead = new Data.IS_TrnLead();
-                newLead.LeadNumber = leadNumberValue;
-                newLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
-                newLead.LeadName = lead.LeadName;
-                newLead.Address = lead.Address;
-                newLead.ContactPerson = lead.ContactPerson;
-                newLead.ContactPosition = lead.ContactPosition;
-                newLead.ContactEmail = lead.ContactEmail;
-                newLead.ContactPhoneNo = lead.ContactPhoneNo;
-                newLead.ReferredBy = lead.ReferredBy;
-                newLead.Remarks = lead.Remarks;
-                newLead.EncodedByUserId = userId;
-                newLead.AssignedToUserId = lead.AssignedToUserId;
-                newLead.LeadStatus = lead.LeadStatus;
-                db.IS_TrnLeads.InsertOnSubmit(newLead);
-                db.SubmitChanges();
+                var currentUser = from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d;
+                var currentUserRightsForInnosoftLeadList = from d in db.MstUserForms
+                                                           where d.UserId == currentUser.FirstOrDefault().Id
+                                                           && d.SysForm.FormName.Equals("InnosoftLeadList")
+                                                           select d;
 
-                return newLead.Id;
+                if (currentUserRightsForInnosoftLeadList.Any())
+                {
+                    // get last lead number
+                    var lastLeadNumber = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id) select d;
+                    var leadNumberValue = "0000000001";
+                    if (lastLeadNumber.Any())
+                    {
+                        var leadNumber = Convert.ToInt32(lastLeadNumber.FirstOrDefault().LeadNumber) + 0000000001;
+                        leadNumberValue = fillLeadingZeroes(leadNumber, 10);
+                    }
+
+                    Data.IS_TrnLead newLead = new Data.IS_TrnLead();
+                    newLead.LeadNumber = leadNumberValue;
+                    newLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
+                    newLead.LeadName = lead.LeadName;
+                    newLead.Address = lead.Address;
+                    newLead.ContactPerson = lead.ContactPerson;
+                    newLead.ContactPosition = lead.ContactPosition;
+                    newLead.ContactEmail = lead.ContactEmail;
+                    newLead.ContactPhoneNo = lead.ContactPhoneNo;
+                    newLead.ReferredBy = lead.ReferredBy;
+                    newLead.Remarks = lead.Remarks;
+                    newLead.EncodedByUserId = currentUser.FirstOrDefault().Id;
+                    newLead.AssignedToUserId = lead.AssignedToUserId;
+                    newLead.LeadStatus = lead.LeadStatus;
+                    db.IS_TrnLeads.InsertOnSubmit(newLead);
+                    db.SubmitChanges();
+
+                    return newLead.Id;
+                }
+                else
+                {
+                    var currentUserRightsForInnosoftLeadListAssignedUsersOnly = from d in db.MstUserForms
+                                                                                where d.UserId == currentUser.FirstOrDefault().Id
+                                                                                && d.SysForm.FormName.Equals("InnosoftLeadListAssignedUser")
+                                                                                select d;
+
+                    if (currentUserRightsForInnosoftLeadListAssignedUsersOnly.Any())
+                    {
+                        // get last lead number
+                        var lastLeadNumber = from d in db.IS_TrnLeads.OrderByDescending(d => d.Id) select d;
+                        var leadNumberValue = "0000000001";
+                        if (lastLeadNumber.Any())
+                        {
+                            var leadNumber = Convert.ToInt32(lastLeadNumber.FirstOrDefault().LeadNumber) + 0000000001;
+                            leadNumberValue = fillLeadingZeroes(leadNumber, 10);
+                        }
+
+                        Data.IS_TrnLead newLead = new Data.IS_TrnLead();
+                        newLead.LeadNumber = leadNumberValue;
+                        newLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
+                        newLead.LeadName = lead.LeadName;
+                        newLead.Address = lead.Address;
+                        newLead.ContactPerson = lead.ContactPerson;
+                        newLead.ContactPosition = lead.ContactPosition;
+                        newLead.ContactEmail = lead.ContactEmail;
+                        newLead.ContactPhoneNo = lead.ContactPhoneNo;
+                        newLead.ReferredBy = lead.ReferredBy;
+                        newLead.Remarks = lead.Remarks;
+                        newLead.EncodedByUserId = currentUser.FirstOrDefault().Id;
+                        newLead.AssignedToUserId = currentUser.FirstOrDefault().Id;
+                        newLead.LeadStatus = lead.LeadStatus;
+                        db.IS_TrnLeads.InsertOnSubmit(newLead);
+                        db.SubmitChanges();
+
+                        return newLead.Id;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
             }
             catch
             {
@@ -380,29 +431,75 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         {
             try
             {
-                var leads = from d in db.IS_TrnLeads where d.Id == Convert.ToInt32(id) select d;
-                if (leads.Any())
-                {
-                    var updateLead = leads.FirstOrDefault();
-                    updateLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
-                    updateLead.LeadName = lead.LeadName;
-                    updateLead.Address = lead.Address;
-                    updateLead.ContactPerson = lead.ContactPerson;
-                    updateLead.ContactPosition = lead.ContactPosition;
-                    updateLead.ContactEmail = lead.ContactEmail;
-                    updateLead.ContactPhoneNo = lead.ContactPhoneNo;
-                    updateLead.ReferredBy = lead.ReferredBy;
-                    updateLead.Remarks = lead.Remarks;
-                    //updateLead.EncodedByUserId = lead.EncodedByUserId;
-                    updateLead.AssignedToUserId = lead.AssignedToUserId;
-                    updateLead.LeadStatus = lead.LeadStatus;
-                    db.SubmitChanges();
+                var currentUser = from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d;
+                var currentUserRightsForInnosoftLeadList = from d in db.MstUserForms
+                                                           where d.UserId == currentUser.FirstOrDefault().Id
+                                                           && d.SysForm.FormName.Equals("InnosoftLeadDetail")
+                                                           select d;
 
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                if (currentUserRightsForInnosoftLeadList.Any())
+                {
+                    var leads = from d in db.IS_TrnLeads where d.Id == Convert.ToInt32(id) select d;
+                    if (leads.Any())
+                    {
+                        var updateLead = leads.FirstOrDefault();
+                        updateLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
+                        updateLead.LeadName = lead.LeadName;
+                        updateLead.Address = lead.Address;
+                        updateLead.ContactPerson = lead.ContactPerson;
+                        updateLead.ContactPosition = lead.ContactPosition;
+                        updateLead.ContactEmail = lead.ContactEmail;
+                        updateLead.ContactPhoneNo = lead.ContactPhoneNo;
+                        updateLead.ReferredBy = lead.ReferredBy;
+                        updateLead.Remarks = lead.Remarks;
+                        updateLead.AssignedToUserId = lead.AssignedToUserId;
+                        updateLead.LeadStatus = lead.LeadStatus;
+                        db.SubmitChanges();
+
+                        return Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound);
+                    }
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    var currentUserRightsForInnosoftLeadListAssignedUsersOnly = from d in db.MstUserForms
+                                                                                where d.UserId == currentUser.FirstOrDefault().Id
+                                                                                && d.SysForm.FormName.Equals("InnosoftLeadDetailAssignedUser")
+                                                                                select d;
+
+                    if (currentUserRightsForInnosoftLeadListAssignedUsersOnly.Any())
+                    {
+                        var leads = from d in db.IS_TrnLeads where d.Id == Convert.ToInt32(id) select d;
+                        if (leads.Any())
+                        {
+                            var updateLead = leads.FirstOrDefault();
+                            updateLead.LeadDate = Convert.ToDateTime(lead.LeadDate);
+                            updateLead.LeadName = lead.LeadName;
+                            updateLead.Address = lead.Address;
+                            updateLead.ContactPerson = lead.ContactPerson;
+                            updateLead.ContactPosition = lead.ContactPosition;
+                            updateLead.ContactEmail = lead.ContactEmail;
+                            updateLead.ContactPhoneNo = lead.ContactPhoneNo;
+                            updateLead.ReferredBy = lead.ReferredBy;
+                            updateLead.Remarks = lead.Remarks;
+                            updateLead.AssignedToUserId = currentUser.FirstOrDefault().Id;
+                            updateLead.LeadStatus = lead.LeadStatus;
+                            db.SubmitChanges();
+
+                            return Request.CreateResponse(HttpStatusCode.OK);
+                        }
+                        else
+                        {
+                            return Request.CreateResponse(HttpStatusCode.NotFound);
+                        }
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest);
+                    }
                 }
             }
             catch
