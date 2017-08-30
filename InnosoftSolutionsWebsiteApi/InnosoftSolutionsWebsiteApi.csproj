@@ -289,6 +289,7 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Data\InnosoftSolutionsDatabase.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>InnosoftSolutionsDatabase.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\innosoftwebsite-api - FTP.pubxml" />

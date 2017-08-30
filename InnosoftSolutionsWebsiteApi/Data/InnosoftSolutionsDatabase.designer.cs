@@ -22,7 +22,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="innosoft_easyfis")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="easyfis_innosoft")]
 	public partial class InnosoftSolutionsDatabaseDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,12 +30,12 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertTrnStockTransferItem(TrnStockTransferItem instance);
-    partial void UpdateTrnStockTransferItem(TrnStockTransferItem instance);
-    partial void DeleteTrnStockTransferItem(TrnStockTransferItem instance);
     partial void InsertAspNetRole(AspNetRole instance);
     partial void UpdateAspNetRole(AspNetRole instance);
     partial void DeleteAspNetRole(AspNetRole instance);
+    partial void InsertTrnStockTransferItem(TrnStockTransferItem instance);
+    partial void UpdateTrnStockTransferItem(TrnStockTransferItem instance);
+    partial void DeleteTrnStockTransferItem(TrnStockTransferItem instance);
     partial void InsertAspNetUserClaim(AspNetUserClaim instance);
     partial void UpdateAspNetUserClaim(AspNetUserClaim instance);
     partial void DeleteAspNetUserClaim(AspNetUserClaim instance);
@@ -102,6 +102,9 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void InsertMstArticleGroup(MstArticleGroup instance);
     partial void UpdateMstArticleGroup(MstArticleGroup instance);
     partial void DeleteMstArticleGroup(MstArticleGroup instance);
+    partial void InsertMstArticleGroupBranch(MstArticleGroupBranch instance);
+    partial void UpdateMstArticleGroupBranch(MstArticleGroupBranch instance);
+    partial void DeleteMstArticleGroupBranch(MstArticleGroupBranch instance);
     partial void InsertMstArticleInventory(MstArticleInventory instance);
     partial void UpdateMstArticleInventory(MstArticleInventory instance);
     partial void DeleteMstArticleInventory(MstArticleInventory instance);
@@ -138,6 +141,9 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void InsertMstUser(MstUser instance);
     partial void UpdateMstUser(MstUser instance);
     partial void DeleteMstUser(MstUser instance);
+    partial void InsertMstUserBranch(MstUserBranch instance);
+    partial void UpdateMstUserBranch(MstUserBranch instance);
+    partial void DeleteMstUserBranch(MstUserBranch instance);
     partial void InsertMstUserForm(MstUserForm instance);
     partial void UpdateMstUserForm(MstUserForm instance);
     partial void DeleteMstUserForm(MstUserForm instance);
@@ -213,7 +219,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
     #endregion
 		
 		public InnosoftSolutionsDatabaseDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["innosoft_easyfisConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -242,19 +248,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<TrnStockTransferItem> TrnStockTransferItems
-		{
-			get
-			{
-				return this.GetTable<TrnStockTransferItem>();
-			}
-		}
-		
 		public System.Data.Linq.Table<AspNetRole> AspNetRoles
 		{
 			get
 			{
 				return this.GetTable<AspNetRole>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TrnStockTransferItem> TrnStockTransferItems
+		{
+			get
+			{
+				return this.GetTable<TrnStockTransferItem>();
 			}
 		}
 		
@@ -434,6 +440,14 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		public System.Data.Linq.Table<MstArticleGroupBranch> MstArticleGroupBranches
+		{
+			get
+			{
+				return this.GetTable<MstArticleGroupBranch>();
+			}
+		}
+		
 		public System.Data.Linq.Table<MstArticleInventory> MstArticleInventories
 		{
 			get
@@ -527,6 +541,14 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			get
 			{
 				return this.GetTable<MstUser>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstUserBranch> MstUserBranches
+		{
+			get
+			{
+				return this.GetTable<MstUserBranch>();
 			}
 		}
 		
@@ -720,6 +742,120 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			{
 				return this.GetTable<TrnStockTransfer>();
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspNetRoles")]
+	public partial class AspNetRole : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _Id;
+		
+		private string _Name;
+		
+		private EntitySet<AspNetUserRole> _AspNetUserRoles;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(string value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public AspNetRole()
+		{
+			this._AspNetUserRoles = new EntitySet<AspNetUserRole>(new Action<AspNetUserRole>(this.attach_AspNetUserRoles), new Action<AspNetUserRole>(this.detach_AspNetUserRoles));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(128) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetRole_AspNetUserRole", Storage="_AspNetUserRoles", ThisKey="Id", OtherKey="RoleId")]
+		public EntitySet<AspNetUserRole> AspNetUserRoles
+		{
+			get
+			{
+				return this._AspNetUserRoles;
+			}
+			set
+			{
+				this._AspNetUserRoles.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_AspNetUserRoles(AspNetUserRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspNetRole = this;
+		}
+		
+		private void detach_AspNetUserRoles(AspNetUserRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.AspNetRole = null;
 		}
 	}
 	
@@ -1251,120 +1387,6 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AspNetRoles")]
-	public partial class AspNetRole : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _Id;
-		
-		private string _Name;
-		
-		private EntitySet<AspNetUserRole> _AspNetUserRoles;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(string value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    #endregion
-		
-		public AspNetRole()
-		{
-			this._AspNetUserRoles = new EntitySet<AspNetUserRole>(new Action<AspNetUserRole>(this.attach_AspNetUserRoles), new Action<AspNetUserRole>(this.detach_AspNetUserRoles));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(128) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetRole_AspNetUserRole", Storage="_AspNetUserRoles", ThisKey="Id", OtherKey="RoleId")]
-		public EntitySet<AspNetUserRole> AspNetUserRoles
-		{
-			get
-			{
-				return this._AspNetUserRoles;
-			}
-			set
-			{
-				this._AspNetUserRoles.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_AspNetUserRoles(AspNetUserRole entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspNetRole = this;
-		}
-		
-		private void detach_AspNetUserRoles(AspNetUserRole entity)
-		{
-			this.SendPropertyChanging();
-			entity.AspNetRole = null;
 		}
 	}
 	
@@ -2015,7 +2037,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NVarChar(255)")]
 		public string FullName
 		{
 			get
@@ -2055,7 +2077,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(256)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(255)")]
 		public string Email
 		{
 			get
@@ -2095,7 +2117,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
 		public string UserName
 		{
 			get
@@ -7290,6 +7312,16 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private EntitySet<MstArticleGroup> _MstArticleGroups4;
 		
+		private EntitySet<MstArticleGroupBranch> _MstArticleGroupBranches;
+		
+		private EntitySet<MstArticleGroupBranch> _MstArticleGroupBranches1;
+		
+		private EntitySet<MstArticleGroupBranch> _MstArticleGroupBranches2;
+		
+		private EntitySet<MstArticleGroupBranch> _MstArticleGroupBranches3;
+		
+		private EntitySet<MstArticleGroupBranch> _MstArticleGroupBranches4;
+		
 		private EntitySet<MstDiscount> _MstDiscounts;
 		
 		private EntitySet<MstPayType> _MstPayTypes;
@@ -7366,6 +7398,11 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._MstArticleGroups2 = new EntitySet<MstArticleGroup>(new Action<MstArticleGroup>(this.attach_MstArticleGroups2), new Action<MstArticleGroup>(this.detach_MstArticleGroups2));
 			this._MstArticleGroups3 = new EntitySet<MstArticleGroup>(new Action<MstArticleGroup>(this.attach_MstArticleGroups3), new Action<MstArticleGroup>(this.detach_MstArticleGroups3));
 			this._MstArticleGroups4 = new EntitySet<MstArticleGroup>(new Action<MstArticleGroup>(this.attach_MstArticleGroups4), new Action<MstArticleGroup>(this.detach_MstArticleGroups4));
+			this._MstArticleGroupBranches = new EntitySet<MstArticleGroupBranch>(new Action<MstArticleGroupBranch>(this.attach_MstArticleGroupBranches), new Action<MstArticleGroupBranch>(this.detach_MstArticleGroupBranches));
+			this._MstArticleGroupBranches1 = new EntitySet<MstArticleGroupBranch>(new Action<MstArticleGroupBranch>(this.attach_MstArticleGroupBranches1), new Action<MstArticleGroupBranch>(this.detach_MstArticleGroupBranches1));
+			this._MstArticleGroupBranches2 = new EntitySet<MstArticleGroupBranch>(new Action<MstArticleGroupBranch>(this.attach_MstArticleGroupBranches2), new Action<MstArticleGroupBranch>(this.detach_MstArticleGroupBranches2));
+			this._MstArticleGroupBranches3 = new EntitySet<MstArticleGroupBranch>(new Action<MstArticleGroupBranch>(this.attach_MstArticleGroupBranches3), new Action<MstArticleGroupBranch>(this.detach_MstArticleGroupBranches3));
+			this._MstArticleGroupBranches4 = new EntitySet<MstArticleGroupBranch>(new Action<MstArticleGroupBranch>(this.attach_MstArticleGroupBranches4), new Action<MstArticleGroupBranch>(this.detach_MstArticleGroupBranches4));
 			this._MstDiscounts = new EntitySet<MstDiscount>(new Action<MstDiscount>(this.attach_MstDiscounts), new Action<MstDiscount>(this.detach_MstDiscounts));
 			this._MstPayTypes = new EntitySet<MstPayType>(new Action<MstPayType>(this.attach_MstPayTypes), new Action<MstPayType>(this.detach_MstPayTypes));
 			this._MstTaxTypes = new EntitySet<MstTaxType>(new Action<MstTaxType>(this.attach_MstTaxTypes), new Action<MstTaxType>(this.detach_MstTaxTypes));
@@ -7776,6 +7813,71 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			set
 			{
 				this._MstArticleGroups4.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch", Storage="_MstArticleGroupBranches", ThisKey="Id", OtherKey="AccountId")]
+		public EntitySet<MstArticleGroupBranch> MstArticleGroupBranches
+		{
+			get
+			{
+				return this._MstArticleGroupBranches;
+			}
+			set
+			{
+				this._MstArticleGroupBranches.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch1", Storage="_MstArticleGroupBranches1", ThisKey="Id", OtherKey="AssetAccountId")]
+		public EntitySet<MstArticleGroupBranch> MstArticleGroupBranches1
+		{
+			get
+			{
+				return this._MstArticleGroupBranches1;
+			}
+			set
+			{
+				this._MstArticleGroupBranches1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch2", Storage="_MstArticleGroupBranches2", ThisKey="Id", OtherKey="CostAccountId")]
+		public EntitySet<MstArticleGroupBranch> MstArticleGroupBranches2
+		{
+			get
+			{
+				return this._MstArticleGroupBranches2;
+			}
+			set
+			{
+				this._MstArticleGroupBranches2.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch3", Storage="_MstArticleGroupBranches3", ThisKey="Id", OtherKey="ExpenseAccountId")]
+		public EntitySet<MstArticleGroupBranch> MstArticleGroupBranches3
+		{
+			get
+			{
+				return this._MstArticleGroupBranches3;
+			}
+			set
+			{
+				this._MstArticleGroupBranches3.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch4", Storage="_MstArticleGroupBranches4", ThisKey="Id", OtherKey="SalesAccountId")]
+		public EntitySet<MstArticleGroupBranch> MstArticleGroupBranches4
+		{
+			get
+			{
+				return this._MstArticleGroupBranches4;
+			}
+			set
+			{
+				this._MstArticleGroupBranches4.Assign(value);
 			}
 		}
 		
@@ -8265,6 +8367,66 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		}
 		
 		private void detach_MstArticleGroups4(MstArticleGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount4 = null;
+		}
+		
+		private void attach_MstArticleGroupBranches(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount = this;
+		}
+		
+		private void detach_MstArticleGroupBranches(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount = null;
+		}
+		
+		private void attach_MstArticleGroupBranches1(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount1 = this;
+		}
+		
+		private void detach_MstArticleGroupBranches1(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount1 = null;
+		}
+		
+		private void attach_MstArticleGroupBranches2(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount2 = this;
+		}
+		
+		private void detach_MstArticleGroupBranches2(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount2 = null;
+		}
+		
+		private void attach_MstArticleGroupBranches3(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount3 = this;
+		}
+		
+		private void detach_MstArticleGroupBranches3(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount3 = null;
+		}
+		
+		private void attach_MstArticleGroupBranches4(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount4 = this;
+		}
+		
+		private void detach_MstArticleGroupBranches4(MstArticleGroupBranch entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstAccount4 = null;
@@ -9746,7 +9908,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private int _ArticleTypeId;
 		
-		private System.Nullable<int> _ArticleGroupId;
+		private int _ArticleGroupId;
 		
 		private int _AccountId;
 		
@@ -9884,6 +10046,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private EntitySet<TrnStockOutItem> _TrnStockOutItems;
 		
+		private EntitySet<TrnStockTransfer> _TrnStockTransfers;
+		
 		private EntityRef<MstAccount> _MstAccount;
 		
 		private EntityRef<MstAccount> _MstAccount1;
@@ -9928,7 +10092,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnCategoryChanged();
     partial void OnArticleTypeIdChanging(int value);
     partial void OnArticleTypeIdChanged();
-    partial void OnArticleGroupIdChanging(System.Nullable<int> value);
+    partial void OnArticleGroupIdChanging(int value);
     partial void OnArticleGroupIdChanged();
     partial void OnAccountIdChanging(int value);
     partial void OnAccountIdChanged();
@@ -10032,6 +10196,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._TrnStockInItems = new EntitySet<TrnStockInItem>(new Action<TrnStockInItem>(this.attach_TrnStockInItems), new Action<TrnStockInItem>(this.detach_TrnStockInItems));
 			this._TrnStockOuts = new EntitySet<TrnStockOut>(new Action<TrnStockOut>(this.attach_TrnStockOuts), new Action<TrnStockOut>(this.detach_TrnStockOuts));
 			this._TrnStockOutItems = new EntitySet<TrnStockOutItem>(new Action<TrnStockOutItem>(this.attach_TrnStockOutItems), new Action<TrnStockOutItem>(this.detach_TrnStockOutItems));
+			this._TrnStockTransfers = new EntitySet<TrnStockTransfer>(new Action<TrnStockTransfer>(this.attach_TrnStockTransfers), new Action<TrnStockTransfer>(this.detach_TrnStockTransfers));
 			this._MstAccount = default(EntityRef<MstAccount>);
 			this._MstAccount1 = default(EntityRef<MstAccount>);
 			this._MstAccount2 = default(EntityRef<MstAccount>);
@@ -10173,8 +10338,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArticleGroupId", DbType="Int")]
-		public System.Nullable<int> ArticleGroupId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArticleGroupId", DbType="Int NOT NULL")]
+		public int ArticleGroupId
 		{
 			get
 			{
@@ -11339,6 +11504,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstArticle_TrnStockTransfer", Storage="_TrnStockTransfers", ThisKey="Id", OtherKey="ArticleId")]
+		public EntitySet<TrnStockTransfer> TrnStockTransfers
+		{
+			get
+			{
+				return this._TrnStockTransfers;
+			}
+			set
+			{
+				this._TrnStockTransfers.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticle", Storage="_MstAccount", ThisKey="AccountId", OtherKey="Id", IsForeignKey=true)]
 		public MstAccount MstAccount
 		{
@@ -11536,7 +11714,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					}
 					else
 					{
-						this._ArticleGroupId = default(Nullable<int>);
+						this._ArticleGroupId = default(int);
 					}
 					this.SendPropertyChanged("MstArticleGroup");
 				}
@@ -12290,6 +12468,18 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this.SendPropertyChanging();
 			entity.MstArticle = null;
 		}
+		
+		private void attach_TrnStockTransfers(TrnStockTransfer entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstArticle = this;
+		}
+		
+		private void detach_TrnStockTransfers(TrnStockTransfer entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstArticle = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstArticleComponent")]
@@ -12765,6 +12955,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private EntitySet<MstArticle> _MstArticles;
 		
+		private EntitySet<MstArticleGroupBranch> _MstArticleGroupBranches;
+		
 		private EntityRef<MstAccount> _MstAccount;
 		
 		private EntityRef<MstAccount> _MstAccount1;
@@ -12816,6 +13008,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		public MstArticleGroup()
 		{
 			this._MstArticles = new EntitySet<MstArticle>(new Action<MstArticle>(this.attach_MstArticles), new Action<MstArticle>(this.detach_MstArticles));
+			this._MstArticleGroupBranches = new EntitySet<MstArticleGroupBranch>(new Action<MstArticleGroupBranch>(this.attach_MstArticleGroupBranches), new Action<MstArticleGroupBranch>(this.detach_MstArticleGroupBranches));
 			this._MstAccount = default(EntityRef<MstAccount>);
 			this._MstAccount1 = default(EntityRef<MstAccount>);
 			this._MstAccount2 = default(EntityRef<MstAccount>);
@@ -13132,6 +13325,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstArticleGroup_MstArticleGroupBranch", Storage="_MstArticleGroupBranches", ThisKey="Id", OtherKey="ArticleGroupId")]
+		public EntitySet<MstArticleGroupBranch> MstArticleGroupBranches
+		{
+			get
+			{
+				return this._MstArticleGroupBranches;
+			}
+			set
+			{
+				this._MstArticleGroupBranches.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroup", Storage="_MstAccount", ThisKey="AccountId", OtherKey="Id", IsForeignKey=true)]
 		public MstAccount MstAccount
 		{
@@ -13434,6 +13640,535 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstArticleGroup = null;
+		}
+		
+		private void attach_MstArticleGroupBranches(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstArticleGroup = this;
+		}
+		
+		private void detach_MstArticleGroupBranches(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstArticleGroup = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstArticleGroupBranch")]
+	public partial class MstArticleGroupBranch : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _ArticleGroupId;
+		
+		private int _BranchId;
+		
+		private int _AccountId;
+		
+		private int _SalesAccountId;
+		
+		private int _CostAccountId;
+		
+		private int _AssetAccountId;
+		
+		private int _ExpenseAccountId;
+		
+		private EntityRef<MstAccount> _MstAccount;
+		
+		private EntityRef<MstAccount> _MstAccount1;
+		
+		private EntityRef<MstAccount> _MstAccount2;
+		
+		private EntityRef<MstAccount> _MstAccount3;
+		
+		private EntityRef<MstAccount> _MstAccount4;
+		
+		private EntityRef<MstArticleGroup> _MstArticleGroup;
+		
+		private EntityRef<MstBranch> _MstBranch;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnArticleGroupIdChanging(int value);
+    partial void OnArticleGroupIdChanged();
+    partial void OnBranchIdChanging(int value);
+    partial void OnBranchIdChanged();
+    partial void OnAccountIdChanging(int value);
+    partial void OnAccountIdChanged();
+    partial void OnSalesAccountIdChanging(int value);
+    partial void OnSalesAccountIdChanged();
+    partial void OnCostAccountIdChanging(int value);
+    partial void OnCostAccountIdChanged();
+    partial void OnAssetAccountIdChanging(int value);
+    partial void OnAssetAccountIdChanged();
+    partial void OnExpenseAccountIdChanging(int value);
+    partial void OnExpenseAccountIdChanged();
+    #endregion
+		
+		public MstArticleGroupBranch()
+		{
+			this._MstAccount = default(EntityRef<MstAccount>);
+			this._MstAccount1 = default(EntityRef<MstAccount>);
+			this._MstAccount2 = default(EntityRef<MstAccount>);
+			this._MstAccount3 = default(EntityRef<MstAccount>);
+			this._MstAccount4 = default(EntityRef<MstAccount>);
+			this._MstArticleGroup = default(EntityRef<MstArticleGroup>);
+			this._MstBranch = default(EntityRef<MstBranch>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArticleGroupId", DbType="Int NOT NULL")]
+		public int ArticleGroupId
+		{
+			get
+			{
+				return this._ArticleGroupId;
+			}
+			set
+			{
+				if ((this._ArticleGroupId != value))
+				{
+					if (this._MstArticleGroup.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnArticleGroupIdChanging(value);
+					this.SendPropertyChanging();
+					this._ArticleGroupId = value;
+					this.SendPropertyChanged("ArticleGroupId");
+					this.OnArticleGroupIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BranchId", DbType="Int NOT NULL")]
+		public int BranchId
+		{
+			get
+			{
+				return this._BranchId;
+			}
+			set
+			{
+				if ((this._BranchId != value))
+				{
+					if (this._MstBranch.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnBranchIdChanging(value);
+					this.SendPropertyChanging();
+					this._BranchId = value;
+					this.SendPropertyChanged("BranchId");
+					this.OnBranchIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccountId", DbType="Int NOT NULL")]
+		public int AccountId
+		{
+			get
+			{
+				return this._AccountId;
+			}
+			set
+			{
+				if ((this._AccountId != value))
+				{
+					if (this._MstAccount.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAccountIdChanging(value);
+					this.SendPropertyChanging();
+					this._AccountId = value;
+					this.SendPropertyChanged("AccountId");
+					this.OnAccountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SalesAccountId", DbType="Int NOT NULL")]
+		public int SalesAccountId
+		{
+			get
+			{
+				return this._SalesAccountId;
+			}
+			set
+			{
+				if ((this._SalesAccountId != value))
+				{
+					if (this._MstAccount4.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSalesAccountIdChanging(value);
+					this.SendPropertyChanging();
+					this._SalesAccountId = value;
+					this.SendPropertyChanged("SalesAccountId");
+					this.OnSalesAccountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CostAccountId", DbType="Int NOT NULL")]
+		public int CostAccountId
+		{
+			get
+			{
+				return this._CostAccountId;
+			}
+			set
+			{
+				if ((this._CostAccountId != value))
+				{
+					if (this._MstAccount2.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCostAccountIdChanging(value);
+					this.SendPropertyChanging();
+					this._CostAccountId = value;
+					this.SendPropertyChanged("CostAccountId");
+					this.OnCostAccountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AssetAccountId", DbType="Int NOT NULL")]
+		public int AssetAccountId
+		{
+			get
+			{
+				return this._AssetAccountId;
+			}
+			set
+			{
+				if ((this._AssetAccountId != value))
+				{
+					if (this._MstAccount1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAssetAccountIdChanging(value);
+					this.SendPropertyChanging();
+					this._AssetAccountId = value;
+					this.SendPropertyChanged("AssetAccountId");
+					this.OnAssetAccountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpenseAccountId", DbType="Int NOT NULL")]
+		public int ExpenseAccountId
+		{
+			get
+			{
+				return this._ExpenseAccountId;
+			}
+			set
+			{
+				if ((this._ExpenseAccountId != value))
+				{
+					if (this._MstAccount3.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnExpenseAccountIdChanging(value);
+					this.SendPropertyChanging();
+					this._ExpenseAccountId = value;
+					this.SendPropertyChanged("ExpenseAccountId");
+					this.OnExpenseAccountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch", Storage="_MstAccount", ThisKey="AccountId", OtherKey="Id", IsForeignKey=true)]
+		public MstAccount MstAccount
+		{
+			get
+			{
+				return this._MstAccount.Entity;
+			}
+			set
+			{
+				MstAccount previousValue = this._MstAccount.Entity;
+				if (((previousValue != value) 
+							|| (this._MstAccount.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstAccount.Entity = null;
+						previousValue.MstArticleGroupBranches.Remove(this);
+					}
+					this._MstAccount.Entity = value;
+					if ((value != null))
+					{
+						value.MstArticleGroupBranches.Add(this);
+						this._AccountId = value.Id;
+					}
+					else
+					{
+						this._AccountId = default(int);
+					}
+					this.SendPropertyChanged("MstAccount");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch1", Storage="_MstAccount1", ThisKey="AssetAccountId", OtherKey="Id", IsForeignKey=true)]
+		public MstAccount MstAccount1
+		{
+			get
+			{
+				return this._MstAccount1.Entity;
+			}
+			set
+			{
+				MstAccount previousValue = this._MstAccount1.Entity;
+				if (((previousValue != value) 
+							|| (this._MstAccount1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstAccount1.Entity = null;
+						previousValue.MstArticleGroupBranches1.Remove(this);
+					}
+					this._MstAccount1.Entity = value;
+					if ((value != null))
+					{
+						value.MstArticleGroupBranches1.Add(this);
+						this._AssetAccountId = value.Id;
+					}
+					else
+					{
+						this._AssetAccountId = default(int);
+					}
+					this.SendPropertyChanged("MstAccount1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch2", Storage="_MstAccount2", ThisKey="CostAccountId", OtherKey="Id", IsForeignKey=true)]
+		public MstAccount MstAccount2
+		{
+			get
+			{
+				return this._MstAccount2.Entity;
+			}
+			set
+			{
+				MstAccount previousValue = this._MstAccount2.Entity;
+				if (((previousValue != value) 
+							|| (this._MstAccount2.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstAccount2.Entity = null;
+						previousValue.MstArticleGroupBranches2.Remove(this);
+					}
+					this._MstAccount2.Entity = value;
+					if ((value != null))
+					{
+						value.MstArticleGroupBranches2.Add(this);
+						this._CostAccountId = value.Id;
+					}
+					else
+					{
+						this._CostAccountId = default(int);
+					}
+					this.SendPropertyChanged("MstAccount2");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch3", Storage="_MstAccount3", ThisKey="ExpenseAccountId", OtherKey="Id", IsForeignKey=true)]
+		public MstAccount MstAccount3
+		{
+			get
+			{
+				return this._MstAccount3.Entity;
+			}
+			set
+			{
+				MstAccount previousValue = this._MstAccount3.Entity;
+				if (((previousValue != value) 
+							|| (this._MstAccount3.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstAccount3.Entity = null;
+						previousValue.MstArticleGroupBranches3.Remove(this);
+					}
+					this._MstAccount3.Entity = value;
+					if ((value != null))
+					{
+						value.MstArticleGroupBranches3.Add(this);
+						this._ExpenseAccountId = value.Id;
+					}
+					else
+					{
+						this._ExpenseAccountId = default(int);
+					}
+					this.SendPropertyChanged("MstAccount3");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstArticleGroupBranch4", Storage="_MstAccount4", ThisKey="SalesAccountId", OtherKey="Id", IsForeignKey=true)]
+		public MstAccount MstAccount4
+		{
+			get
+			{
+				return this._MstAccount4.Entity;
+			}
+			set
+			{
+				MstAccount previousValue = this._MstAccount4.Entity;
+				if (((previousValue != value) 
+							|| (this._MstAccount4.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstAccount4.Entity = null;
+						previousValue.MstArticleGroupBranches4.Remove(this);
+					}
+					this._MstAccount4.Entity = value;
+					if ((value != null))
+					{
+						value.MstArticleGroupBranches4.Add(this);
+						this._SalesAccountId = value.Id;
+					}
+					else
+					{
+						this._SalesAccountId = default(int);
+					}
+					this.SendPropertyChanged("MstAccount4");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstArticleGroup_MstArticleGroupBranch", Storage="_MstArticleGroup", ThisKey="ArticleGroupId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public MstArticleGroup MstArticleGroup
+		{
+			get
+			{
+				return this._MstArticleGroup.Entity;
+			}
+			set
+			{
+				MstArticleGroup previousValue = this._MstArticleGroup.Entity;
+				if (((previousValue != value) 
+							|| (this._MstArticleGroup.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstArticleGroup.Entity = null;
+						previousValue.MstArticleGroupBranches.Remove(this);
+					}
+					this._MstArticleGroup.Entity = value;
+					if ((value != null))
+					{
+						value.MstArticleGroupBranches.Add(this);
+						this._ArticleGroupId = value.Id;
+					}
+					else
+					{
+						this._ArticleGroupId = default(int);
+					}
+					this.SendPropertyChanged("MstArticleGroup");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBranch_MstArticleGroupBranch", Storage="_MstBranch", ThisKey="BranchId", OtherKey="Id", IsForeignKey=true)]
+		public MstBranch MstBranch
+		{
+			get
+			{
+				return this._MstBranch.Entity;
+			}
+			set
+			{
+				MstBranch previousValue = this._MstBranch.Entity;
+				if (((previousValue != value) 
+							|| (this._MstBranch.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstBranch.Entity = null;
+						previousValue.MstArticleGroupBranches.Remove(this);
+					}
+					this._MstBranch.Entity = value;
+					if ((value != null))
+					{
+						value.MstArticleGroupBranches.Add(this);
+						this._BranchId = value.Id;
+					}
+					else
+					{
+						this._BranchId = default(int);
+					}
+					this.SendPropertyChanged("MstBranch");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -14702,9 +15437,13 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private System.DateTime _UpdatedDateTime;
 		
+		private EntitySet<MstArticleGroupBranch> _MstArticleGroupBranches;
+		
 		private EntitySet<MstArticleInventory> _MstArticleInventories;
 		
 		private EntitySet<MstUser> _MstUsers;
+		
+		private EntitySet<MstUserBranch> _MstUserBranches;
 		
 		private EntitySet<TrnCollection> _TrnCollections;
 		
@@ -14778,8 +15517,10 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		public MstBranch()
 		{
+			this._MstArticleGroupBranches = new EntitySet<MstArticleGroupBranch>(new Action<MstArticleGroupBranch>(this.attach_MstArticleGroupBranches), new Action<MstArticleGroupBranch>(this.detach_MstArticleGroupBranches));
 			this._MstArticleInventories = new EntitySet<MstArticleInventory>(new Action<MstArticleInventory>(this.attach_MstArticleInventories), new Action<MstArticleInventory>(this.detach_MstArticleInventories));
 			this._MstUsers = new EntitySet<MstUser>(new Action<MstUser>(this.attach_MstUsers), new Action<MstUser>(this.detach_MstUsers));
+			this._MstUserBranches = new EntitySet<MstUserBranch>(new Action<MstUserBranch>(this.attach_MstUserBranches), new Action<MstUserBranch>(this.detach_MstUserBranches));
 			this._TrnCollections = new EntitySet<TrnCollection>(new Action<TrnCollection>(this.attach_TrnCollections), new Action<TrnCollection>(this.detach_TrnCollections));
 			this._TrnCollectionLines = new EntitySet<TrnCollectionLine>(new Action<TrnCollectionLine>(this.attach_TrnCollectionLines), new Action<TrnCollectionLine>(this.detach_TrnCollectionLines));
 			this._TrnDisbursements = new EntitySet<TrnDisbursement>(new Action<TrnDisbursement>(this.attach_TrnDisbursements), new Action<TrnDisbursement>(this.detach_TrnDisbursements));
@@ -15055,6 +15796,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBranch_MstArticleGroupBranch", Storage="_MstArticleGroupBranches", ThisKey="Id", OtherKey="BranchId")]
+		public EntitySet<MstArticleGroupBranch> MstArticleGroupBranches
+		{
+			get
+			{
+				return this._MstArticleGroupBranches;
+			}
+			set
+			{
+				this._MstArticleGroupBranches.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBranch_MstArticleInventory", Storage="_MstArticleInventories", ThisKey="Id", OtherKey="BranchId")]
 		public EntitySet<MstArticleInventory> MstArticleInventories
 		{
@@ -15078,6 +15832,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			set
 			{
 				this._MstUsers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBranch_MstUserBranch", Storage="_MstUserBranches", ThisKey="Id", OtherKey="BranchId")]
+		public EntitySet<MstUserBranch> MstUserBranches
+		{
+			get
+			{
+				return this._MstUserBranches;
+			}
+			set
+			{
+				this._MstUserBranches.Assign(value);
 			}
 		}
 		
@@ -15424,6 +16191,18 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		private void attach_MstArticleGroupBranches(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstBranch = this;
+		}
+		
+		private void detach_MstArticleGroupBranches(MstArticleGroupBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstBranch = null;
+		}
+		
 		private void attach_MstArticleInventories(MstArticleInventory entity)
 		{
 			this.SendPropertyChanging();
@@ -15443,6 +16222,18 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		}
 		
 		private void detach_MstUsers(MstUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstBranch = null;
+		}
+		
+		private void attach_MstUserBranches(MstUserBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstBranch = this;
+		}
+		
+		private void detach_MstUserBranches(MstUserBranch entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstBranch = null;
@@ -16095,6 +16886,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private System.DateTime _UpdatedDateTime;
 		
+		private EntitySet<MstUser> _MstUsers;
+		
 		private EntitySet<TrnSalesInvoiceItem> _TrnSalesInvoiceItems;
 		
 		private EntityRef<MstAccount> _MstAccount;
@@ -16131,6 +16924,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		public MstDiscount()
 		{
+			this._MstUsers = new EntitySet<MstUser>(new Action<MstUser>(this.attach_MstUsers), new Action<MstUser>(this.detach_MstUsers));
 			this._TrnSalesInvoiceItems = new EntitySet<TrnSalesInvoiceItem>(new Action<TrnSalesInvoiceItem>(this.attach_TrnSalesInvoiceItems), new Action<TrnSalesInvoiceItem>(this.detach_TrnSalesInvoiceItems));
 			this._MstAccount = default(EntityRef<MstAccount>);
 			this._MstUser = default(EntityRef<MstUser>);
@@ -16350,6 +17144,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstDiscount_MstUser", Storage="_MstUsers", ThisKey="Id", OtherKey="DefaultSalesInvoiceDiscountId")]
+		public EntitySet<MstUser> MstUsers
+		{
+			get
+			{
+				return this._MstUsers;
+			}
+			set
+			{
+				this._MstUsers.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstDiscount_TrnSalesInvoiceItem", Storage="_TrnSalesInvoiceItems", ThisKey="Id", OtherKey="DiscountId")]
 		public EntitySet<TrnSalesInvoiceItem> TrnSalesInvoiceItems
 		{
@@ -16483,6 +17290,18 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_MstUsers(MstUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstDiscount = this;
+		}
+		
+		private void detach_MstUsers(MstUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstDiscount = null;
 		}
 		
 		private void attach_TrnSalesInvoiceItems(TrnSalesInvoiceItem entity)
@@ -18588,23 +19407,13 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private int _Id;
 		
+		private string _UserId;
+		
 		private string _UserName;
 		
 		private string _Password;
 		
 		private string _FullName;
-		
-		private bool _IsLocked;
-		
-		private int _CreatedById;
-		
-		private System.DateTime _CreatedDateTime;
-		
-		private int _UpdatedById;
-		
-		private System.DateTime _UpdatedDateTime;
-		
-		private string _UserId;
 		
 		private int _CompanyId;
 		
@@ -18617,6 +19426,20 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		private int _CustomerAdvancesAccountId;
 		
 		private string _OfficialReceiptName;
+		
+		private string _InventoryType;
+		
+		private int _DefaultSalesInvoiceDiscountId;
+		
+		private bool _IsLocked;
+		
+		private int _CreatedById;
+		
+		private System.DateTime _CreatedDateTime;
+		
+		private int _UpdatedById;
+		
+		private System.DateTime _UpdatedDateTime;
 		
 		private EntitySet<IS_TrnActivity> _IS_TrnActivities;
 		
@@ -18707,6 +19530,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		private EntitySet<MstUnit> _MstUnits;
 		
 		private EntitySet<MstUnit> _MstUnits1;
+		
+		private EntitySet<MstUserBranch> _MstUserBranches;
 		
 		private EntitySet<MstUserForm> _MstUserForms;
 		
@@ -18830,30 +19655,22 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private EntityRef<MstCompany> _MstCompany;
 		
+		private EntityRef<MstDiscount> _MstDiscount;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
+    partial void OnUserIdChanging(string value);
+    partial void OnUserIdChanged();
     partial void OnUserNameChanging(string value);
     partial void OnUserNameChanged();
     partial void OnPasswordChanging(string value);
     partial void OnPasswordChanged();
     partial void OnFullNameChanging(string value);
     partial void OnFullNameChanged();
-    partial void OnIsLockedChanging(bool value);
-    partial void OnIsLockedChanged();
-    partial void OnCreatedByIdChanging(int value);
-    partial void OnCreatedByIdChanged();
-    partial void OnCreatedDateTimeChanging(System.DateTime value);
-    partial void OnCreatedDateTimeChanged();
-    partial void OnUpdatedByIdChanging(int value);
-    partial void OnUpdatedByIdChanged();
-    partial void OnUpdatedDateTimeChanging(System.DateTime value);
-    partial void OnUpdatedDateTimeChanged();
-    partial void OnUserIdChanging(string value);
-    partial void OnUserIdChanged();
     partial void OnCompanyIdChanging(int value);
     partial void OnCompanyIdChanged();
     partial void OnBranchIdChanging(int value);
@@ -18866,6 +19683,20 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnCustomerAdvancesAccountIdChanged();
     partial void OnOfficialReceiptNameChanging(string value);
     partial void OnOfficialReceiptNameChanged();
+    partial void OnInventoryTypeChanging(string value);
+    partial void OnInventoryTypeChanged();
+    partial void OnDefaultSalesInvoiceDiscountIdChanging(int value);
+    partial void OnDefaultSalesInvoiceDiscountIdChanged();
+    partial void OnIsLockedChanging(bool value);
+    partial void OnIsLockedChanged();
+    partial void OnCreatedByIdChanging(int value);
+    partial void OnCreatedByIdChanged();
+    partial void OnCreatedDateTimeChanging(System.DateTime value);
+    partial void OnCreatedDateTimeChanged();
+    partial void OnUpdatedByIdChanging(int value);
+    partial void OnUpdatedByIdChanged();
+    partial void OnUpdatedDateTimeChanging(System.DateTime value);
+    partial void OnUpdatedDateTimeChanged();
     #endregion
 		
 		public MstUser()
@@ -18915,6 +19746,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._MstTerms1 = new EntitySet<MstTerm>(new Action<MstTerm>(this.attach_MstTerms1), new Action<MstTerm>(this.detach_MstTerms1));
 			this._MstUnits = new EntitySet<MstUnit>(new Action<MstUnit>(this.attach_MstUnits), new Action<MstUnit>(this.detach_MstUnits));
 			this._MstUnits1 = new EntitySet<MstUnit>(new Action<MstUnit>(this.attach_MstUnits1), new Action<MstUnit>(this.detach_MstUnits1));
+			this._MstUserBranches = new EntitySet<MstUserBranch>(new Action<MstUserBranch>(this.attach_MstUserBranches), new Action<MstUserBranch>(this.detach_MstUserBranches));
 			this._MstUserForms = new EntitySet<MstUserForm>(new Action<MstUserForm>(this.attach_MstUserForms), new Action<MstUserForm>(this.detach_MstUserForms));
 			this._SysAuditTrails = new EntitySet<SysAuditTrail>(new Action<SysAuditTrail>(this.attach_SysAuditTrails), new Action<SysAuditTrail>(this.detach_SysAuditTrails));
 			this._TrnCollections = new EntitySet<TrnCollection>(new Action<TrnCollection>(this.attach_TrnCollections), new Action<TrnCollection>(this.detach_TrnCollections));
@@ -18976,6 +19808,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._MstAccount2 = default(EntityRef<MstAccount>);
 			this._MstBranch = default(EntityRef<MstBranch>);
 			this._MstCompany = default(EntityRef<MstCompany>);
+			this._MstDiscount = default(EntityRef<MstDiscount>);
 			OnCreated();
 		}
 		
@@ -18995,166 +19828,6 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._Id = value;
 					this.SendPropertyChanged("Id");
 					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this.OnUserNameChanging(value);
-					this.SendPropertyChanging();
-					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string FullName
-		{
-			get
-			{
-				return this._FullName;
-			}
-			set
-			{
-				if ((this._FullName != value))
-				{
-					this.OnFullNameChanging(value);
-					this.SendPropertyChanging();
-					this._FullName = value;
-					this.SendPropertyChanged("FullName");
-					this.OnFullNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLocked", DbType="Bit NOT NULL")]
-		public bool IsLocked
-		{
-			get
-			{
-				return this._IsLocked;
-			}
-			set
-			{
-				if ((this._IsLocked != value))
-				{
-					this.OnIsLockedChanging(value);
-					this.SendPropertyChanging();
-					this._IsLocked = value;
-					this.SendPropertyChanged("IsLocked");
-					this.OnIsLockedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedById", DbType="Int NOT NULL")]
-		public int CreatedById
-		{
-			get
-			{
-				return this._CreatedById;
-			}
-			set
-			{
-				if ((this._CreatedById != value))
-				{
-					this.OnCreatedByIdChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedById = value;
-					this.SendPropertyChanged("CreatedById");
-					this.OnCreatedByIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime CreatedDateTime
-		{
-			get
-			{
-				return this._CreatedDateTime;
-			}
-			set
-			{
-				if ((this._CreatedDateTime != value))
-				{
-					this.OnCreatedDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedDateTime = value;
-					this.SendPropertyChanged("CreatedDateTime");
-					this.OnCreatedDateTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedById", DbType="Int NOT NULL")]
-		public int UpdatedById
-		{
-			get
-			{
-				return this._UpdatedById;
-			}
-			set
-			{
-				if ((this._UpdatedById != value))
-				{
-					this.OnUpdatedByIdChanging(value);
-					this.SendPropertyChanging();
-					this._UpdatedById = value;
-					this.SendPropertyChanged("UpdatedById");
-					this.OnUpdatedByIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime UpdatedDateTime
-		{
-			get
-			{
-				return this._UpdatedDateTime;
-			}
-			set
-			{
-				if ((this._UpdatedDateTime != value))
-				{
-					this.OnUpdatedDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._UpdatedDateTime = value;
-					this.SendPropertyChanged("UpdatedDateTime");
-					this.OnUpdatedDateTimeChanged();
 				}
 			}
 		}
@@ -19179,6 +19852,66 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._UserId = value;
 					this.SendPropertyChanged("UserId");
 					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+			set
+			{
+				if ((this._FullName != value))
+				{
+					this.OnFullNameChanging(value);
+					this.SendPropertyChanging();
+					this._FullName = value;
+					this.SendPropertyChanged("FullName");
+					this.OnFullNameChanged();
 				}
 			}
 		}
@@ -19303,7 +20036,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OfficialReceiptName", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OfficialReceiptName", DbType="NVarChar(255)")]
 		public string OfficialReceiptName
 		{
 			get
@@ -19319,6 +20052,150 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._OfficialReceiptName = value;
 					this.SendPropertyChanged("OfficialReceiptName");
 					this.OnOfficialReceiptNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InventoryType", DbType="NVarChar(255)")]
+		public string InventoryType
+		{
+			get
+			{
+				return this._InventoryType;
+			}
+			set
+			{
+				if ((this._InventoryType != value))
+				{
+					this.OnInventoryTypeChanging(value);
+					this.SendPropertyChanging();
+					this._InventoryType = value;
+					this.SendPropertyChanged("InventoryType");
+					this.OnInventoryTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultSalesInvoiceDiscountId", DbType="Int NOT NULL")]
+		public int DefaultSalesInvoiceDiscountId
+		{
+			get
+			{
+				return this._DefaultSalesInvoiceDiscountId;
+			}
+			set
+			{
+				if ((this._DefaultSalesInvoiceDiscountId != value))
+				{
+					if (this._MstDiscount.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDefaultSalesInvoiceDiscountIdChanging(value);
+					this.SendPropertyChanging();
+					this._DefaultSalesInvoiceDiscountId = value;
+					this.SendPropertyChanged("DefaultSalesInvoiceDiscountId");
+					this.OnDefaultSalesInvoiceDiscountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLocked", DbType="Bit NOT NULL")]
+		public bool IsLocked
+		{
+			get
+			{
+				return this._IsLocked;
+			}
+			set
+			{
+				if ((this._IsLocked != value))
+				{
+					this.OnIsLockedChanging(value);
+					this.SendPropertyChanging();
+					this._IsLocked = value;
+					this.SendPropertyChanged("IsLocked");
+					this.OnIsLockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedById", DbType="Int NOT NULL")]
+		public int CreatedById
+		{
+			get
+			{
+				return this._CreatedById;
+			}
+			set
+			{
+				if ((this._CreatedById != value))
+				{
+					this.OnCreatedByIdChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedById = value;
+					this.SendPropertyChanged("CreatedById");
+					this.OnCreatedByIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDateTime
+		{
+			get
+			{
+				return this._CreatedDateTime;
+			}
+			set
+			{
+				if ((this._CreatedDateTime != value))
+				{
+					this.OnCreatedDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDateTime = value;
+					this.SendPropertyChanged("CreatedDateTime");
+					this.OnCreatedDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedById", DbType="Int NOT NULL")]
+		public int UpdatedById
+		{
+			get
+			{
+				return this._UpdatedById;
+			}
+			set
+			{
+				if ((this._UpdatedById != value))
+				{
+					this.OnUpdatedByIdChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedById = value;
+					this.SendPropertyChanged("UpdatedById");
+					this.OnUpdatedByIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime UpdatedDateTime
+		{
+			get
+			{
+				return this._UpdatedDateTime;
+			}
+			set
+			{
+				if ((this._UpdatedDateTime != value))
+				{
+					this.OnUpdatedDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedDateTime = value;
+					this.SendPropertyChanged("UpdatedDateTime");
+					this.OnUpdatedDateTimeChanged();
 				}
 			}
 		}
@@ -19905,6 +20782,19 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			set
 			{
 				this._MstUnits1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstUserBranch", Storage="_MstUserBranches", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<MstUserBranch> MstUserBranches
+		{
+			get
+			{
+				return this._MstUserBranches;
+			}
+			set
+			{
+				this._MstUserBranches.Assign(value);
 			}
 		}
 		
@@ -20827,6 +21717,40 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstDiscount_MstUser", Storage="_MstDiscount", ThisKey="DefaultSalesInvoiceDiscountId", OtherKey="Id", IsForeignKey=true)]
+		public MstDiscount MstDiscount
+		{
+			get
+			{
+				return this._MstDiscount.Entity;
+			}
+			set
+			{
+				MstDiscount previousValue = this._MstDiscount.Entity;
+				if (((previousValue != value) 
+							|| (this._MstDiscount.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstDiscount.Entity = null;
+						previousValue.MstUsers.Remove(this);
+					}
+					this._MstDiscount.Entity = value;
+					if ((value != null))
+					{
+						value.MstUsers.Add(this);
+						this._DefaultSalesInvoiceDiscountId = value.Id;
+					}
+					else
+					{
+						this._DefaultSalesInvoiceDiscountId = default(int);
+					}
+					this.SendPropertyChanged("MstDiscount");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -21385,6 +22309,18 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstUser1 = null;
+		}
+		
+		private void attach_MstUserBranches(MstUserBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_MstUserBranches(MstUserBranch entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
 		}
 		
 		private void attach_MstUserForms(MstUserForm entity)
@@ -22045,6 +22981,198 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstUser4 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstUserBranch")]
+	public partial class MstUserBranch : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _UserId;
+		
+		private int _BranchId;
+		
+		private EntityRef<MstBranch> _MstBranch;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnBranchIdChanging(int value);
+    partial void OnBranchIdChanged();
+    #endregion
+		
+		public MstUserBranch()
+		{
+			this._MstBranch = default(EntityRef<MstBranch>);
+			this._MstUser = default(EntityRef<MstUser>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BranchId", DbType="Int NOT NULL")]
+		public int BranchId
+		{
+			get
+			{
+				return this._BranchId;
+			}
+			set
+			{
+				if ((this._BranchId != value))
+				{
+					if (this._MstBranch.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnBranchIdChanging(value);
+					this.SendPropertyChanging();
+					this._BranchId = value;
+					this.SendPropertyChanged("BranchId");
+					this.OnBranchIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBranch_MstUserBranch", Storage="_MstBranch", ThisKey="BranchId", OtherKey="Id", IsForeignKey=true)]
+		public MstBranch MstBranch
+		{
+			get
+			{
+				return this._MstBranch.Entity;
+			}
+			set
+			{
+				MstBranch previousValue = this._MstBranch.Entity;
+				if (((previousValue != value) 
+							|| (this._MstBranch.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstBranch.Entity = null;
+						previousValue.MstUserBranches.Remove(this);
+					}
+					this._MstBranch.Entity = value;
+					if ((value != null))
+					{
+						value.MstUserBranches.Add(this);
+						this._BranchId = value.Id;
+					}
+					else
+					{
+						this._BranchId = default(int);
+					}
+					this.SendPropertyChanged("MstBranch");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstUserBranch", Storage="_MstUser", ThisKey="UserId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.MstUserBranches.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.MstUserBranches.Add(this);
+						this._UserId = value.Id;
+					}
+					else
+					{
+						this._UserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -29810,7 +30938,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaseQuantity", DbType="Decimal(18,0) NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaseQuantity", DbType="Decimal(18,5) NOT NULL")]
 		public decimal BaseQuantity
 		{
 			get
@@ -29830,7 +30958,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaseCost", DbType="Decimal(18,0) NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaseCost", DbType="Decimal(18,5) NOT NULL")]
 		public decimal BaseCost
 		{
 			get
@@ -33103,6 +34231,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private decimal _BasePrice;
 		
+		private System.DateTime _SalesItemTimeStamp;
+		
 		private EntityRef<MstArticle> _MstArticle;
 		
 		private EntityRef<MstArticleInventory> _MstArticleInventory;
@@ -33159,6 +34289,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnBaseQuantityChanged();
     partial void OnBasePriceChanging(decimal value);
     partial void OnBasePriceChanged();
+    partial void OnSalesItemTimeStampChanging(System.DateTime value);
+    partial void OnSalesItemTimeStampChanged();
     #endregion
 		
 		public TrnSalesInvoiceItem()
@@ -33577,6 +34709,26 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._BasePrice = value;
 					this.SendPropertyChanged("BasePrice");
 					this.OnBasePriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SalesItemTimeStamp", DbType="DateTime NOT NULL")]
+		public System.DateTime SalesItemTimeStamp
+		{
+			get
+			{
+				return this._SalesItemTimeStamp;
+			}
+			set
+			{
+				if ((this._SalesItemTimeStamp != value))
+				{
+					this.OnSalesItemTimeStampChanging(value);
+					this.SendPropertyChanging();
+					this._SalesItemTimeStamp = value;
+					this.SendPropertyChanged("SalesItemTimeStamp");
+					this.OnSalesItemTimeStampChanged();
 				}
 			}
 		}
@@ -37474,6 +38626,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private int _ToBranchId;
 		
+		private int _ArticleId;
+		
 		private string _Particulars;
 		
 		private string _ManualSTNumber;
@@ -37499,6 +38653,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		private EntitySet<TrnInventory> _TrnInventories;
 		
 		private EntitySet<TrnJournal> _TrnJournals;
+		
+		private EntityRef<MstArticle> _MstArticle;
 		
 		private EntityRef<MstBranch> _MstBranch;
 		
@@ -37528,6 +38684,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnSTDateChanged();
     partial void OnToBranchIdChanging(int value);
     partial void OnToBranchIdChanged();
+    partial void OnArticleIdChanging(int value);
+    partial void OnArticleIdChanged();
     partial void OnParticularsChanging(string value);
     partial void OnParticularsChanged();
     partial void OnManualSTNumberChanging(string value);
@@ -37555,6 +38713,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			this._TrnStockTransferItems = new EntitySet<TrnStockTransferItem>(new Action<TrnStockTransferItem>(this.attach_TrnStockTransferItems), new Action<TrnStockTransferItem>(this.detach_TrnStockTransferItems));
 			this._TrnInventories = new EntitySet<TrnInventory>(new Action<TrnInventory>(this.attach_TrnInventories), new Action<TrnInventory>(this.detach_TrnInventories));
 			this._TrnJournals = new EntitySet<TrnJournal>(new Action<TrnJournal>(this.attach_TrnJournals), new Action<TrnJournal>(this.detach_TrnJournals));
+			this._MstArticle = default(EntityRef<MstArticle>);
 			this._MstBranch = default(EntityRef<MstBranch>);
 			this._MstBranch1 = default(EntityRef<MstBranch>);
 			this._MstUser = default(EntityRef<MstUser>);
@@ -37669,6 +38828,30 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._ToBranchId = value;
 					this.SendPropertyChanged("ToBranchId");
 					this.OnToBranchIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArticleId", DbType="Int NOT NULL")]
+		public int ArticleId
+		{
+			get
+			{
+				return this._ArticleId;
+			}
+			set
+			{
+				if ((this._ArticleId != value))
+				{
+					if (this._MstArticle.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnArticleIdChanging(value);
+					this.SendPropertyChanging();
+					this._ArticleId = value;
+					this.SendPropertyChanged("ArticleId");
+					this.OnArticleIdChanged();
 				}
 			}
 		}
@@ -37929,6 +39112,40 @@ namespace InnosoftSolutionsWebsiteApi.Data
 			set
 			{
 				this._TrnJournals.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstArticle_TrnStockTransfer", Storage="_MstArticle", ThisKey="ArticleId", OtherKey="Id", IsForeignKey=true)]
+		public MstArticle MstArticle
+		{
+			get
+			{
+				return this._MstArticle.Entity;
+			}
+			set
+			{
+				MstArticle previousValue = this._MstArticle.Entity;
+				if (((previousValue != value) 
+							|| (this._MstArticle.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstArticle.Entity = null;
+						previousValue.TrnStockTransfers.Remove(this);
+					}
+					this._MstArticle.Entity = value;
+					if ((value != null))
+					{
+						value.TrnStockTransfers.Add(this);
+						this._ArticleId = value.Id;
+					}
+					else
+					{
+						this._ArticleId = default(int);
+					}
+					this.SendPropertyChanged("MstArticle");
+				}
 			}
 		}
 		
