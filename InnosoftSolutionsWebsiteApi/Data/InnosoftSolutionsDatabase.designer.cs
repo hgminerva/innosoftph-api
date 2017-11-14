@@ -219,7 +219,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
     #endregion
 		
 		public InnosoftSolutionsDatabaseDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["easyfis_innosoftConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -2440,6 +2440,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private string _Particulars;
 		
+		private string _Location;
+		
 		private decimal _NumberOfHours;
 		
 		private decimal _ActivityAmount;
@@ -2492,6 +2494,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnParticularCategoryChanged();
     partial void OnParticularsChanging(string value);
     partial void OnParticularsChanged();
+    partial void OnLocationChanging(string value);
+    partial void OnLocationChanged();
     partial void OnNumberOfHoursChanging(decimal value);
     partial void OnNumberOfHoursChanged();
     partial void OnActivityAmountChanging(decimal value);
@@ -2691,6 +2695,26 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._Particulars = value;
 					this.SendPropertyChanged("Particulars");
 					this.OnParticularsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Location", DbType="NVarChar(50)")]
+		public string Location
+		{
+			get
+			{
+				return this._Location;
+			}
+			set
+			{
+				if ((this._Location != value))
+				{
+					this.OnLocationChanging(value);
+					this.SendPropertyChanging();
+					this._Location = value;
+					this.SendPropertyChanged("Location");
+					this.OnLocationChanged();
 				}
 			}
 		}
@@ -19431,6 +19455,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
 		
 		private int _DefaultSalesInvoiceDiscountId;
 		
+		private string _SalesInvoiceName;
+		
 		private bool _IsLocked;
 		
 		private int _CreatedById;
@@ -19687,6 +19713,8 @@ namespace InnosoftSolutionsWebsiteApi.Data
     partial void OnInventoryTypeChanged();
     partial void OnDefaultSalesInvoiceDiscountIdChanging(int value);
     partial void OnDefaultSalesInvoiceDiscountIdChanged();
+    partial void OnSalesInvoiceNameChanging(string value);
+    partial void OnSalesInvoiceNameChanged();
     partial void OnIsLockedChanging(bool value);
     partial void OnIsLockedChanged();
     partial void OnCreatedByIdChanging(int value);
@@ -20096,6 +20124,26 @@ namespace InnosoftSolutionsWebsiteApi.Data
 					this._DefaultSalesInvoiceDiscountId = value;
 					this.SendPropertyChanged("DefaultSalesInvoiceDiscountId");
 					this.OnDefaultSalesInvoiceDiscountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SalesInvoiceName", DbType="NVarChar(255)")]
+		public string SalesInvoiceName
+		{
+			get
+			{
+				return this._SalesInvoiceName;
+			}
+			set
+			{
+				if ((this._SalesInvoiceName != value))
+				{
+					this.OnSalesInvoiceNameChanging(value);
+					this.SendPropertyChanging();
+					this._SalesInvoiceName = value;
+					this.SendPropertyChanged("SalesInvoiceName");
+					this.OnSalesInvoiceNameChanged();
 				}
 			}
 		}

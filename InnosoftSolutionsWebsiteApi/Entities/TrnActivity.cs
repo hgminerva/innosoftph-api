@@ -19,6 +19,7 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String Product { get; set; }
         public String ParticularCategory { get; set; }
         public String Particulars { get; set; }
+        public String Location { get; set; }
         public Decimal NumberOfHours { get; set; }
         public Decimal ActivityAmount { get; set; }
         public String ActivityStatus { get; set; }

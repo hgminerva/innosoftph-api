@@ -17,7 +17,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         private Data.InnosoftSolutionsDatabaseDataContext db = new Data.InnosoftSolutionsDatabaseDataContext();
 
         // fill leading zeroes
-        public String fillLeadingZeroes(Int32 number, Int32 length)
+        public String FillLeadingZeroes(Int32 number, Int32 length)
         {
             var result = number.ToString();
             var pad = length - result.Length;
@@ -32,7 +32,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get activity by lead id
         [HttpGet, Route("list/byLeadId/{leadId}")]
-        public List<Entities.TrnActivity> listActivityByLeadId(String leadId)
+        public List<Entities.TrnActivity> ListActivityByLeadId(String leadId)
         {
             var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.LeadId == Convert.ToInt32(leadId)
@@ -49,6 +49,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  Product = d.MstArticle1.Article,
                                  ParticularCategory = d.ParticularCategory,
                                  Particulars = d.Particulars,
+                                 Location = d.Location ?? " ",
                                  NumberOfHours = d.NumberOfHours,
                                  ActivityAmount = d.ActivityAmount,
                                  ActivityStatus = d.ActivityStatus,
@@ -64,7 +65,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get activity by quotation id
         [HttpGet, Route("list/byQuotationId/{quotationId}")]
-        public List<Entities.TrnActivity> listActivityByQuotationId(String quotationId)
+        public List<Entities.TrnActivity> ListActivityByQuotationId(String quotationId)
         {
             var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.QuotationId == Convert.ToInt32(quotationId)
@@ -81,6 +82,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  Product = d.MstArticle1.Article,
                                  ParticularCategory = d.ParticularCategory,
                                  Particulars = d.Particulars,
+                                 Location = d.Location ?? " ",
                                  NumberOfHours = d.NumberOfHours,
                                  ActivityAmount = d.ActivityAmount,
                                  ActivityStatus = d.ActivityStatus,
@@ -96,7 +98,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get activity by delivery id
         [HttpGet, Route("list/byDeliveryId/{deliveryId}")]
-        public List<Entities.TrnActivity> listActivityByDeliveryId(String deliveryId)
+        public List<Entities.TrnActivity> ListActivityByDeliveryId(String deliveryId)
         {
             var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.DeliveryId == Convert.ToInt32(deliveryId)
@@ -113,6 +115,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  Product = d.MstArticle1.Article,
                                  ParticularCategory = d.ParticularCategory,
                                  Particulars = d.Particulars,
+                                 Location = d.Location ?? " ",
                                  NumberOfHours = d.NumberOfHours,
                                  ActivityAmount = d.ActivityAmount,
                                  ActivityStatus = d.ActivityStatus,
@@ -128,7 +131,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get activity by support id
         [HttpGet, Route("list/bySupportId/{supportId}")]
-        public List<Entities.TrnActivity> listActivityBySupportId(String supportId)
+        public List<Entities.TrnActivity> ListActivityBySupportId(String supportId)
         {
             var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.SupportId == Convert.ToInt32(supportId)
@@ -145,6 +148,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  Product = d.MstArticle1.Article,
                                  ParticularCategory = d.ParticularCategory,
                                  Particulars = d.Particulars,
+                                 Location = d.Location ?? " ",
                                  NumberOfHours = d.NumberOfHours,
                                  ActivityAmount = d.ActivityAmount,
                                  ActivityStatus = d.ActivityStatus,
@@ -160,7 +164,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get activity by software developement id
         [HttpGet, Route("list/bySoftwareDevelopmentId/{softwareDevelopmentId}")]
-        public List<Entities.TrnActivity> listActivityBySoftwareDevelopmentId(String softwareDevelopmentId)
+        public List<Entities.TrnActivity> ListActivityBySoftwareDevelopmentId(String softwareDevelopmentId)
         {
             var activities = from d in db.IS_TrnActivities.OrderByDescending(d => d.Id)
                              where d.SoftwareDevelopmentId == Convert.ToInt32(softwareDevelopmentId)
@@ -177,6 +181,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                  Product = d.MstArticle1.Article,
                                  ParticularCategory = d.ParticularCategory,
                                  Particulars = d.Particulars,
+                                 Location = d.Location ?? " ",
                                  NumberOfHours = d.NumberOfHours,
                                  ActivityAmount = d.ActivityAmount,
                                  ActivityStatus = d.ActivityStatus,
@@ -189,7 +194,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
             return activities.ToList();
         }
-        public Int32 daysBetween(DateTime d2, DateTime d1)
+        public Int32 DaysBetween(DateTime d2, DateTime d1)
         {
             TimeSpan span = d2.Subtract(d1);
             return (Int32)span.TotalDays;
@@ -197,7 +202,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get document with latest activity by document reference and by date ranged
         [HttpGet, Route("list/byDocument/byDateRanged/{document}/{startDate}/{endDate}/{status}")]
-        public List<Entities.TrnActivity> listActivityByDocumentByDateRanged(String document, String startDate, String endDate, String status)
+        public List<Entities.TrnActivity> ListActivityByDocumentByDateRanged(String document, String startDate, String endDate, String status)
         {
             if (status.Equals("ALL"))
             {
@@ -217,6 +222,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     DocumentNumber = "LN - " + d.LeadNumber,
                                     ActivityDate = activities.ActivityDate == null ? d.LeadDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                     Particulars = d.LeadName + " - " + d.Remarks,
+                                    Location = activities.Location != null ? activities.Location : " ",
                                     Activity = activities.Particulars == null ? " " : activities.Particulars,
                                     StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                     StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -233,7 +239,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                     HeaderStatus = d.LeadStatus,
                                     EncodedBy = d.MstUser.FullName,
-                                    NoOfDays = daysBetween(DateTime.Today, d.LeadDate).ToString()
+                                    NoOfDays = DaysBetween(DateTime.Today, d.LeadDate).ToString()
                                 };
 
                     return leads.ToList();
@@ -256,6 +262,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              DocumentNumber = "QN - " + d.QuotationNumber,
                                              ActivityDate = activities.ActivityDate == null ? d.QuotationDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                              Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                             Location = activities.Location != null ? activities.Location : " ",
                                              Activity = activities.Particulars == null ? " " : activities.Particulars,
                                              StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                              StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -272,7 +279,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                              HeaderStatus = d.QuotationStatus,
                                              EncodedBy = d.MstUser.FullName,
-                                             NoOfDays = daysBetween(DateTime.Today, d.QuotationDate).ToString()
+                                             NoOfDays = DaysBetween(DateTime.Today, d.QuotationDate).ToString()
                                          };
 
                         return quotations.ToList();
@@ -295,6 +302,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  DocumentNumber = "DN - " + d.DeliveryNumber,
                                                  ActivityDate = activities.ActivityDate == null ? d.DeliveryDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                  Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                 Location = activities.Location != null ? activities.Location : " ",
                                                  Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                  StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                  StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -311,7 +319,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                  HeaderStatus = d.DeliveryStatus,
                                                  EncodedBy = d.MstUser.FullName,
-                                                 NoOfDays = daysBetween(DateTime.Today, d.DeliveryDate).ToString()
+                                                 NoOfDays = DaysBetween(DateTime.Today, d.DeliveryDate).ToString()
                                              };
 
                             return deliveries.ToList();
@@ -334,6 +342,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                    DocumentNumber = "SN - " + d.SupportNumber,
                                                    ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                    Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                   Location = activities.Location != null ? activities.Location : " ",
                                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -350,7 +359,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                    HeaderStatus = d.SupportStatus,
                                                    EncodedBy = d.MstUser.FullName,
-                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                   NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                };
 
                                 return supports.ToList();
@@ -373,6 +382,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    DocumentNumber = "SD - " + d.SoftDevNumber,
                                                                    ActivityDate = activities.ActivityDate == null ? d.SoftDevDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                                    Particulars = d.Task + " - " + d.Remarks,
+                                                                   Location = activities.Location != null ? activities.Location : " ",
                                                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -389,7 +399,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SoftDevStatus,
                                                                    EncodedBy = d.MstUser.FullName,
-                                                                   NoOfDays = daysBetween(DateTime.Today, d.SoftDevDate).ToString()
+                                                                   NoOfDays = DaysBetween(DateTime.Today, d.SoftDevDate).ToString()
                                                                };
 
                                     return softwareDevelopments.ToList();
@@ -413,6 +423,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                            DocumentNumber = "SN - " + d.SupportNumber,
                                                            ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                            Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                           Location = activities.Location != null ? activities.Location : " ",
                                                            Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                            StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                            StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -429,7 +440,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                            ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                            HeaderStatus = d.SupportStatus,
                                                            EncodedBy = d.MstUser.FullName,
-                                                           NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                           NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                        };
 
                                         return supports.ToList();
@@ -453,6 +464,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                DocumentNumber = "SN - " + d.SupportNumber,
                                                                ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                                Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                               Location = activities.Location != null ? activities.Location : " ",
                                                                Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                                StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                                StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -469,7 +481,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                HeaderStatus = d.SupportStatus,
                                                                EncodedBy = d.MstUser.FullName,
-                                                               NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                               NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                            };
 
                                             return supports.ToList();
@@ -493,6 +505,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    DocumentNumber = "SN - " + d.SupportNumber,
                                                                    ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                                    Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                                   Location = activities.Location != null ? activities.Location : " ",
                                                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -509,7 +522,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SupportStatus,
                                                                    EncodedBy = d.MstUser.FullName,
-                                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                                   NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                                };
 
                                                 return supports.ToList();
@@ -586,6 +599,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     DocumentNumber = "LN - " + d.LeadNumber,
                                     ActivityDate = activities.ActivityDate == null ? d.LeadDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                     Particulars = d.LeadName + " - " + d.Remarks,
+                                    Location = activities.Location != null ? activities.Location : " ",
                                     Activity = activities.Particulars == null ? " " : activities.Particulars,
                                     StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                     StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -602,7 +616,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                     HeaderStatus = d.LeadStatus,
                                     EncodedBy = d.MstUser.FullName,
-                                    NoOfDays = daysBetween(DateTime.Today, d.LeadDate).ToString()
+                                    NoOfDays = DaysBetween(DateTime.Today, d.LeadDate).ToString()
                                 };
 
                     return leads.ToList();
@@ -626,6 +640,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              DocumentNumber = "QN - " + d.QuotationNumber,
                                              ActivityDate = activities.ActivityDate == null ? d.QuotationDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                              Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                             Location = activities.Location != null ? activities.Location : " ",
                                              Activity = activities.Particulars == null ? " " : activities.Particulars,
                                              StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                              StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -642,7 +657,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                              ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                              HeaderStatus = d.QuotationStatus,
                                              EncodedBy = d.MstUser.FullName,
-                                             NoOfDays = daysBetween(DateTime.Today, d.QuotationDate).ToString()
+                                             NoOfDays = DaysBetween(DateTime.Today, d.QuotationDate).ToString()
                                          };
 
                         return quotations.ToList();
@@ -666,6 +681,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  DocumentNumber = "DN - " + d.DeliveryNumber,
                                                  ActivityDate = activities.ActivityDate == null ? d.DeliveryDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                  Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                 Location = activities.Location != null ? activities.Location : " ",
                                                  Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                  StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                  StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -682,7 +698,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                  HeaderStatus = d.DeliveryStatus,
                                                  EncodedBy = d.MstUser.FullName,
-                                                 NoOfDays = daysBetween(DateTime.Today, d.DeliveryDate).ToString()
+                                                 NoOfDays = DaysBetween(DateTime.Today, d.DeliveryDate).ToString()
                                              };
 
                             return deliveries.ToList();
@@ -706,6 +722,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                    DocumentNumber = "SN - " + d.SupportNumber,
                                                    ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                    Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                   Location = activities.Location != null ? activities.Location : " ",
                                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -722,7 +739,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                    HeaderStatus = d.SupportStatus,
                                                    EncodedBy = d.MstUser.FullName,
-                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                   NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                };
 
                                 return supports.ToList();
@@ -746,6 +763,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    DocumentNumber = "SD - " + d.SoftDevNumber,
                                                                    ActivityDate = activities.ActivityDate == null ? d.SoftDevDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                                    Particulars = d.Task + " - " + d.Remarks,
+                                                                   Location = activities.Location != null ? activities.Location : " ",
                                                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -762,7 +780,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SoftDevStatus,
                                                                    EncodedBy = d.MstUser.FullName,
-                                                                   NoOfDays = daysBetween(DateTime.Today, d.SoftDevDate).ToString()
+                                                                   NoOfDays = DaysBetween(DateTime.Today, d.SoftDevDate).ToString()
                                                                };
 
                                     return softwareDevelopments.ToList();
@@ -787,6 +805,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                            DocumentNumber = "SN - " + d.SupportNumber,
                                                            ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                            Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                           Location = activities.Location != null ? activities.Location : " ",
                                                            Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                            StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                            StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -803,7 +822,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                            ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                            HeaderStatus = d.SupportStatus,
                                                            EncodedBy = d.MstUser.FullName,
-                                                           NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                           NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                        };
 
                                         return supports.ToList();
@@ -828,6 +847,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                DocumentNumber = "SN - " + d.SupportNumber,
                                                                ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                                Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                               Location = activities.Location != null ? activities.Location : " ",
                                                                Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                                StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                                StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -844,7 +864,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                HeaderStatus = d.SupportStatus,
                                                                EncodedBy = d.MstUser.FullName,
-                                                               NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                               NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                            };
 
                                             return supports.ToList();
@@ -869,6 +889,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    DocumentNumber = "SN - " + d.SupportNumber,
                                                                    ActivityDate = activities.ActivityDate == null ? d.SupportDate.ToShortDateString() : activities.ActivityDate.ToShortDateString(),
                                                                    Particulars = d.MstArticle.Article + " (" + d.MstArticle1.Article + ") - " + d.Remarks,
+                                                                   Location = activities.Location != null ? activities.Location : " ",
                                                                    Activity = activities.Particulars == null ? " " : activities.Particulars,
                                                                    StaffUserId = activities.StaffUserId == null ? 0 : activities.StaffUserId,
                                                                    StaffUser = activities.MstUser.FullName == null ? " " : activities.MstUser.FullName,
@@ -885,7 +906,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                    ActivityStatus = activities.ActivityStatus == null ? " " : activities.ActivityStatus,
                                                                    HeaderStatus = d.SupportStatus,
                                                                    EncodedBy = d.MstUser.FullName,
-                                                                   NoOfDays = daysBetween(DateTime.Today, d.SupportDate).ToString()
+                                                                   NoOfDays = DaysBetween(DateTime.Today, d.SupportDate).ToString()
                                                                };
 
                                                 return supports.ToList();
@@ -906,7 +927,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // add activity
         [HttpPost, Route("post")]
-        public HttpResponseMessage postActivity(Entities.TrnActivity activity)
+        public HttpResponseMessage PostActivity(Entities.TrnActivity activity)
         {
             try
             {
@@ -916,7 +937,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 if (lastActivityNumber.Any())
                 {
                     var activityNumber = Convert.ToInt32(lastActivityNumber.FirstOrDefault().ActivityNumber) + 0000000001;
-                    activityNumberValue = fillLeadingZeroes(activityNumber, 10);
+                    activityNumberValue = FillLeadingZeroes(activityNumber, 10);
                 }
                 var userId = (from d in db.MstUsers where d.UserId == User.Identity.GetUserId() select d.Id).FirstOrDefault();
                 // lead activity
@@ -933,6 +954,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                         newActivity.ProductId = null;
                         newActivity.ParticularCategory = activity.ParticularCategory;
                         newActivity.Particulars = activity.Particulars;
+                        newActivity.Location = activity.Location;
                         newActivity.NumberOfHours = activity.NumberOfHours;
                         newActivity.ActivityAmount = activity.ActivityAmount;
                         newActivity.ActivityStatus = activity.ActivityStatus;
@@ -961,6 +983,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             newActivity.ProductId = quotations.FirstOrDefault().ProductId;
                             newActivity.ParticularCategory = activity.ParticularCategory;
                             newActivity.Particulars = activity.Particulars;
+                            newActivity.Location = activity.Location;
                             newActivity.NumberOfHours = activity.NumberOfHours;
                             newActivity.ActivityAmount = activity.ActivityAmount;
                             newActivity.ActivityStatus = activity.ActivityStatus;
@@ -989,6 +1012,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                 newActivity.ProductId = deliveries.FirstOrDefault().ProductId;
                                 newActivity.ParticularCategory = activity.ParticularCategory;
                                 newActivity.Particulars = activity.Particulars;
+                                newActivity.Location = activity.Location;
                                 newActivity.NumberOfHours = activity.NumberOfHours;
                                 newActivity.ActivityAmount = activity.ActivityAmount;
                                 newActivity.ActivityStatus = activity.ActivityStatus;
@@ -1017,6 +1041,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     newActivity.ProductId = supports.FirstOrDefault().ProductId;
                                     newActivity.ParticularCategory = activity.ParticularCategory;
                                     newActivity.Particulars = activity.Particulars;
+                                    newActivity.Location = activity.Location;
                                     newActivity.NumberOfHours = activity.NumberOfHours;
                                     newActivity.ActivityAmount = activity.ActivityAmount;
                                     newActivity.ActivityStatus = activity.ActivityStatus;
@@ -1047,6 +1072,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                         newActivity.ProductId = null;
                                         newActivity.ParticularCategory = activity.ParticularCategory;
                                         newActivity.Particulars = activity.Particulars;
+                                        newActivity.Location = activity.Location;
                                         newActivity.NumberOfHours = activity.NumberOfHours;
                                         newActivity.ActivityAmount = activity.ActivityAmount;
                                         newActivity.ActivityStatus = activity.ActivityStatus;
@@ -1075,7 +1101,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // update activity
         [HttpPut, Route("put/{id}")]
-        public HttpResponseMessage putActivity(String id, Entities.TrnActivity activity)
+        public HttpResponseMessage PutActivity(String id, Entities.TrnActivity activity)
         {
             try
             {
@@ -1093,6 +1119,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                             updateActivity.ActivityDate = Convert.ToDateTime(activity.ActivityDate);
                             updateActivity.ParticularCategory = activity.ParticularCategory;
                             updateActivity.Particulars = activity.Particulars;
+                            updateActivity.Location = activity.Location;
                             updateActivity.NumberOfHours = activity.NumberOfHours;
                             updateActivity.ActivityAmount = activity.ActivityAmount;
                             updateActivity.ActivityStatus = activity.ActivityStatus;
@@ -1114,6 +1141,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                 updateActivity.ProductId = quotations.FirstOrDefault().ProductId;
                                 updateActivity.ParticularCategory = activity.ParticularCategory;
                                 updateActivity.Particulars = activity.Particulars;
+                                updateActivity.Location = activity.Location;
                                 updateActivity.NumberOfHours = activity.NumberOfHours;
                                 updateActivity.ActivityAmount = activity.ActivityAmount;
                                 updateActivity.ActivityStatus = activity.ActivityStatus;
@@ -1135,6 +1163,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                     updateActivity.ProductId = deliveries.FirstOrDefault().ProductId;
                                     updateActivity.ParticularCategory = activity.ParticularCategory;
                                     updateActivity.Particulars = activity.Particulars;
+                                    updateActivity.Location = activity.Location;
                                     updateActivity.NumberOfHours = activity.NumberOfHours;
                                     updateActivity.ActivityAmount = activity.ActivityAmount;
                                     updateActivity.ActivityStatus = activity.ActivityStatus;
@@ -1157,6 +1186,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                         updateActivity.ProductId = supports.FirstOrDefault().ProductId;
                                         updateActivity.ParticularCategory = activity.ParticularCategory;
                                         updateActivity.Particulars = activity.Particulars;
+                                        updateActivity.Location = activity.Location;
                                         updateActivity.NumberOfHours = activity.NumberOfHours;
                                         updateActivity.ActivityAmount = activity.ActivityAmount;
                                         updateActivity.ActivityStatus = activity.ActivityStatus;
@@ -1178,6 +1208,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                             updateActivity.CustomerId = softwareDevelopments.FirstOrDefault().IS_TrnProject.CustomerId;
                                             updateActivity.ParticularCategory = activity.ParticularCategory;
                                             updateActivity.Particulars = activity.Particulars;
+                                            updateActivity.Location = activity.Location;
                                             updateActivity.NumberOfHours = activity.NumberOfHours;
                                             updateActivity.ActivityAmount = activity.ActivityAmount;
                                             updateActivity.ActivityStatus = activity.ActivityStatus;
@@ -1205,7 +1236,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // delete activity
         [HttpDelete, Route("delete/{id}")]
-        public HttpResponseMessage deleteActivity(String id)
+        public HttpResponseMessage DeleteActivity(String id)
         {
             try
             {
@@ -1230,7 +1261,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get document with latest activity by document reference and by date ranged and with staff
         [HttpGet, Route("list/byDocument/byDateRange/withStaff/{document}/{startDate}/{endDate}/{status}/{staffId}")]
-        public List<Entities.TrnActivity> listActivityByDocumentByDateRangedWithStaff(String document, String startDate, String endDate, String status, String staffId)
+        public List<Entities.TrnActivity> ListActivityByDocumentByDateRangedWithStaff(String document, String startDate, String endDate, String status, String staffId)
         {
             if (status.Equals("ALL"))
             {
@@ -1256,6 +1287,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  Product = d.MstArticle1.Article,
                                                  ParticularCategory = d.ParticularCategory,
                                                  Particulars = d.Particulars,
+                                                 Location = d.Location != null ? d.Location : " ",
                                                  NumberOfHours = d.NumberOfHours,
                                                  ActivityAmount = d.ActivityAmount,
                                                  ActivityStatus = d.ActivityStatus,
@@ -1266,7 +1298,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                  HeaderRemarks = d.IS_TrnLead.Remarks,
                                                  HeaderStatus = d.IS_TrnLead.LeadStatus,
-                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
+                                                 NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
                                              };
 
                         return leadActivities.ToList();
@@ -1293,6 +1325,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           Product = d.MstArticle1.Article,
                                                           ParticularCategory = d.ParticularCategory,
                                                           Particulars = d.Particulars,
+                                                          Location = d.Location != null ? d.Location : " ",
                                                           NumberOfHours = d.NumberOfHours,
                                                           ActivityAmount = d.ActivityAmount,
                                                           ActivityStatus = d.ActivityStatus,
@@ -1303,7 +1336,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                           HeaderRemarks = d.IS_TrnQuotation.Remarks,
                                                           HeaderStatus = d.IS_TrnQuotation.QuotationStatus,
-                                                          NoOfDays = daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
+                                                          NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
                                                       };
 
                             return quotationActivities.ToList();
@@ -1330,6 +1363,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              Product = d.MstArticle1.Article,
                                                              ParticularCategory = d.ParticularCategory,
                                                              Particulars = d.Particulars,
+                                                             Location = d.Location != null ? d.Location : " ",
                                                              NumberOfHours = d.NumberOfHours,
                                                              ActivityAmount = d.ActivityAmount,
                                                              ActivityStatus = d.ActivityStatus,
@@ -1340,7 +1374,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                              HeaderRemarks = d.IS_TrnDelivery.Remarks,
                                                              HeaderStatus = d.IS_TrnDelivery.DeliveryStatus,
-                                                             NoOfDays = daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
+                                                             NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
                                                          };
 
                                 return deliveryActivities.ToList();
@@ -1367,6 +1401,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 Product = d.MstArticle1.Article,
                                                                 ParticularCategory = d.ParticularCategory,
                                                                 Particulars = d.Particulars,
+                                                                Location = d.Location != null ? d.Location : " ",
                                                                 NumberOfHours = d.NumberOfHours,
                                                                 ActivityAmount = d.ActivityAmount,
                                                                 ActivityStatus = d.ActivityStatus,
@@ -1377,7 +1412,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                 HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                             };
 
                                     return supportActivities.ToList();
@@ -1404,6 +1439,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -1414,7 +1450,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.IS_TrnSoftwareDevelopment.Task,
                                                                                 HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus,
-                                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
+                                                                                NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
                                                                             };
 
                                         return softwareDevelopmentActivities.ToList();
@@ -1442,6 +1478,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  Product = d.MstArticle1.Article,
                                                                                  ParticularCategory = d.ParticularCategory,
                                                                                  Particulars = d.Particulars,
+                                                                                 Location = d.Location != null ? d.Location : " ",
                                                                                  NumberOfHours = d.NumberOfHours,
                                                                                  ActivityAmount = d.ActivityAmount,
                                                                                  ActivityStatus = d.ActivityStatus,
@@ -1452,7 +1489,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                  HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                  HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                 NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                              };
 
                                             return supportTechnicalActivities.ToList();
@@ -1480,6 +1517,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       Product = d.MstArticle1.Article,
                                                                                       ParticularCategory = d.ParticularCategory,
                                                                                       Particulars = d.Particulars,
+                                                                                      Location = d.Location != null ? d.Location : " ",
                                                                                       NumberOfHours = d.NumberOfHours,
                                                                                       ActivityAmount = d.ActivityAmount,
                                                                                       ActivityStatus = d.ActivityStatus,
@@ -1490,7 +1528,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                       HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                       HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                      NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                      NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                   };
 
                                                 return supportFunctionalActivities.ToList();
@@ -1518,6 +1556,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          Product = d.MstArticle1.Article,
                                                                                          ParticularCategory = d.ParticularCategory,
                                                                                          Particulars = d.Particulars,
+                                                                                         Location = d.Location != null ? d.Location : " ",
                                                                                          NumberOfHours = d.NumberOfHours,
                                                                                          ActivityAmount = d.ActivityAmount,
                                                                                          ActivityStatus = d.ActivityStatus,
@@ -1528,7 +1567,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                          HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                          HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                         NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                         NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                      };
 
                                                     return supportCustomizeActivities.ToList();
@@ -1554,6 +1593,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -1564,7 +1604,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
                                                                                 HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " ",
-                                                                                NoOfDays = d.LeadId != null ? daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
+                                                                                NoOfDays = d.LeadId != null ? DaysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? DaysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? DaysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? DaysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
                                                                             };
 
                                                         if (allActivities.Any())
@@ -1584,6 +1624,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                         Product = d.Product,
                                                                                         ParticularCategory = d.ParticularCategory,
                                                                                         Particulars = d.Particulars,
+                                                                                        Location = d.Location != null ? d.Location : " ",
                                                                                         NumberOfHours = d.NumberOfHours,
                                                                                         ActivityAmount = d.ActivityAmount,
                                                                                         ActivityStatus = d.ActivityStatus,
@@ -1640,6 +1681,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  Product = d.MstArticle1.Article,
                                                  ParticularCategory = d.ParticularCategory,
                                                  Particulars = d.Particulars,
+                                                 Location = d.Location != null ? d.Location : " ",
                                                  NumberOfHours = d.NumberOfHours,
                                                  ActivityAmount = d.ActivityAmount,
                                                  ActivityStatus = d.ActivityStatus,
@@ -1650,7 +1692,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                  HeaderRemarks = d.IS_TrnLead.Remarks,
                                                  HeaderStatus = d.IS_TrnLead.LeadStatus,
-                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
+                                                 NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
                                              };
 
                         return leadActivities.ToList();
@@ -1678,6 +1720,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           Product = d.MstArticle1.Article,
                                                           ParticularCategory = d.ParticularCategory,
                                                           Particulars = d.Particulars,
+                                                          Location = d.Location != null ? d.Location : " ",
                                                           NumberOfHours = d.NumberOfHours,
                                                           ActivityAmount = d.ActivityAmount,
                                                           ActivityStatus = d.ActivityStatus,
@@ -1688,7 +1731,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                           HeaderRemarks = d.IS_TrnQuotation.Remarks,
                                                           HeaderStatus = d.IS_TrnQuotation.QuotationStatus,
-                                                          NoOfDays = daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
+                                                          NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
                                                       };
 
                             return quotationActivities.ToList();
@@ -1716,6 +1759,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              Product = d.MstArticle1.Article,
                                                              ParticularCategory = d.ParticularCategory,
                                                              Particulars = d.Particulars,
+                                                             Location = d.Location != null ? d.Location : " ",
                                                              NumberOfHours = d.NumberOfHours,
                                                              ActivityAmount = d.ActivityAmount,
                                                              ActivityStatus = d.ActivityStatus,
@@ -1726,7 +1770,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                              HeaderRemarks = d.IS_TrnDelivery.Remarks,
                                                              HeaderStatus = d.IS_TrnDelivery.DeliveryStatus,
-                                                             NoOfDays = daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
+                                                             NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
                                                          };
 
                                 return deliveryActivities.ToList();
@@ -1754,6 +1798,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 Product = d.MstArticle1.Article,
                                                                 ParticularCategory = d.ParticularCategory,
                                                                 Particulars = d.Particulars,
+                                                                Location = d.Location != null ? d.Location : " ",
                                                                 NumberOfHours = d.NumberOfHours,
                                                                 ActivityAmount = d.ActivityAmount,
                                                                 ActivityStatus = d.ActivityStatus,
@@ -1764,7 +1809,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                 HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                             };
 
                                     return supportActivities.ToList();
@@ -1792,6 +1837,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -1802,7 +1848,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.IS_TrnSoftwareDevelopment.Task,
                                                                                 HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus,
-                                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
+                                                                                NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
                                                                             };
 
                                         return softwareDevelopmentActivities.ToList();
@@ -1831,6 +1877,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  Product = d.MstArticle1.Article,
                                                                                  ParticularCategory = d.ParticularCategory,
                                                                                  Particulars = d.Particulars,
+                                                                                 Location = d.Location != null ? d.Location : " ",
                                                                                  NumberOfHours = d.NumberOfHours,
                                                                                  ActivityAmount = d.ActivityAmount,
                                                                                  ActivityStatus = d.ActivityStatus,
@@ -1841,7 +1888,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                  HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                  HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                 NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                              };
 
                                             return supportTechnicalActivities.ToList();
@@ -1870,6 +1917,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       Product = d.MstArticle1.Article,
                                                                                       ParticularCategory = d.ParticularCategory,
                                                                                       Particulars = d.Particulars,
+                                                                                      Location = d.Location != null ? d.Location : " ",
                                                                                       NumberOfHours = d.NumberOfHours,
                                                                                       ActivityAmount = d.ActivityAmount,
                                                                                       ActivityStatus = d.ActivityStatus,
@@ -1880,7 +1928,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                       HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                       HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                      NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                      NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                   };
 
                                                 return supportFunctionalActivities.ToList();
@@ -1909,6 +1957,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          Product = d.MstArticle1.Article,
                                                                                          ParticularCategory = d.ParticularCategory,
                                                                                          Particulars = d.Particulars,
+                                                                                         Location = d.Location != null ? d.Location : " ",
                                                                                          NumberOfHours = d.NumberOfHours,
                                                                                          ActivityAmount = d.ActivityAmount,
                                                                                          ActivityStatus = d.ActivityStatus,
@@ -1919,7 +1968,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                          HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                          HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                         NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                         NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                      };
 
                                                     return supportCustomizeActivities.ToList();
@@ -1946,6 +1995,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -1956,7 +2006,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
                                                                                 HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " ",
-                                                                                NoOfDays = d.LeadId != null ? daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
+                                                                                NoOfDays = d.LeadId != null ? DaysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? DaysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? DaysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? DaysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
                                                                             };
 
                                                         return allActivities.ToList();
@@ -2041,6 +2091,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  Product = d.MstArticle1.Article,
                                                  ParticularCategory = d.ParticularCategory,
                                                  Particulars = d.Particulars,
+                                                 Location = d.Location != null ? d.Location : " ",
                                                  NumberOfHours = d.NumberOfHours,
                                                  ActivityAmount = d.ActivityAmount,
                                                  ActivityStatus = d.ActivityStatus,
@@ -2051,7 +2102,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                  HeaderRemarks = d.IS_TrnLead.Remarks,
                                                  HeaderStatus = d.IS_TrnLead.LeadStatus,
-                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
+                                                 NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString()
                                              };
 
                         return leadActivities.ToList();
@@ -2079,6 +2130,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           Product = d.MstArticle1.Article,
                                                           ParticularCategory = d.ParticularCategory,
                                                           Particulars = d.Particulars,
+                                                          Location = d.Location != null ? d.Location : " ",
                                                           NumberOfHours = d.NumberOfHours,
                                                           ActivityAmount = d.ActivityAmount,
                                                           ActivityStatus = d.ActivityStatus,
@@ -2089,7 +2141,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                           HeaderRemarks = d.IS_TrnQuotation.Remarks,
                                                           HeaderStatus = d.IS_TrnQuotation.QuotationStatus,
-                                                          NoOfDays = daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
+                                                          NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString()
                                                       };
 
                             return quotationActivities.ToList();
@@ -2117,6 +2169,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              Product = d.MstArticle1.Article,
                                                              ParticularCategory = d.ParticularCategory,
                                                              Particulars = d.Particulars,
+                                                             Location = d.Location != null ? d.Location : " ",
                                                              NumberOfHours = d.NumberOfHours,
                                                              ActivityAmount = d.ActivityAmount,
                                                              ActivityStatus = d.ActivityStatus,
@@ -2127,7 +2180,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                              HeaderRemarks = d.IS_TrnDelivery.Remarks,
                                                              HeaderStatus = d.IS_TrnDelivery.DeliveryStatus,
-                                                             NoOfDays = daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
+                                                             NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString()
                                                          };
 
                                 return deliveryActivities.ToList();
@@ -2155,6 +2208,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 Product = d.MstArticle1.Article,
                                                                 ParticularCategory = d.ParticularCategory,
                                                                 Particulars = d.Particulars,
+                                                                Location = d.Location != null ? d.Location : " ",
                                                                 NumberOfHours = d.NumberOfHours,
                                                                 ActivityAmount = d.ActivityAmount,
                                                                 ActivityStatus = d.ActivityStatus,
@@ -2165,7 +2219,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                 HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                 HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                             };
 
                                     return supportActivities.ToList();
@@ -2193,6 +2247,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -2203,7 +2258,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.IS_TrnSoftwareDevelopment.Task,
                                                                                 HeaderStatus = d.IS_TrnSoftwareDevelopment.SoftDevStatus,
-                                                                                NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
+                                                                                NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString()
                                                                             };
 
                                         return softwareDevelopmentActivities.ToList();
@@ -2232,6 +2287,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  Product = d.MstArticle1.Article,
                                                                                  ParticularCategory = d.ParticularCategory,
                                                                                  Particulars = d.Particulars,
+                                                                                 Location = d.Location != null ? d.Location : " ",
                                                                                  NumberOfHours = d.NumberOfHours,
                                                                                  ActivityAmount = d.ActivityAmount,
                                                                                  ActivityStatus = d.ActivityStatus,
@@ -2242,7 +2298,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                  HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                  HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                 NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                 NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                              };
 
                                             return supportTechnicalActivities.ToList();
@@ -2271,6 +2327,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       Product = d.MstArticle1.Article,
                                                                                       ParticularCategory = d.ParticularCategory,
                                                                                       Particulars = d.Particulars,
+                                                                                      Location = d.Location != null ? d.Location : " ",
                                                                                       NumberOfHours = d.NumberOfHours,
                                                                                       ActivityAmount = d.ActivityAmount,
                                                                                       ActivityStatus = d.ActivityStatus,
@@ -2281,7 +2338,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                       HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                       HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                      NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                      NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                   };
 
                                                 return supportFunctionalActivities.ToList();
@@ -2310,6 +2367,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          Product = d.MstArticle1.Article,
                                                                                          ParticularCategory = d.ParticularCategory,
                                                                                          Particulars = d.Particulars,
+                                                                                         Location = d.Location != null ? d.Location : " ",
                                                                                          NumberOfHours = d.NumberOfHours,
                                                                                          ActivityAmount = d.ActivityAmount,
                                                                                          ActivityStatus = d.ActivityStatus,
@@ -2320,7 +2378,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                          HeaderRemarks = d.IS_TrnSupport.Issue,
                                                                                          HeaderStatus = d.IS_TrnSupport.SupportStatus,
-                                                                                         NoOfDays = daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
+                                                                                         NoOfDays = DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString()
                                                                                      };
 
                                                     return supportCustomizeActivities.ToList();
@@ -2346,6 +2404,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -2356,7 +2415,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 SoftwareDevelopmentId = d.SoftwareDevelopmentId,
                                                                                 HeaderRemarks = d.LeadId != null ? d.IS_TrnLead.Remarks : d.QuotationId != null ? d.IS_TrnQuotation.Remarks : d.DeliveryId != null ? d.IS_TrnDelivery.Remarks : d.SupportId != null ? d.IS_TrnSupport.Issue : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.Task : " ",
                                                                                 HeaderStatus = d.LeadId != null ? d.IS_TrnLead.LeadStatus : d.QuotationId != null ? d.IS_TrnQuotation.QuotationStatus : d.DeliveryId != null ? d.IS_TrnDelivery.DeliveryStatus : d.SupportId != null ? d.IS_TrnSupport.SupportStatus : d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.SoftDevStatus : " ",
-                                                                                NoOfDays = d.LeadId != null ? daysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? daysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? daysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? daysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? daysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
+                                                                                NoOfDays = d.LeadId != null ? DaysBetween(DateTime.Today, d.IS_TrnLead.LeadDate).ToString() : d.QuotationId != null ? DaysBetween(DateTime.Today, d.IS_TrnQuotation.QuotationDate).ToString() : d.DeliveryId != null ? DaysBetween(DateTime.Today, d.IS_TrnDelivery.DeliveryDate).ToString() : d.SupportId != null ? DaysBetween(DateTime.Today, d.IS_TrnSupport.SupportDate).ToString() : d.SoftwareDevelopmentId != null ? DaysBetween(DateTime.Today, d.IS_TrnSoftwareDevelopment.SoftDevDate).ToString() : " "
                                                                             };
 
                                                         if (allActivities.Any())
@@ -2377,6 +2436,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                         Product = d.Product,
                                                                                         ParticularCategory = d.ParticularCategory,
                                                                                         Particulars = d.Particulars,
+                                                                                        Location = d.Location != null ? d.Location : " ",
                                                                                         NumberOfHours = d.NumberOfHours,
                                                                                         ActivityAmount = d.ActivityAmount,
                                                                                         ActivityStatus = d.ActivityStatus,
@@ -2434,6 +2494,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                  Product = d.MstArticle1.Article,
                                                  ParticularCategory = d.ParticularCategory,
                                                  Particulars = d.Particulars,
+                                                 Location = d.Location != null ? d.Location : " ",
                                                  NumberOfHours = d.NumberOfHours,
                                                  ActivityAmount = d.ActivityAmount,
                                                  ActivityStatus = d.ActivityStatus,
@@ -2472,6 +2533,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                           Product = d.MstArticle1.Article,
                                                           ParticularCategory = d.ParticularCategory,
                                                           Particulars = d.Particulars,
+                                                          Location = d.Location != null ? d.Location : " ",
                                                           NumberOfHours = d.NumberOfHours,
                                                           ActivityAmount = d.ActivityAmount,
                                                           ActivityStatus = d.ActivityStatus,
@@ -2510,6 +2572,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                              Product = d.MstArticle1.Article,
                                                              ParticularCategory = d.ParticularCategory,
                                                              Particulars = d.Particulars,
+                                                             Location = d.Location != null ? d.Location : " ",
                                                              NumberOfHours = d.NumberOfHours,
                                                              ActivityAmount = d.ActivityAmount,
                                                              ActivityStatus = d.ActivityStatus,
@@ -2548,6 +2611,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                 Product = d.MstArticle1.Article,
                                                                 ParticularCategory = d.ParticularCategory,
                                                                 Particulars = d.Particulars,
+                                                                Location = d.Location != null ? d.Location : " ",
                                                                 NumberOfHours = d.NumberOfHours,
                                                                 ActivityAmount = d.ActivityAmount,
                                                                 ActivityStatus = d.ActivityStatus,
@@ -2586,6 +2650,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -2625,6 +2690,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                  Product = d.MstArticle1.Article,
                                                                                  ParticularCategory = d.ParticularCategory,
                                                                                  Particulars = d.Particulars,
+                                                                                 Location = d.Location != null ? d.Location : " ",
                                                                                  NumberOfHours = d.NumberOfHours,
                                                                                  ActivityAmount = d.ActivityAmount,
                                                                                  ActivityStatus = d.ActivityStatus,
@@ -2664,6 +2730,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                       Product = d.MstArticle1.Article,
                                                                                       ParticularCategory = d.ParticularCategory,
                                                                                       Particulars = d.Particulars,
+                                                                                      Location = d.Location != null ? d.Location : " ",
                                                                                       NumberOfHours = d.NumberOfHours,
                                                                                       ActivityAmount = d.ActivityAmount,
                                                                                       ActivityStatus = d.ActivityStatus,
@@ -2703,6 +2770,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                          Product = d.MstArticle1.Article,
                                                                                          ParticularCategory = d.ParticularCategory,
                                                                                          Particulars = d.Particulars,
+                                                                                         Location = d.Location != null ? d.Location : " ",
                                                                                          NumberOfHours = d.NumberOfHours,
                                                                                          ActivityAmount = d.ActivityAmount,
                                                                                          ActivityStatus = d.ActivityStatus,
@@ -2739,6 +2807,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                 Product = d.SoftwareDevelopmentId != null ? d.IS_TrnSoftwareDevelopment.IS_TrnProject.ProjectName : d.MstArticle1.Article,
                                                                                 ParticularCategory = d.ParticularCategory,
                                                                                 Particulars = d.Particulars,
+                                                                                Location = d.Location != null ? d.Location : " ",
                                                                                 NumberOfHours = d.NumberOfHours,
                                                                                 ActivityAmount = d.ActivityAmount,
                                                                                 ActivityStatus = d.ActivityStatus,
@@ -2769,6 +2838,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                                                         Product = d.Product,
                                                                                         ParticularCategory = d.ParticularCategory,
                                                                                         Particulars = d.Particulars,
+                                                                                        Location = d.Location != null ? d.Location : " ",
                                                                                         NumberOfHours = d.NumberOfHours,
                                                                                         ActivityAmount = d.ActivityAmount,
                                                                                         ActivityStatus = d.ActivityStatus,
@@ -2806,7 +2876,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // no of activities per staffs
         [HttpGet, Route("list/no_of_activities_per_staff/{start_date}/{end_date}/{status}")]
-        public List<Entities.TrnActivity> list_NoOf_Activities_Per_Staff(String start_date, String end_date, String status)
+        public List<Entities.TrnActivity> List_NoOf_Activities_Per_Staff(String start_date, String end_date, String status)
         {
             if (status.Equals("ALL"))
             {
@@ -2897,7 +2967,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
         // get calendar activity with latest activity by document reference and by date ranged
         [HttpGet, Route("list/calendar/numberofActivities/{month}/{status}")]
-        public List<Entities.TrnActivity> listCalendarNumberOfActivities(String month, String status)
+        public List<Entities.TrnActivity> ListCalendarNumberOfActivities(String month, String status)
         {
             if (status.Equals("ALL"))
             {
