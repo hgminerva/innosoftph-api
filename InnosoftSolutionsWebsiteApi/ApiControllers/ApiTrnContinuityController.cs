@@ -30,16 +30,60 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         }
 
         // list continuity
-        [HttpGet, Route("list/byContinuityDateRange/{dateType}/{startContinuityDate}/{endContinuityDate}/{status}")]
-        public List<Entities.TrnContinuity> listContinuityByContinuityDateRange(String dateType, String startContinuityDate, String endContinuityDate, String status)
+        [HttpGet, Route("list/byContinuityDateRange/{month}/{dateType}/{status}")]
+        public List<Entities.TrnContinuity> listContinuityByContinuityDateRange(String month, String dateType, String status)
         {
+            Int32 monthInNumber = 0;
+
+            switch (month)
+            {
+                case "JANUARY":
+                    monthInNumber = 1;
+                    break;
+                case "FEBRUARY":
+                    monthInNumber = 2;
+                    break;
+                case "MARCH":
+                    monthInNumber = 3;
+                    break;
+                case "APRIL":
+                    monthInNumber = 4;
+                    break;
+                case "MAY":
+                    monthInNumber = 5;
+                    break;
+                case "JUNE":
+                    monthInNumber = 6;
+                    break;
+                case "JULY":
+                    monthInNumber = 7;
+                    break;
+                case "AUGUST":
+                    monthInNumber = 8;
+                    break;
+                case "SEPTEMBER":
+                    monthInNumber = 9;
+                    break;
+                case "OCTOBER":
+                    monthInNumber = 10;
+                    break;
+                case "NOVEMBER":
+                    monthInNumber = 11;
+                    break;
+                case "DECEMBER":
+                    monthInNumber = 12;
+                    break;
+                default:
+                    monthInNumber = 0;
+                    break;
+            }
+
             if (status.Equals("ALL"))
             {
                 if (dateType.Equals("Continuity Date"))
                 {
-                    var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                       where d.ContinuityDate >= Convert.ToDateTime(startContinuityDate)
-                                       && d.ContinuityDate <= Convert.ToDateTime(endContinuityDate)
+                    var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.ContinuityDate)
+                                       where d.ContinuityDate.Month == monthInNumber
                                        select new Entities.TrnContinuity
                                        {
                                            Id = d.Id,
@@ -65,9 +109,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 {
                     if (dateType.Equals("Expiry Date"))
                     {
-                        var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                           where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
-                                           && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
+                        var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.ContinuityDate)
+                                           where d.ExpiryDate.Month == monthInNumber
                                            select new Entities.TrnContinuity
                                            {
                                                Id = d.Id,
@@ -105,9 +148,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
 
                 if (dateType.Equals("Continuity Date"))
                 {
-                    var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                       where d.ContinuityDate >= Convert.ToDateTime(startContinuityDate)
-                                       && d.ContinuityDate <= Convert.ToDateTime(endContinuityDate)
+                    var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.ContinuityDate)
+                                       where d.ContinuityDate.Month == monthInNumber
                                        && d.ContinuityStatus == documentStatus
                                        select new Entities.TrnContinuity
                                        {
@@ -134,9 +176,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 {
                     if (dateType.Equals("Expiry Date"))
                     {
-                        var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.Id)
-                                           where d.ExpiryDate >= Convert.ToDateTime(startContinuityDate)
-                                           && d.ExpiryDate <= Convert.ToDateTime(endContinuityDate)
+                        var continuities = from d in db.IS_TrnContinuities.OrderByDescending(d => d.ContinuityDate)
+                                           where d.ExpiryDate.Month == monthInNumber
                                            && d.ContinuityStatus == documentStatus
                                            select new Entities.TrnContinuity
                                            {
@@ -172,7 +213,7 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
         public List<Entities.TrnContinuity> listContinuityByContinuityStatus()
         {
             var continuities = from d in db.IS_TrnContinuities.OrderBy(d => d.MstArticle.Article)
-                               //where d.ContinuityStatus == "OPEN"
+                                   //where d.ContinuityStatus == "OPEN"
                                select new Entities.TrnContinuity
                                {
                                    Id = d.Id,
@@ -235,11 +276,11 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                    Customer = d.MstArticle.Article
                                }
                                    into g
-                                   select new Entities.TrnContinuity
-                                   {
-                                       CustomerId = g.Key.CustomerId,
-                                       Customer = g.Key.Customer
-                                   };
+                               select new Entities.TrnContinuity
+                               {
+                                   CustomerId = g.Key.CustomerId,
+                                   Customer = g.Key.Customer
+                               };
 
             return continuities.ToList();
         }
