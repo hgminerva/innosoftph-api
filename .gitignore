@@ -187,3 +187,7 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/.vs/InnosoftSolutionsWebsiteApi/v15/Server/sqlite3/db.lock
+/.vs/InnosoftSolutionsWebsiteApi/v15/Server/sqlite3/storage.ide-wal
+/.vs/InnosoftSolutionsWebsiteApi/v15/Server/sqlite3/storage.ide-shm
+/.vs/InnosoftSolutionsWebsiteApi/v15/Server/sqlite3/storage.ide

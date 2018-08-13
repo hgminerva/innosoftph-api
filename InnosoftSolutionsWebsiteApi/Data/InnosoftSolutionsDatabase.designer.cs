@@ -219,7 +219,7 @@ namespace InnosoftSolutionsWebsiteApi.Data
     #endregion
 		
 		public InnosoftSolutionsDatabaseDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["easyfis_innosoftConnectionString1"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
