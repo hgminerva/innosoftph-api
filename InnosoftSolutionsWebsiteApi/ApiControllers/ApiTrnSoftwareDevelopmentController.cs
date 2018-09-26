@@ -50,6 +50,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                Task = d.Task,
                                                Remarks = d.Remarks,
                                                NumberOfHours = d.NumberOfHours,
+                                               SoftDevType = d.SoftDevType,
+                                               Amount = d.Amount,
                                                EncodedByUserId = d.EncodedByUserId,
                                                EncodedByUser = d.MstUser.FullName,
                                                AssignedToUserId = d.AssignedToUserId,
@@ -103,6 +105,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                                Task = d.Task,
                                                Remarks = d.Remarks,
                                                NumberOfHours = d.NumberOfHours,
+                                               SoftDevType = d.SoftDevType,
+                                               Amount = d.Amount,
                                                EncodedByUserId = d.EncodedByUserId,
                                                EncodedByUser = d.MstUser.FullName,
                                                AssignedToUserId = d.AssignedToUserId,
@@ -131,6 +135,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                            Task = d.Task,
                                            Remarks = d.Remarks,
                                            NumberOfHours = d.NumberOfHours,
+                                           SoftDevType = d.SoftDevType,
+                                           Amount = d.Amount,
                                            EncodedByUserId = d.EncodedByUserId,
                                            EncodedByUser = d.MstUser.FullName,
                                            AssignedToUserId = d.AssignedToUserId,
@@ -158,6 +164,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                                           Task = d.Task,
                                           Remarks = d.Remarks,
                                           NumberOfHours = d.NumberOfHours,
+                                          SoftDevType = d.SoftDevType,
+                                          Amount = d.Amount,
                                           EncodedByUserId = d.EncodedByUserId,
                                           EncodedByUser = d.MstUser.FullName,
                                           AssignedToUserId = d.AssignedToUserId,
@@ -190,6 +198,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                 newSoftwareDevelopment.Task = softwareDevelopment.Task;
                 newSoftwareDevelopment.Remarks = softwareDevelopment.Remarks;
                 newSoftwareDevelopment.NumberOfHours = softwareDevelopment.NumberOfHours;
+                newSoftwareDevelopment.SoftDevType = softwareDevelopment.SoftDevType;
+                newSoftwareDevelopment.Amount = softwareDevelopment.Amount;
                 newSoftwareDevelopment.EncodedByUserId = userId;
                 newSoftwareDevelopment.AssignedToUserId = softwareDevelopment.AssignedToUserId;
                 newSoftwareDevelopment.SoftDevStatus = softwareDevelopment.SoftDevStatus;
@@ -219,6 +229,8 @@ namespace InnosoftSolutionsWebsiteApi.ApiControllers
                     updateSoftwareDevelopment.Task = softwareDevelopment.Task;
                     updateSoftwareDevelopment.Remarks = softwareDevelopment.Remarks;
                     updateSoftwareDevelopment.NumberOfHours = softwareDevelopment.NumberOfHours;
+                    updateSoftwareDevelopment.SoftDevType = softwareDevelopment.SoftDevType;
+                    updateSoftwareDevelopment.Amount = softwareDevelopment.Amount;
                     updateSoftwareDevelopment.AssignedToUserId = softwareDevelopment.AssignedToUserId;
                     updateSoftwareDevelopment.SoftDevStatus = softwareDevelopment.SoftDevStatus;
                     db.SubmitChanges();

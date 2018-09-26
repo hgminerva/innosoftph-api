@@ -16,6 +16,8 @@ namespace InnosoftSolutionsWebsiteApi.Entities
         public String Task { get; set; }
         public String Remarks { get; set; }
         public Decimal NumberOfHours { get; set; }
+        public String SoftDevType { get; set; }
+        public Decimal Amount { get; set; }
         public Int32 EncodedByUserId { get; set; }
         public String EncodedByUser { get; set; }
         public Int32? AssignedToUserId { get; set; }
